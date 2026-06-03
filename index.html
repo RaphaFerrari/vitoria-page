@@ -467,7 +467,7 @@
                 { nome: "Carolina Herrera 212 VIP Black", descricao: "Fragrância amadeirada aromática atemporal e intensamente cativante.", imagem: "imagens/Masculinos  carolina hererra 212  vip black Importado  Fragrância amadeirada aromática atemporal e intensamente cativante.jpg", marca: "Importado" },
                 { nome: "Hugo Boss Eau de Toilette", descricao: "Fresco, forte e nobre. Uma composição radicalmente autêntica.", imagem: "imagens/Masculinos  hugo boss Eau de Toilette  Importado  Fresco, forte e nobre. Uma composição radicalmente autêntica.jpg", marca: "Importado" },
                 { nome: "Paco Rabanne 1 Million EdT", descricao: "O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.", imagem: "imagens/Masculinos  Paco Rabanne  1 Million EdT  Importado  O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.jpg", marca: "Importado" },
-                { nome: "Paco Rabanne Invictus", descricao: "A combinação ideal de sofisticação moderna, mistério e sedução oriental.", imagem: "imagens/Masculinos  invictus paco rabanne  Importado  A combinação ideal de sofisticação moderna, mistério e sedução oriental.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Invictus", descricao: "A combinação ideal de sofisticação moderna, mistério e sedução oriental.", imagem: "imagens/Masculinos  invictus paco rabanne  Importado  A combination ideal de sofisticação moderna, mistério e sedução oriental.jpg", marca: "Importado" },
                 { nome: "O Boticário Malbec Tradicional", descricao: "Feito com notas de vinhos macerados em barris de carvalho francês.", imagem: "imagens/Masculinos  O Boticário  Malbec Tradicional  Nacional  Feito com notas de vinhos macerados em barris de carvalho francês.jpg", marca: "Nacional" },
                 { nome: "Natura Essencial Único", descricao: "Presença marcante da copaíba combinado ao coração refinado do vetiver.", imagem: "imagens/Masculinos  Natura  Essencial Único  Nacional  Presença marcante da copaíba combinado ao coração refinado do vetiver.jpg", marca: "Nacional" },
                 { nome: "O Boticário Zaad", descricao: "A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.", imagem: "imagens/Masculinos  O Boticário  Zaad  Nacional  A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.jpg", marca: "Nacional" },
@@ -698,14 +698,15 @@
                 const products = categoriesData[catId];
                 
                 const productsHtml = products.map(p => {
-                    // BLINDAGEM CONTRA ESPAÇOS NO GITHUB: Remove espaços múltiplos da URL
-                    const imagemBlindada = p.imagem.replace(/\s+/g, ' ');
+                    // BLINDAGEM MÁXIMA: Remove espaços múltiplos, tira do início/fim e converte caracteres especiais em URL
+                    let caminhoLimpo = p.imagem.replace(/\s+/g, ' ').trim();
+                    let caminhoURL = encodeURI(caminhoLimpo);
 
                     return `
                     <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 reveal flex flex-col group tilt-card">
                         <div class="relative h-[22rem] bg-white flex items-center justify-center p-8 overflow-hidden tilt-content">
                             <span class="absolute top-6 left-6 bg-mist text-desert text-[0.6rem] font-bold uppercase tracking-[2px] px-4 py-2 rounded-full z-10 shadow-sm">${p.marca || 'Premium'}</span>
-                            <img src="${imagemBlindada}" onerror="this.onerror=null; this.src='https://placehold.co/500x500/F4F1EA/4A4238?text=Imagem+N%C3%A3o+Encontrada'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
+                            <img src="${caminhoURL}" onerror="this.onerror=null; this.src='https://placehold.co/500x500/F4F1EA/4A4238?text=Imagem+N%C3%A3o+Encontrada'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
                         </div>
                         <div class="p-8 flex flex-col flex-grow border-t border-mist/50">
                             <h3 class="font-serif text-2xl text-dark leading-snug mb-3">${p.nome}</h3>
