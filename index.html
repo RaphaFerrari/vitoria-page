@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vitória Perfumaria e Cosméticos | Alta Perfumaria</title>
+
+    <!-- Fontes Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        desert: '#A48D78',
+                        sand: '#CBB9A4',
+                        oat: '#E6DAC8',
+                        mist: '#F4F1EA',
+                        dark: '#4A4238',
+                        accent: '#8B7355'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    },
+                    transitionTimingFunction: {
+                        'awwwards': 'cubic-bezier(0.77, 0, 0.175, 1)',
+                        'bounce-smooth': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                    },
+                    animation: {
+                        'reveal-up': 'revealUp 1s cubic-bezier(0.77, 0, 0.175, 1) forwards',
+                    },
+                    keyframes: {
+                        revealUp: {
+                            '0%': { transform: 'translateY(100%)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <style>
+        /* Base & Lenis Scroll Setup */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+        
+        body {
+            background-color: #F4F1EA;
+            color: #4A4238;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Preloader */
+        #preloader {
+            transition: opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1), transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .preloader-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10%);
+        }
+
+        /* Cursor Customizado (Lerp Aura) */
+        @media (min-width: 1024px) and (pointer: fine) {
+            body.custom-cursor-on, body.custom-cursor-on * { 
+                cursor: none !important; 
+            }
+        }
+        
+        .custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 40px; height: 40px;
+            border: 2px solid rgba(164, 141, 120, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate3d(-50%, -50%, 0);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            background-color: #A48D78;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate3d(-50%, -50%, 0);
+        }
+
+        .custom-cursor.hovering {
+            width: 70px; height: 70px;
+            background-color: rgba(164, 141, 120, 0.15);
+            border-color: rgba(164, 141, 120, 0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Animações de Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Transições de Página em SPA */
+        .page-transition {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            visibility: hidden;
+        }
+        .page-transition.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            position: relative;
+            visibility: visible;
+        }
+
+        /* Efeito Tilt 3D nos Cards */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            will-change: transform;
+        }
+        .tilt-content {
+            transform: translateZ(40px);
+        }
+
+        ::-webkit-scrollbar { width: 0px; }
+
+        .magnetic {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Sacola Lateral */
+        .cart-sidebar {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 100%; max-width: 450px; height: 100vh;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: -20px 0 50px rgba(0,0,0,0.05);
+            z-index: 100000;
+            transition: right 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex; flex-direction: column;
+        }
+        .cart-sidebar.open { right: 0; }
+        
+        .cart-overlay {
+            position: fixed; inset: 0;
+            background: rgba(74, 66, 56, 0.3);
+            backdrop-filter: blur(5px);
+            z-index: 99998;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .cart-overlay.open {
+            opacity: 1; pointer-events: auto;
+        }
+
+        .cart-badge {
+            position: absolute; top: -6px; right: -6px;
+            background: #A48D78; color: white;
+            font-size: 0.6rem; width: 18px; height: 18px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-weight: bold;
+            transform: scale(0);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cart-badge.has-items { transform: scale(1); }
+    </style>
+</head>
+<body class="font-sans pt-[90px]">
+
+    <!-- Loader Premium -->
+    <div id="preloader" class="fixed inset-0 z-[999999] bg-mist flex flex-col items-center justify-center">
+        <div class="overflow-hidden mb-2">
+            <span class="block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up">Vitória.</span>
+        </div>
+        <div class="w-32 h-[1px] bg-dark/10 overflow-hidden relative">
+            <div class="absolute top-0 left-0 h-full bg-desert w-full animate-[progress_1s_ease-in-out_forwards]" style="transform-origin: left; animation-name: load-progress;"></div>
+        </div>
+    </div>
+    <style>
+        @keyframes load-progress {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+    </style>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor hidden lg:block" id="custom-cursor"></div>
+    <div class="cursor-dot hidden lg:block" id="cursor-dot"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 transition-all duration-500">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
+            
+            <a href="#" onclick="navigateToHome(event)" class="magnetic group flex items-center gap-2 hover-target p-2 -ml-2">
+                <span class="font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500">Vitória.</span>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-8">
+                <button onclick="showProductPage('masculinos')" class="magnetic text-xs font-medium uppercase tracking-[2px] text-dark hover:text-desert transition-colors duration-300 hover-target py-2">Masculinos</button>
+                <button onclick="showProductPage('femininos')" class="magnetic text-xs font-medium uppercase tracking-[2px] text-dark hover:text-desert transition-colors duration-300 hover-target py-2">Femininos</button>
+                <button onclick="showProductPage('cremes')" class="magnetic text-xs font-medium uppercase tracking-[2px] text-dark hover:text-desert transition-colors duration-300 hover-target py-2">Skincare</button>
+                <button onclick="showProductPage('sabonetes')" class="magnetic text-xs font-medium uppercase tracking-[2px] text-dark hover:text-desert transition-colors duration-300 hover-target py-2">Sabonetes</button>
+                <button onclick="showProductPage('desodorantes')" class="magnetic text-xs font-medium uppercase tracking-[2px] text-dark hover:text-desert transition-colors duration-300 hover-target py-2">Roll-On</button>
+                <button onclick="showProductPage('maquiagem')" class="magnetic text-xs font-medium uppercase tracking-[2px] text-dark hover:text-desert transition-colors duration-300 hover-target py-2">Maquiagem</button>
+                <button onclick="showProductPage('protetores')" class="magnetic text-xs font-medium uppercase tracking-[2px] text-dark hover:text-desert transition-colors duration-300 hover-target py-2">Solar</button>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button onclick="toggleCart()" class="magnetic relative text-dark hover:text-desert transition-colors duration-300 hover-target flex items-center gap-2 p-2">
+                    <span class="hidden md:block text-[0.65rem] font-bold uppercase tracking-widest">Sacola</span>
+                    <i class="fas fa-shopping-bag text-xl"></i>
+                    <span id="cart-count-badge" class="cart-badge">0</span>
+                </button>
+
+                <button class="lg:hidden magnetic text-dark hover:text-desert focus:outline-none hover-target p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-white/95 backdrop-blur-xl border-t border-black/5 absolute w-full shadow-2xl">
+            <div class="flex flex-col px-8 py-8 gap-6">
+                <button onclick="showProductPage('masculinos'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Masculinos</button>
+                <button onclick="showProductPage('femininos'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Femininos</button>
+                <button onclick="showProductPage('cremes'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Skincare</button>
+                <button onclick="showProductPage('sabonetes'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Sabonetes</button>
+                <button onclick="showProductPage('desodorantes'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Roll-On</button>
+                <button onclick="showProductPage('maquiagem'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Maquiagem</button>
+                <button onclick="showProductPage('protetores'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Solar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar do Carrinho -->
+    <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="px-8 py-8 border-b border-black/5 flex justify-between items-start bg-transparent">
+            <div>
+                <h2 class="font-serif text-4xl text-dark">Sua Sacola</h2>
+                <p class="text-[0.65rem] font-bold uppercase tracking-[2px] text-desert mt-2">Pronto para encantar</p>
+            </div>
+            <button onclick="toggleCart()" class="magnetic text-dark hover:text-desert text-2xl hover-target p-2">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div id="cart-items-container" class="flex-grow overflow-y-auto px-8 py-6 flex flex-col gap-4">
+            <!-- Inject -->
+        </div>
+
+        <div class="px-8 py-8 bg-white/80 backdrop-blur-md border-t border-black/5">
+            <div class="flex justify-between items-center mb-6">
+                <span class="font-bold text-dark uppercase tracking-widest text-[0.65rem]">Total de Itens</span>
+                <span id="cart-total-items" class="font-serif text-3xl text-dark">0</span>
+            </div>
+            <button onclick="enviarPedidoWhatsApp()" class="magnetic w-full py-4 bg-dark text-white font-bold uppercase tracking-[2px] text-xs rounded-full hover:bg-desert transition-all duration-500 hover:shadow-xl hover-target flex justify-center items-center gap-3">
+                <i class="fab fa-whatsapp text-lg"></i> Finalizar Pedido
+            </button>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="w-full min-h-screen relative">
+        <div id="home-section" class="page-transition active">
+            
+            <section class="relative min-h-[85vh] flex items-center pt-4 pb-20 overflow-hidden">
+                <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white via-oat/20 to-mist -z-10"></div>
+                
+                <div class="max-w-[1600px] mx-auto px-6 md:px-10 w-full grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal">
+                        <span class="inline-block text-desert text-[0.6rem] font-bold uppercase tracking-[4px] mb-8 border border-desert/30 px-5 py-2.5 rounded-full backdrop-blur-sm">Alta Perfumaria & Cosmética</span>
+                        <h1 class="font-serif text-6xl md:text-7xl xl:text-[7rem] leading-[1.05] text-dark mb-8">
+                            A essência do <br><i class="text-desert font-light">luxo</i> em você.
+                        </h1>
+                        <p class="text-lg md:text-xl text-dark/60 font-light leading-relaxed mb-12 max-w-md">
+                            Descubra uma curadoria exclusiva das fragrâncias mais desejadas do mundo. Uma experiência sensorial única.
+                        </p>
+                        <div class="flex flex-wrap gap-8 items-center">
+                            <button onclick="document.getElementById('categorias-home').scrollIntoView({behavior: 'smooth'})" class="magnetic px-10 py-5 bg-dark text-white text-[0.65rem] font-bold uppercase tracking-[2px] rounded-full hover:bg-desert transition-all duration-500 hover:shadow-xl hover-target">
+                                Explorar Coleções
+                            </button>
+                            <a href="https://wa.me/5531999487873" target="_blank" class="magnetic text-[0.65rem] font-bold uppercase tracking-[2px] text-dark border-b border-desert pb-1 hover:text-desert transition-colors hover-target px-2">
+                                Consultoria VIP
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="relative h-[600px] lg:h-[800px] rounded-[2rem] overflow-hidden shadow-2xl reveal tilt-card group">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1000&auto=format&fit=crop" alt="Luxo" class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-[2s] group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="categorias-home" class="py-32 bg-white relative">
+                <div class="max-w-[1600px] mx-auto px-6 md:px-10">
+                    <div class="text-center mb-24 reveal">
+                        <h2 class="font-serif text-5xl md:text-6xl text-dark mb-6">Portfólio Exclusivo</h2>
+                        <p class="text-desert text-[0.65rem] font-bold uppercase tracking-[4px]">Selecione uma categoria</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div onclick="showProductPage('masculinos')" class="magnetic group cursor-pointer bg-mist rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 reveal tilt-card flex flex-col hover-target">
+                            <div class="h-80 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transform transition-transform duration-[1.5s] group-hover:scale-110" alt="Masculinos">
+                                <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
+                            </div>
+                            <div class="p-10 text-center flex-grow flex flex-col justify-center tilt-content bg-white">
+                                <h3 class="font-serif text-3xl mb-2 text-dark group-hover:text-desert transition-colors duration-500">Masculinos</h3>
+                            </div>
+                        </div>
+
+                        <div onclick="showProductPage('femininos')" class="magnetic group cursor-pointer bg-mist rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 reveal tilt-card flex flex-col hover-target">
+                            <div class="h-80 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transform transition-transform duration-[1.5s] group-hover:scale-110" alt="Femininos">
+                                <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
+                            </div>
+                            <div class="p-10 text-center flex-grow flex flex-col justify-center tilt-content bg-white">
+                                <h3 class="font-serif text-3xl mb-2 text-dark group-hover:text-desert transition-colors duration-500">Femininos</h3>
+                            </div>
+                        </div>
+
+                        <div onclick="showProductPage('cremes')" class="magnetic group cursor-pointer bg-mist rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 reveal tilt-card flex flex-col hover-target">
+                            <div class="h-80 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1608248597481-496100c80836?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transform transition-transform duration-[1.5s] group-hover:scale-110" alt="Cremes">
+                                <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
+                            </div>
+                            <div class="p-10 text-center flex-grow flex flex-col justify-center tilt-content bg-white">
+                                <h3 class="font-serif text-3xl mb-2 text-dark group-hover:text-desert transition-colors duration-500">Skincare</h3>
+                            </div>
+                        </div>
+
+                        <div onclick="showProductPage('maquiagem')" class="magnetic group cursor-pointer bg-mist rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 reveal tilt-card flex flex-col hover-target">
+                            <div class="h-80 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transform transition-transform duration-[1.5s] group-hover:scale-110" alt="Maquiagem">
+                                <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
+                            </div>
+                            <div class="p-10 text-center flex-grow flex flex-col justify-center tilt-content bg-white">
+                                <h3 class="font-serif text-3xl mb-2 text-dark group-hover:text-desert transition-colors duration-500">Maquiagem</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Containers Dinâmicos (Páginas de Produtos) -->
+        <div id="pages-container"></div>
+    </main>
+
+    <!-- Botão Flutuante do WhatsApp (Premium) -->
+    <a href="https://wa.me/5531999487873" target="_blank" rel="noopener noreferrer"
+       class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[90] bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:bg-[#22C15E] hover:scale-110 transition-all duration-500 magnetic hover-target group">
+        <i class="fab fa-whatsapp text-3xl md:text-4xl"></i>
+        <span class="absolute right-full mr-4 bg-white/90 backdrop-blur-sm text-dark text-[0.65rem] font-bold uppercase tracking-[2px] py-2 px-5 rounded-full shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0 whitespace-nowrap hidden md:block">
+            Atendimento VIP
+        </span>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-24 pb-10 mt-auto">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
+            <div class="md:col-span-5">
+                <div class="font-serif text-4xl text-sand mb-6 tracking-tight">Vitória.</div>
+                <p class="font-light text-white/60 max-w-sm leading-relaxed text-sm">
+                    Elevando sua autoestima através das mais prestigiadas fragrâncias e cosméticos do mundo. Design & Luxo.
+                </p>
+            </div>
+            
+            <div class="md:col-span-3">
+                <h4 class="text-sand text-[0.65rem] font-bold uppercase tracking-[3px] mb-8">Navegação</h4>
+                <ul class="space-y-4">
+                    <li><button onclick="showProductPage('masculinos')" class="font-light text-sm text-white/60 hover:text-white transition-colors hover-target">Masculinos</button></li>
+                    <li><button onclick="showProductPage('femininos')" class="font-light text-sm text-white/60 hover:text-white transition-colors hover-target">Femininos</button></li>
+                    <li><button onclick="showProductPage('cremes')" class="font-light text-sm text-white/60 hover:text-white transition-colors hover-target">Skincare</button></li>
+                </ul>
+            </div>
+
+            <div class="md:col-span-4">
+                <h4 class="text-sand text-[0.65rem] font-bold uppercase tracking-[3px] mb-8">Consultoria VIP</h4>
+                <div class="space-y-5 font-light text-white/60 text-sm">
+                    <a href="https://wa.me/5531999487873" target="_blank" class="flex items-center gap-4 hover:text-white transition-colors hover-target inline-flex">
+                        <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center"><i class="fab fa-whatsapp text-lg"></i></div>
+                        (31) 99948-7873
+                    </a>
+                    <p class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center"><i class="fas fa-map-marker-alt text-lg"></i></div>
+                        Belo Horizonte - MG
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-[1600px] mx-auto px-6 md:px-10 pt-8 border-t border-white/10 text-center flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="font-light text-white/40 text-xs tracking-wider">© 2026 Vitória Perfumaria. Todos os direitos reservados.</p>
+            <p class="font-light text-white/40 text-xs tracking-wider">Awwwards Level UI/UX</p>
+        </div>
+    </footer>
+
+    <!-- Scripts e Dados -->
+    <script>
+        // --- PRELOADER ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('preloader-hidden');
+                setTimeout(() => { preloader.style.display = 'none'; }, 800); 
+            }, 1000); 
+        });
+
+        // --- LENIS SMOOTH SCROLL ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // --- DADOS DOS PRODUTOS ---
+        // Caminhos limpos e corretos apontando para a pasta imagens/
+        const categoriesData = {
+            masculinos: [
+                { nome: "Carolina Herrera 212 VIP Black", descricao: "Fragrância amadeirada aromática atemporal e intensamente cativante.", imagem: "imagens/Masculinos  carolina hererra 212  vip black Importado  Fragrância amadeirada aromática atemporal e intensamente cativante.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Eau de Toilette", descricao: "Fresco, forte e nobre. Uma composição radicalmente autêntica.", imagem: "imagens/Masculinos  hugo boss Eau de Toilette  Importado  Fresco, forte e nobre. Uma composição radicalmente autêntica.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne 1 Million EdT", descricao: "O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.", imagem: "imagens/Masculinos  Paco Rabanne  1 Million EdT  Importado  O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Invictus", descricao: "A combinação ideal de sofisticação moderna, mistério e sedução oriental.", imagem: "imagens/Masculinos  invictus paco rabanne  Importado  A combinação ideal de sofisticação moderna, mistério e sedução oriental.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Tradicional", descricao: "Feito com notas de vinhos macerados em barris de carvalho francês.", imagem: "imagens/Masculinos  O Boticário  Malbec Tradicional  Nacional  Feito com notas de vinhos macerados em barris de carvalho francês.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Único", descricao: "Presença marcante da copaíba combinado ao coração refinado do vetiver.", imagem: "imagens/Masculinos  Natura  Essencial Único  Nacional  Presença marcante da copaíba combinado ao coração refinado do vetiver.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad", descricao: "A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.", imagem: "imagens/Masculinos  O Boticário  Zaad  Nacional  A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Dom", descricao: "Fragrância amadeirada intensa com um sofisticado blend de ingredientes nobres.", imagem: "imagens/Masculinos  Natura  Homem Dom  Nacional  Fragrância amadeirada intensa com um sofisticado blend de ingredientes nobres.jpg", marca: "Nacional" },
+                { nome: "Paco Rabanne Phantom", descricao: "Fragrância lendária, frutada e rica. O ápice da exclusividade mundial.", imagem: "imagens/Masculinos  phamton paco rabanne  Importado  Fragrância lendária, frutada e rica. O ápice da exclusividade mundial.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera 212 VIP Men", descricao: "Fragrância carismática inspirada na energia e estilo das festas de Nova York.", imagem: "imagens/Masculinos  Carolina Herrera  212 VIP Men  Importado  Fragrância carismática inspirada na energia e estilo das festas de Nova York.jpg", marca: "Importado" },
+                { nome: "Lattafa Asad", descricao: "Uma assinatura intensamente amadeirada com notas puras e densas.", imagem: "imagens/Masculinos  asad lataffa  Importado  Uma assinatura intensamente amadeirada com notas puras e densas.jpg", marca: "Importado" },
+                { nome: "Natura Essencial Elixir", descricao: "Um elixir extraordinariamente concentrado impregnado pelo frescor icônico.", imagem: "imagens/Masculinos natura essencial elixir  Um elixir extraordinariamente concentrado impregnado pelo frescor icônico.jpg", marca: "Nacional" },
+                { nome: "Paco Rabanne Invictus Platinum", descricao: "Para aqueles que sempre enfrentam os desafios. Notas mentoladas e amadeiradas.", imagem: "imagens/Masculinos  Paco Rabanne  Invictus Platinum  Importado  Para aqueles que sempre enfrentam os desafios. Notas mentoladas e amadeiradas.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Infinite", descricao: "Notas marinhas profundas combinadas com o calor do incenso místico.", imagem: "imagens/Masculinos  hugo boss infinit  Importado  Notas marinhas profundas combinadas com o calor do incenso místico.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Black", descricao: "Notas ultrassofisticadas inspiradas no mistério da cor preta e carvalho.", imagem: "imagens/Masculinos  O Boticário  Malbec Black  Nacional  Notas ultrassofisticadas inspiradas no mistério da cor preta e carvalho.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Intenso", descricao: "Uma leitura ousada da linha Essencial, perfeita para noites frias.", imagem: "imagens/Masculinos  Natura  Essencial Intenso  Nacional  Uma leitura ousada da linha Essencial, perfeita para noites frias.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad Expedition", descricao: "Notas cítricas e amadeiradas inspiradas em expedições pelo mundo.", imagem: "imagens/Masculinos  O Boticário  Zaad Expedition  Nacional  Notas cítricas e amadeiradas inspiradas em expedições pelo mundo.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Sagaz", descricao: "Combinação provocante de especiarias quentes com um fundo ambarado.", imagem: "imagens/Masculinos  Natura  Homem Sagaz  Nacional  Combinação provocante de especiarias quentes com um fundo ambarado.jpg", marca: "Nacional" },
+                { nome: "Versace Eros Eau de Parfum", descricao: "O frescor sublime da menta com o toque viciante da baunilha de Madagascar.", imagem: "imagens/Masculinos  Versace  Eros Eau de Parfum  Importado  O frescor sublime da menta com o toque viciante da baunilha de Madagascar.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Boss Bottled", descricao: "O clássico perfume do homem moderno focado em alcançar objetivos.", imagem: "imagens/Masculinos  Hugo Boss  Boss Bottled  Importado  O clássico perfume do homem moderno focado em alcançar objetivos.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Phantom Futurista", descricao: "Uma fragrância futurista nascida do encontro entre alta tecnologia e luxo.", imagem: "imagens/Masculinos  Paco Rabanne  Phantom  Importado  Uma fragrância futurista nascida do encontro entre alta tecnologia e luxo.jpg", marca: "Importado" },
+                { nome: "Lattafa Safeer", descricao: "Uma narrativa poética que explora a ligação intrínseca do homem com a terra.", imagem: "imagens/Masculinos lataffa  safeer  Importado  Uma narrativa poética que explora a ligação intrínseca do homem com a terra.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Gold", descricao: "Tecnologia inovadora que desperta e potencializa o poder de atração.", imagem: "imagens/Masculinos  O Boticário  Malbec Gold  Nacional  Tecnologia inovadora que desperta e potencializa o poder de atração.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Oud", descricao: "A imponência da madeira oud com o calor inconfundível da copaíba.", imagem: "imagens/Masculinos  Natura  Essencial Oud  Nacional  A imponência da madeira oud com o calor inconfundível da copaíba.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad Mondial", descricao: "Fragrância marcante e cosmopolita que reúne notas do mundo inteiro.", imagem: "imagens/Masculinos  O Boticário  Zaad Mondial  Nacional  Fragrância marcante e cosmopolita que reúne notas do mundo inteiro.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Essence", descricao: "O equilíbrio perfeito entre sofisticação e o frescor de notas amadeiradas.", imagem: "imagens/Masculinos  Natura  Homem Essence  Nacional  O equilíbrio perfeito entre sofisticação e o frescor de notas amadeiradas.jpg", marca: "Nacional" },
+                { nome: "Jean Paul Gaultier Le Male", descricao: "Uma homenagem icônica à figura clássica e magnética do marinheiro.", imagem: "imagens/Masculinos  Jean Paul Gaultier  Le Male  Importado  Uma homenagem icônica à figura clássica e magnética do marinheiro.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera Bad Boy", descricao: "Uma expressão olfativa ousada que reflete a natureza do homem contemporâneo.", imagem: "imagens/Masculinos  Carolina Herrera  Bad Boy  Importado  Uma expressão olfativa ousada que reflete a natureza do homem contemporâneo.jpg", marca: "Importado" },
+                { nome: "Azzaro Pour Homme", descricao: "Uma fragrância ambarada e rica para o homem que ousa ser extraordinário.", imagem: "imagens/Masculinos pour homme azarro Importado  Uma fragrância ambarada e rica para o homem que ousa ser extraordinário.jpg", marca: "Importado" },
+                { nome: "Armaf Club de Nuit Intense", descricao: "Uma assinatura neo-oriental rica com acordes intensos limão.", imagem: "imagens/Masculinos Armaf club de nuit intense  Importado  Uma assinatura neo-oriental rica com acordes intensos limão.jpg", marca: "Importado" },
+                { nome: "Lattafa Wazeer", descricao: "Um rastro magnético que reinventa a família Fougère clássica com frescor cítrico.", imagem: "imagens/Masculinos  lataffa wazeer  Importado  Um rastro magnético que reinventa a família Fougère clássica com frescor cítrico.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Elegant", descricao: "A redefinição da elegância com notas florais amadeiradas de extrema distinção.", imagem: "imagens/Masculinos  O Boticário  Malbec Elegant  Nacional  A redefinição da elegância com notas florais amadeiradas de extrema distinção.jpg", marca: "Nacional" }
+            ],
+            femininos: [
+                { nome: "Lancôme La Vie Est Belle", descricao: "Um manifesto de felicidade universal com as mais nobres matérias-primas.", imagem: "imagens/Femininos  Lancôme  La Vie Est Belle  Importado  Um manifesto de felicidade universal com as mais nobres matérias-primas.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera Good Girl", descricao: "Audacioso, ultra-feminino e sensual. O salto agulha mais desejado do planeta.", imagem: "imagens/Femininos  Carolina Herrera  Good Girl  Importado  Audacioso, ultra-feminino e sensual. O salto agulha mais desejado do planeta.jpg", marca: "Importado" },
+                { nome: "Lattafa Musamam", descricao: "O grande buquê floral feminino da Maison Dior. Luxo e elegância em frasco.", imagem: "imagens/Femininos  lataffa musamam  Importado  O grande buquê floral feminino da Maison Dior. Luxo e elegância em frasco.jpg", marca: "Importado" },
+                { nome: "Yves Saint Laurent Libre", descricao: "A tensão perfeita entre a lavanda francesa e a flor de laranjeira sensual.", imagem: "imagens/Femininos  Yves Saint Laurent  Libre  Importado  A tensão perfeita entre a lavanda francesa e a flor de laranjeira sensual.jpg", marca: "Importado" },
+                { nome: "O Boticário Lily Eau de Parfum", descricao: "Alta perfumaria produzida com o raro método artesanal de enfleurage.", imagem: "imagens/Femininos  O Boticário  Lily Eau de Parfum  Nacional  Alta perfumaria produzida com o raro método artesanal de enfleurage.jpg", marca: "Nacional" },
+                { nome: "Natura Luna Absolute", descricao: "Um chipre denso que combina o autêntico patchouli com intensas frutas vermelhas.", imagem: "imagens/Femininos  Natura  Luna Absolute  Nacional  Um chipre denso que combina o autêntico patchouli com intensas frutas vermelhas.jpg", marca: "Nacional" },
+                { nome: "O Boticário Elysée Succès", descricao: "Traz a sofisticação da Rosa Negra associada a acordes profundos de Oud.", imagem: "imagens/Femininos  O Boticário  Elysée Succès  Nacional  Traz a sofisticação da Rosa Negra associada a acordes profundos de Oud.jpg", marca: "Nacional" },
+                { nome: "Natura Ilía Secreto", descricao: "Fragrância intrigante repleta de mistério com notas cremosas de fava tonka.", imagem: "imagens/Femininos  Natura  Ilía Secreto  Nacional  Fragrância intrigante repleta de mistério com notas cremosas de fava tonka.jpg", marca: "Nacional" },
+                { nome: "Chanel Coco Mademoiselle", descricao: "A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.", imagem: "imagens/Femininos  Chanel  Coco Mademoiselle  Importado  A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.jpg", marca: "Importado" },
+                { nome: "Chloé Eau de Parfum", descricao: "Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.", imagem: "imagens/Femininos  Chloé  Chloé Eau de Parfum  Importado  Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.jpg", marca: "Importado" },
+                { nome: "Lancôme Idôle", descricao: "Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.", imagem: "imagens/Femininos  Lancôme  Idôle  Importado  Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.jpg", marca: "Importado" },
+                { nome: "Giorgio Armani Sì Eau de Parfum", descricao: "Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.", imagem: "imagens/Femininos  Giorgio Armani  Sì Eau de Parfum  Importado  Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.jpg", marca: "Importado" },
+                { nome: "O Boticário Lily Lumière", descricao: "A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.", imagem: "imagens/Femininos  O Boticário  Lily Lumière  Nacional  A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.jpg", marca: "Nacional" },
+                { nome: "Natura Luna Radiante", descricao: "Uma luminosidade chipre que combina notas cítricas com flor da dourada.", imagem: "imagens/Femininos  Natura  Luna Radiante  Nacional  Uma luminosidade chipre que combina notas cítricas com flor da dourada.jpg", marca: "Nacional" },
+                { nome: "O Boticário Elysée Tradicional", descricao: "Joia em forma de fragrância com ingredientes nobres de alta fixação.", imagem: "imagens/Femininos  O Boticário  Elysée Tradicional  Nacional  Joia em forma de fragrância com ingredientes nobres de alta fixação.jpg", marca: "Nacional" },
+                { nome: "Natura Ilía Plena", descricao: "Um buquê floral vibrante com a potência da rosa upcycling e pataqueira.", imagem: "imagens/Femininos  Natura  Ilía Plena  Nacional  Um buquê floral vibrante com a potência da rosa upcycling e pataqueira.jpg", marca: "Nacional" },
+                { nome: "Al Wataniah Durrat", descricao: "Uma gema preciosa de beleza refinada repleta de notas florais e refrescantes.", imagem: "imagens/Femininos  al wataniah durrat  Importado  Uma gema preciosa de beleza refinada repleta de notas florais e refrescantes.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Olympéa Flora", descricao: "A deusa moderna. Uma fragrância oriental fresca baseada em baunilha salgada.", imagem: "imagens/Femininos  Paco Rabanne  Olympéa flora  Importado  A deusa moderna. Uma fragrância oriental fresca baseada em baunilha salgada.jpg", marca: "Importado" },
+                { nome: "Jean Paul Gaultier Scandal", descricao: "Uma overdose de prazer. Um mel cremoso e elegante misturado com gardênia.", imagem: "imagens/Femininos  Jean Paul Gaultier  Scandal  Importado  Uma overdose de prazer. Um mel cremoso e elegante misturado com gardênia.jpg", marca: "Importado" },
+                { nome: "Dolce & Gabbana Light Blue", descricao: "O frescor absoluto do verão mediterrâneo com notas de limão siciliano.", imagem: "imagens/Femininos  Dolce & Gabbana  Light Blue  Importado  O frescor absoluto do verão mediterrâneo com notas de limão siciliano.jpg", marca: "Importado" },
+                { nome: "O Boticário Floratta Red", descricao: "Inspirado na flor da maçã de Vermont, entregando romance e sensualidade.", imagem: "imagens/Femininos  O Boticário  Floratta Red  Nacional  Inspirado na flor da maçã de Vermont, entregando romance e sensualidade.jpg", marca: "Nacional" },
+                { nome: "Natura Una Infinito", descricao: "A sofisticação da Natura refletida em uma composição amadeirada intensa.", imagem: "imagens/Femininos  Natura  Una Infinito  Nacional  A sofisticação da Natura refletida em uma composição amadeirada intensa.jpg", marca: "Nacional" },
+                { nome: "O Boticário Floratta Gold", descricao: "A sofisticação da maquiagem agora em uma assinatura olfativa de luxo.", imagem: "imagens/Femininos  O Boticário  floratta Gold  Nacional  A sofisticação da maquiagem agora em uma assinatura olfativa de luxo.jpg", marca: "Nacional" },
+                { nome: "Natura Biografia Assinatura", descricao: "Uma história escrita com notas florais envolvendo e fundo ambarado.", imagem: "imagens/Femininos  Natura  Biografia Assinatura  Nacional  Uma história escrita com notas florais envolvendo e fundo ambarado.jpg", marca: "Nacional" },
+                { nome: "Givenchy L'Interdit", descricao: "Uma homenagem à feminilidade audaciosa. O encontro de flor branca e acorde negro.", imagem: "imagens/Femininos  Givenchy  L'Interdit  Importado  Uma homenagem à feminilidade audaciosa. O encontro de uma flor branca e acorde negro.jpg", marca: "Importado" },
+                { nome: "Hinode For Her", descricao: "Um coração de almíscar misterioso refinado por um buquê floral.", imagem: "imagens/Femininos  Hinode  For Her  Importado  Um coração de almíscar misterioso refinado por um buquê floral.jpg", marca: "Importado" },
+                { nome: "Prada Paradoxe", descricao: "A celebração da multidimensionalidade feminina em um frasco triangular icônico.", imagem: "imagens/Femininos  Prada  Paradoxe  Importado  A celebração da multidimensionalidade feminina em um frasco triangular icônico.jpg", marca: "Importado" },
+                { nome: "Britney Spears Fantasy", descricao: "Uma poção luxuosa e escura com notas ricas de especiarias e orquídea negra.", imagem: "imagens/Femininos britney spears fantasy  Uma poção luxuosa e escura com notas ricas de especiarias e orquídea negra.jpg", marca: "Importado" },
+                { nome: "O Boticário Coffee Woman Seduction", descricao: "Uma mistura equilibrada de grãos de café com notas doces e frutadas.", imagem: "imagens/Femininos  O Boticário  Coffee Woman Seduction  Nacional  Uma mistura equilibrada de grãos de café com notas doces e frutadas.jpg", marca: "Nacional" },
+                { nome: "Natura Kriska Delírio", descricao: "A doçura inconfundível da linha com um toque inesperado de pipoca doce.", imagem: "imagens/Femininos  Natura  Kriska Delírio  Nacional  A doçura inconfundível da linha com um toque inesperado de pipoca doce.jpg", marca: "Nacional" },
+                { nome: "Alien Eau de Parfum", descricao: "Uma fragrância solar com notas intensas de jasmim da Índia e madeira de caxemira.", imagem: "imagens/Femininos  Eau de Parfum  Importado  Uma fragrância solar com notas intensas de jasmim da Índia e madeira de caxemira.jpg", marca: "Importado" },
+                { nome: "O Boticário Elysée Nuit", descricao: "A ousadia da alta perfumaria com o toque adocicado do Macaron Francês.", imagem: "imagens/Femininos  O Boticário  Elysée Nuit  Nacional  A ousadia da alta perfumaria com o toque adocicado do Macaron Francês.jpg", marca: "Nacional" }
+            ],
+            cremes: [
+                { nome: "Natura Chronos 60+", descricao: "Tratamento premium desenvolvido para restaurar o viço e hidratação.", imagem: "imagens/Cremes  Natura chronos 60+  Vol. 1  Skincare  Tratamento premium desenvolvido por laboratórios renomados da natura para restaurar o viço e hidratação.jpg", marca: "Skincare" },
+                { nome: "Eudora Neo Hidratação", descricao: "Tratamento premium desenvolvido para restaurar a pele profundamente.", imagem: "imagens/Cremes  Eudora neo  Hidratação  Tratamento premium desenvolvido por laboratórios renomados da eudora para restaurar o viço e hidratação.jpg", marca: "Hidratação" },
+                { nome: "Natura Chronos Skincare", descricao: "Tratamento premium para restaurar o viço e hidratação da pele.", imagem: "imagens/Cremes natura chronos Skincare  Tratamento premium desenvolvido por laboratórios renomados da natura para restaurar o viço e hidratação.jpg", marca: "Skincare" },
+                { nome: "Natura Tododia Ameixa e Flor de Baunilha", descricao: "Hidratação profunda, toque macio e perfumação deixando a pele nutrida.", imagem: "imagens/Cremes Natura Tododia Ameixa e Flor de Baunilha Vol. 23 Hidratação desenvolvido pela Natura para hidratação profunda, toque macio e perfumação deixando a pele nutrida e suave ao longo do dia.jpg", marca: "Hidratação" },
+                { nome: "Natura Tododia Algodão", descricao: "Restaura a hidratação natural da pele, proporcionando maciez e conforto.", imagem: "imagens/Cremes Natura Tododia Algodão Vol. 24 Hidratação Tratamento desenvolvido pela Natura para restaurar a hidratação natural da pele, proporcionando maciez, conforto e sensação de cuidado diário.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Pessegura", descricao: "Deixa a pele hidratada, macia e com fragrância envolvente.", imagem: "imagens/Cremes O Boticário Cuide-se Bem Pessegura Vol. 33 Hidratação Tratamento desenvolvido para deixar a pele hidratada, macia e com fragrância envolvente.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Lily", descricao: "Tratamento com fragrância sofisticada e hidratação prolongada.", imagem: "imagens/Cremes O Boticário Lily Vol. 29 Hidratação Tratamento com fragrância sofisticada e hidratação prolongada para uma pele macia e perfumada.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Restaura a hidratação com textura leve e rápida absorção.", imagem: "imagens/Cremes O Boticário Cuide-se Bem Deleite Vol. 27 Hidratação Tratamento desenvolvido para restaurar a hidratação natural da pele com textura leve e rápida absorção.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Fórmula suave que proporciona sensação de conforto e cuidado diário.", imagem: "imagens/Cremes O Boticário Cuide-se Bem Nuvem Vol. 28 Hidratação Fórmula suave que proporciona sensação de conforto, maciez e cuidado diário.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Nativa SPA Ameixa", descricao: "Promove hidratação intensa, toque aveludado e perfumação prolongada.", imagem: "imagens/Cremes O Boticário Nativa SPA Ameixa Vol. 25 Hidratação Tratamento premium desenvolvido para promover hidratação intensa, toque aveludado e perfumação prolongada.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Morango", descricao: "Rápida absorção que promove hidratação prolongada e perfumação agradável.", imagem: "imagens/Cremes Eudora Instance Morango Irresistível Vol. 43 Hidratação Tratamento com rápida absorção que promove hidratação prolongada e perfumação agradável.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Karité", descricao: "Combate o ressecamento e proporciona hidratação intensa e duradoura.", imagem: "imagens/Cremes Eudora Instance Karité Vol. 39 Nutrição Tratamento desenvolvido para combater o ressecamento e proporcionar hidratação intensa e duradoura.jpg", marca: "Nutrição" },
+                { nome: "Eudora Instance Baunilha", descricao: "Hidratação intensa, toque macio e fragrância envolvente de longa duração.", imagem: "imagens/Cremes Eudora Instance Baunilha Vol. 35 Hidratação Tratamento desenvolvido para promover hidratação intensa, toque macio e fragrância envolvente de longa duração.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Vitamina E", descricao: "Auxilia na manutenção da maciez e aparência saudável da pele.", imagem: "imagens/Cremes Avon Care Vitamina E Vol. 53 Hidratação Tratamento com ação hidratante que auxilia na manutenção da maciez e aparência saudável da pele.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Aveia", descricao: "Ingredientes hidratantes que auxiliam na proteção e maciez da pele.", imagem: "imagens/Cremes Avon Care Aveia Vol. 49 Nutrição Tratamento enriquecido com ingredientes hidratantes que auxiliam na proteção e maciez da pele.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Manteiga de Cacau", descricao: "Combate o ressecamento, proporcionando hidratação intensa e toque aveludado.", imagem: "imagens/Cremes Avon Care Manteiga de Cacau Vol. 47 Nutrição Tratamento desenvolvido para combater o ressecamento, proporcionando hidratação intensa e toque aveludado.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Erva Doce", descricao: "Fórmula leve e refrescante que ajuda a manter a pele hidratada e perfumada.", imagem: "imagens/Cremes Avon Care Erva Doce Vol. 48 Hidratação Fórmula leve e refrescante que ajuda a manter a pele hidratada e delicadamente perfumada.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Óleo de Coco", descricao: "Auxilia na reposição da hidratação natural, promovendo maciez e suavidade.", imagem: "imagens/Cremes Avon Care Óleo de Coco Vol. 46 Hidratação Fórmula enriquecida que auxilia na reposição da hidratação natural da pele, promovendo maciez e suavidade.jpg", marca: "Hidratação" }
+            ],
+            sabonetes: [
+                { nome: "Natura Tododia Algodão Sabonete", descricao: "Limpeza suave desenvolvida para remover impurezas sem ressecar a pele.", imagem: "imagens/Sabonetes Natura Tododia Algodão Vol. 01 Hidratação Limpeza suave desenvolvida pela Natura para remover impurezas sem ressecar a pele, proporcionando maciez, conforto e fragrância delicada de algodão.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Chá de Camomila", descricao: "Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada.", imagem: "imagens/Sabonetes Natura Tododia cha de camomila e lavanda Vol. 02 Hidratação Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada, toque sedoso e hidratação natural da pele durante o banho.jpg", marca: "Nacional" },
+                { nome: "Natura Mamãe e Bebê", descricao: "Fórmula suave desenvolvida para limpeza delicada e hidratação natural.", imagem: "imagens/Sabonetes Natura Mamãe e Bebê Nº 60 Nacional Fórmula suave desenvolvida para limpeza delicada, ajudando a preservar a hidratação natural da pele.jpg", marca: "Nacional" },
+                { nome: "O Boticário Lily Sabonete", descricao: "Fórmula sofisticada com fragrância floral marcante para limpeza diária.", imagem: "imagens/Sabonetes O Boticário Lily Nº 57 Nacional Fórmula sofisticada com fragrância floral marcante, desenvolvida para proporcionar limpeza e perfumação prolongada.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Fórmula suave que promove limpeza eficiente sem ressecar a pele.", imagem: "imagens/Sabonetes O Boticário Cuide-se Bem Deleite Nº 55 Nacional Fórmula suave que promove limpeza eficiente sem ressecar a pele, proporcionando toque aveludado.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Limpeza delicada com fragrância leve e espuma cremosa.", imagem: "imagens/Sabonetes O Boticário Cuide-se Bem Nuvem Nº 56 Nacional Limpeza delicada com fragrância leve e espuma cremosa para uma experiência agradável durante o banho.jpg", marca: "Nacional" },
+                { nome: "Natura Erva Doce Cremoso", descricao: "Limpeza suave com fragrância tradicional e espuma abundante.", imagem: "imagens/Sabonetes Natura Erva Doce Cremoso Nº 52 Nacional Limpeza suave com fragrância tradicional e espuma abundante, ideal para o cuidado diário da pele.jpg", marca: "Nacional" },
+                { nome: "Natura Ekos Maracujá", descricao: "Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira.", imagem: "imagens/Sabonetes Natura Ekos Maracujá Nº 50 Nacional Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira para promover conforto e bem-estar.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Ameixa", descricao: "Fórmula exclusiva com fragrância marcante e espuma cremosa.", imagem: "imagens/Sabonetes Natura Tododia Ameixa Nº 49 Nacional Fórmula exclusiva com fragrância marcante e espuma cremosa, deixando a pele limpa, perfumada e suave.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Cereja e Avelã", descricao: "Fórmula hidratante desenvolvida para promover limpeza suave e espuma cremosa.", imagem: "imagens/Sabonetes Natura Tododia Cereja e Avelã Nº 47 Nacional Fórmula hidratante desenvolvida para promover limpeza suave, espuma cremosa e perfumação envolvente durante o banho.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Macadâmia", descricao: "Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação.", imagem: "imagens/Sabonetes Natura Tododia Macadâmia Nº 48 Nacional Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação natural da pele, proporcionando maciez prolongada.jpg", marca: "Nacional" }
+            ],
+            desodorantes: [
+                { nome: "Natura Erva Doce Roll-On", descricao: "Desodorante antitranspirante desenvolvido para oferecer proteção prolongada.", imagem: "imagens/Roll-On Natura Erva Doce Nº 55 Nacional Desodorante antitranspirante desenvolvido para oferecer proteção prolongada contra odores, com fragrância suave e secagem rápida.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Algodão Roll-On", descricao: "Fórmula exclusiva que auxilia na proteção diária contra a transpiração.", imagem: "imagens/Roll-On Natura Tododia Algodão Nº 56 Nacional Fórmula exclusiva que auxilia na proteção diária contra a transpiração, proporcionando conforto e sensação de frescor.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Fresh", descricao: "Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.", imagem: "imagens/Roll-On Avon On Duty Fresh Nº 61 Nacional Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Invisible", descricao: "Desodorante antitranspirante desenvolvido para proteger e prevenir manchas.", imagem: "imagens/Roll-On Avon On Duty Invisible Nº 60 Nacional Desodorante antitranspirante desenvolvido para proteger contra odores e auxiliar na prevenção de manchas em roupas.jpg", marca: "Nacional" }
+            ],
+            maquiagem: [
+                { nome: "O Boticário Intense Batom Cremoso", descricao: "Fórmula exclusiva com cores intensas e conforto prolongado.", imagem: "imagens/Maquiagem O Boticário Intense Batom Cremoso Nº 30 Nacional Fórmula exclusiva com cores intensas e conforto prolongado.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Secrets Base Hidra Glow", descricao: "Fórmula exclusiva com acabamento luminoso e alta performance.", imagem: "imagens/Maquiagem Eudora Niina Secrets Base Hidra Glow Nº 32 Nacional Fórmula exclusiva com acabamento luminoso e alta performance.jpg", marca: "Nacional" },
+                { nome: "O Boticário Make B. Base Líquida", descricao: "Fórmula exclusiva com cobertura uniforme e acabamento natural.", imagem: "imagens/Maquiagem O Boticário Make B. Base Líquida Nº 29 Nacional Fórmula exclusiva com cobertura uniforme e acabamento natural.jpg", marca: "Nacional" },
+                { nome: "Natura Una Batom Matte", descricao: "Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.", imagem: "imagens/Maquiagem Natura Una Batom Matte Nº 27 Nacional Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.jpg", marca: "Nacional" },
+                { nome: "Natura Batom Faces Cookie Nude", descricao: "Batom criado para agradar todos os gostos de cores com um espelho na tampa.", imagem: "imagens/Maquiagem narura batom faces cokie nude batom criado para agradar todos os gostos de cores com um espelho na tampa para facilitar aplicação.jpg", marca: "Nacional" }
+            ],
+            protetores: [
+                { nome: "Natura Fotoequilíbrio Corpo e Rosto", descricao: "Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção.", imagem: "imagens/Protetor Solar Natura Fotoequilíbrio Corpo e Rosto FPS 50 Nº 46 Nacional Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção dos efeitos nocivos da exposição ao sol.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin Facial", descricao: "Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado.", imagem: "imagens/Protetor Solar Eudora Niina Skin Facial FPS 50 Nº 45 Nacional Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado, contribuindo para o cuidado diário da pele.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun Facial", descricao: "Fórmula de alta proteção com toque seco e acabamento invisível.", imagem: "imagens/Protetor Solar O Boticário Boti.Sun Facial FPS 70 Nº 44 Nacional Fórmula de alta proteção com toque seco e acabamento invisível, auxiliando na proteção contra os danos solares.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio Facial", descricao: "Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção.", imagem: "imagens/Protetor Solar Natura Fotoequilíbrio Facial FPS 60 Nº 43 Nacional Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção, ideal para a rotina de cuidados com a pele.jpg", marca: "Nacional" },
+                { nome: "Eudora Glam FPS 50", descricao: "Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme.", imagem: "imagens/Protetor Solar Eudora Glam FPS 50 Nº 42 Nacional Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme e sensação agradável durante o uso.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin FPS 60", descricao: "Proteção avançada com acabamento leve e confortável, desenvolvida para preservar a pele.", imagem: "imagens/Protetor Solar Eudora Niina Skin FPS 60 Nº 41 Nacional Proteção avançada com acabamento leve e confortável, desenvolvida para ajudar a preservar a saúde e a beleza da pele.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 50", descricao: "Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar.", imagem: "imagens/Protetor Solar O Boticário Boti.Sun FPS 50 Nº 40 Nacional Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar, auxiliando na manutenção da hidratação natural.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 70", descricao: "Proteção de alta performance contra os raios solares com textura leve.", imagem: "imagens/Protetor Solar O Boticário Boti.Sun FPS 70 Nº 39 Nacional Proteção de alta performance contra os raios solares com textura leve e acabamento confortável para uso diário.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 50", descricao: "Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto.", imagem: "imagens/Protetor Solar Natura Fotoequilíbrio FPS 50 Nº 38 Nacional Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto e cuidado diário para a pele.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 70", descricao: "Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção.", imagem: "imagens/Protetor Solar Natura Fotoequilíbrio FPS 70 Nº 37 Nacional Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção, desenvolvida para auxiliar na prevenção dos danos causados pela exposição solar.jpg", marca: "Nacional" }
+            ]
+        };
+
+        const titles = {
+            masculinos: "Alta Perfumaria Masculina",
+            femininos: "Alta Perfumaria Feminina",
+            cremes: "Skincare e Hidratação",
+            sabonetes: "Sabonetes e Banhos",
+            desodorantes: "Proteção Diária",
+            maquiagem: "Maquiagem Premium",
+            protetores: "Proteção Solar"
+        };
+
+        // --- SISTEMA DE CARRINHO ---
+        let cart = [];
+
+        window.toggleCart = () => {
+            document.getElementById('cart-sidebar').classList.toggle('open');
+            document.getElementById('cart-overlay').classList.toggle('open');
+            renderCart();
+        };
+
+        window.addToCart = (productName, event) => {
+            cart.push(productName);
+            updateCartBadge();
+            
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Adicionado';
+            btn.classList.add('bg-desert');
+            btn.classList.remove('bg-dark');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-desert');
+                btn.classList.add('bg-dark');
+            }, 1500);
+
+            const bagIcon = document.querySelector('.fa-shopping-bag').parentElement;
+            bagIcon.style.transform = 'scale(1.15)';
+            setTimeout(() => bagIcon.style.transform = 'scale(1)', 250);
+        };
+
+        window.removeFromCart = (index) => {
+            cart.splice(index, 1);
+            updateCartBadge();
+            renderCart();
+        };
+
+        const updateCartBadge = () => {
+            const badge = document.getElementById('cart-count-badge');
+            document.getElementById('cart-total-items').innerText = cart.length;
+            badge.innerText = cart.length;
+            badge.classList.toggle('has-items', cart.length > 0);
+        };
+
+        const renderCart = () => {
+            const container = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center opacity-40 py-20">
+                        <i class="fas fa-shopping-bag text-4xl mb-6 text-desert"></i>
+                        <p class="font-serif text-2xl text-dark">Sua sacola está vazia.</p>
+                        <p class="text-xs mt-2 uppercase tracking-widest font-bold">Explore o catálogo</p>
+                    </div>`;
+                return;
+            }
+
+            const itemCounts = {};
+            cart.forEach(item => { itemCounts[item] = (itemCounts[item] || 0) + 1; });
+
+            container.innerHTML = Object.entries(itemCounts).map(([item, qtd], index) => `
+                <div class="flex items-center justify-between p-4 bg-mist/50 rounded-2xl border border-black/5 hover:border-desert/30 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-desert shadow-sm">
+                            <i class="fas fa-box text-xs"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-dark text-xs leading-tight max-w-[200px] truncate">${item}</p>
+                            <p class="text-[0.65rem] uppercase tracking-widest text-dark/60 mt-1">QTD: ${qtd}</p>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${cart.indexOf(item)})" class="text-dark/40 hover:text-red-400 transition-colors p-2 magnetic">
+                        <i class="fas fa-trash-alt text-sm"></i>
+                    </button>
+                </div>
+            `).join('');
+        };
+
+        window.enviarPedidoWhatsApp = () => {
+            if (cart.length === 0) return;
+            let message = "Olá! Gostaria de finalizar o seguinte pedido feito pelo site:\n\n";
+            const itemCounts = {};
+            cart.forEach(item => { itemCounts[item] = (itemCounts[item] || 0) + 1; });
+            Object.entries(itemCounts).forEach(([item, qtd]) => { message += `▪ *${qtd}x* ${item}\n`; });
+            message += "\nAguardo o retorno. Obrigado!";
+            const waLink = `https://wa.me/5531999487873?text=${encodeURIComponent(message)}`;
+            window.open(waLink, '_blank');
+            cart = []; updateCartBadge(); toggleCart();
+        };
+
+        // --- GERAÇÃO DE PÁGINAS ---
+        const generatePages = () => {
+            const container = document.getElementById('pages-container');
+            
+            Object.keys(categoriesData).forEach(catId => {
+                const title = titles[catId];
+                const products = categoriesData[catId];
+                
+                // O HTML dos produtos
+                const productsHtml = products.map(p => `
+                    <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 reveal flex flex-col group tilt-card">
+                        <div class="relative h-[22rem] bg-white flex items-center justify-center p-8 overflow-hidden tilt-content">
+                            <span class="absolute top-6 left-6 bg-mist text-desert text-[0.6rem] font-bold uppercase tracking-[2px] px-4 py-2 rounded-full z-10 shadow-sm">${p.marca || 'Premium'}</span>
+                            <img src="${p.imagem}" onerror="this.onerror=null; this.src='https://placehold.co/500x500/F4F1EA/4A4238?text=Imagem+N%C3%A3o+Encontrada'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
+                        </div>
+                        <div class="p-8 flex flex-col flex-grow border-t border-mist/50">
+                            <h3 class="font-serif text-2xl text-dark leading-snug mb-3">${p.nome}</h3>
+                            <p class="text-sm font-light text-dark/60 leading-relaxed mb-8 flex-grow">${p.descricao}</p>
+                            <div class="flex items-center justify-between pt-6 border-t border-mist">
+                                <span class="font-bold text-dark text-[0.65rem] uppercase tracking-[2px]">Consultar</span>
+                                <button onclick="addToCart('${p.nome.replace(/'/g, "\\'")}', event)" class="magnetic px-6 py-3 bg-dark text-white text-[0.65rem] font-bold uppercase tracking-[2px] rounded-full hover:bg-desert transition-colors duration-500 hover-target flex items-center gap-2">
+                                    <i class="fas fa-plus"></i> Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML += `
+                    <div id="page-${catId}" class="page-transition bg-mist min-h-screen pt-10 pb-32" style="display: none;">
+                        <div class="max-w-[1600px] mx-auto px-6 md:px-10">
+                            
+                            <!-- Botão de Voltar -->
+                            <div class="sticky top-[110px] z-40 mb-10 inline-block">
+                                <button onclick="navigateToHome(event)" class="magnetic group flex items-center gap-3 text-dark hover:text-desert font-bold text-[0.65rem] uppercase tracking-[2px] transition-colors hover-target px-5 py-3 border border-dark/10 rounded-full bg-white/80 backdrop-blur-md shadow-sm hover:shadow-md">
+                                    <i class="fas fa-arrow-left transform transition-transform group-hover:-translate-x-1"></i>
+                                    Retornar ao Início
+                                </button>
+                            </div>
+                            
+                            <div class="mb-20">
+                                <h2 class="font-serif text-5xl md:text-7xl text-dark mb-4 tracking-tight">${title}</h2>
+                                <p class="text-desert text-[0.65rem] font-bold uppercase tracking-[4px]">${products.length} Criações Exclusivas</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+                                ${productsHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        };
+
+        window.showProductPage = (pageId) => {
+            const targetId = `page-${pageId}`;
+            
+            document.querySelectorAll('.page-transition').forEach(el => {
+                if (el.id !== targetId) {
+                    el.classList.remove('active');
+                    setTimeout(() => { if (!el.classList.contains('active')) el.style.display = 'none'; }, 800); 
+                }
+            });
+            
+            setTimeout(() => {
+                const target = document.getElementById(targetId);
+                if(target) {
+                    target.style.display = 'block';
+                    void target.offsetWidth;
+                    target.classList.add('active');
+                }
+                lenis.scrollTo(0, { duration: 1.5 });
+                setTimeout(initInteractions, 100);
+            }, 50);
+        };
+
+        window.navigateToHome = (e) => {
+            if(e) e.preventDefault();
+            const targetId = 'home-section';
+            
+            document.querySelectorAll('.page-transition').forEach(el => {
+                if (el.id !== targetId) {
+                    el.classList.remove('active');
+                    setTimeout(() => { if (!el.classList.contains('active')) el.style.display = 'none'; }, 800);
+                }
+            });
+            
+            setTimeout(() => {
+                const home = document.getElementById(targetId);
+                if(home) {
+                    home.style.display = 'block';
+                    void home.offsetWidth;
+                    home.classList.add('active');
+                }
+                lenis.scrollTo(0, { duration: 1.5 });
+                setTimeout(initInteractions, 100);
+            }, 50);
+        };
+
+        // --- INTERAÇÕES PREMIUM ---
+        const initInteractions = () => {
+            
+            const cursor = document.getElementById('custom-cursor');
+            const dot = document.getElementById('cursor-dot');
+            
+            if(window.innerWidth >= 1024) {
+                document.body.classList.add('custom-cursor-on');
+
+                let mouseX = window.innerWidth / 2;
+                let mouseY = window.innerHeight / 2;
+                let cursorX = mouseX, cursorY = mouseY;
+                
+                document.removeEventListener('mousemove', onMouseMove);
+                document.addEventListener('mousemove', onMouseMove);
+                
+                function onMouseMove(e) {
+                    mouseX = e.clientX; mouseY = e.clientY;
+                    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+                }
+
+                const renderCursor = () => {
+                    cursorX += (mouseX - cursorX) * 0.15; 
+                    cursorY += (mouseY - cursorY) * 0.15;
+                    cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
+                    requestAnimationFrame(renderCursor);
+                };
+                requestAnimationFrame(renderCursor);
+
+                document.querySelectorAll('.hover-target, button, a').forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+                });
+                
+                document.querySelectorAll('.magnetic').forEach(elem => {
+                    elem.addEventListener('mousemove', function(e) {
+                        const pos = this.getBoundingClientRect();
+                        const x = (e.clientX - pos.left - pos.width / 2) * 0.3;
+                        const y = (e.clientY - pos.top - pos.height / 2) * 0.3;
+                        this.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+                    });
+                    elem.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translate3d(0px, 0px, 0)';
+                    });
+                });
+
+                document.querySelectorAll('.tilt-card').forEach(card => {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        const rotateX = ((y - centerY) / centerY) * -10;
+                        const rotateY = ((x - centerX) / centerX) * 10;
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                        card.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    });
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transition = 'none';
+                    });
+                });
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach((el, index) => {
+                el.style.transitionDelay = `${(index % 4) * 100}ms`;
+                observer.observe(el);
+            });
+        };
+
+        // Inicia o site
+        document.addEventListener('DOMContentLoaded', () => {
+            generatePages();
+            initInteractions();
+        });
+    </script>
+</body>
+</html>
