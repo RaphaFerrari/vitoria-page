@@ -462,7 +462,6 @@
         requestAnimationFrame(raf);
 
         // --- DADOS DOS PRODUTOS ---
-        // Caminhos limpos e corretos apontando para a pasta imagens/
         const categoriesData = {
             masculinos: [
                 { nome: "Carolina Herrera 212 VIP Black", descricao: "Fragrância amadeirada aromática atemporal e intensamente cativante.", imagem: "imagens/Masculinos  carolina hererra 212  vip black Importado  Fragrância amadeirada aromática atemporal e intensamente cativante.jpg", marca: "Importado" },
@@ -510,7 +509,7 @@
                 { nome: "Chanel Coco Mademoiselle", descricao: "A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.", imagem: "imagens/Femininos  Chanel  Coco Mademoiselle  Importado  A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.jpg", marca: "Importado" },
                 { nome: "Chloé Eau de Parfum", descricao: "Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.", imagem: "imagens/Femininos  Chloé  Chloé Eau de Parfum  Importado  Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.jpg", marca: "Importado" },
                 { nome: "Lancôme Idôle", descricao: "Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.", imagem: "imagens/Femininos  Lancôme  Idôle  Importado  Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.jpg", marca: "Importado" },
-                { nome: "Giorgio Armani Sì Eau de Parfum", descricao: "Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.", imagem: "imagens/Femininos  Giorgio Armani  Sì Eau de Parfum  Importado  Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.jpg", marca: "Importado" },
+                { nome: "Giorgio Armani Sì Eau de Parfum", descricao: "Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.", imagem: "imagens/Femininos  Giorgio Armani  Sì Eau de Parfum  Importado  Um tributo à feminilidade moderna: uma combination irresistível de graça e força.jpg", marca: "Importado" },
                 { nome: "O Boticário Lily Lumière", descricao: "A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.", imagem: "imagens/Femininos  O Boticário  Lily Lumière  Nacional  A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.jpg", marca: "Nacional" },
                 { nome: "Natura Luna Radiante", descricao: "Uma luminosidade chipre que combina notas cítricas com flor da dourada.", imagem: "imagens/Femininos  Natura  Luna Radiante  Nacional  Uma luminosidade chipre que combina notas cítricas com flor da dourada.jpg", marca: "Nacional" },
                 { nome: "O Boticário Elysée Tradicional", descricao: "Joia em forma de fragrância com ingredientes nobres de alta fixação.", imagem: "imagens/Femininos  O Boticário  Elysée Tradicional  Nacional  Joia em forma de fragrância com ingredientes nobres de alta fixação.jpg", marca: "Nacional" },
@@ -698,12 +697,15 @@
                 const title = titles[catId];
                 const products = categoriesData[catId];
                 
-                // O HTML dos produtos
-                const productsHtml = products.map(p => `
+                const productsHtml = products.map(p => {
+                    // BLINDAGEM CONTRA ESPAÇOS NO GITHUB: Remove espaços múltiplos da URL
+                    const imagemBlindada = p.imagem.replace(/\s+/g, ' ');
+
+                    return `
                     <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 reveal flex flex-col group tilt-card">
                         <div class="relative h-[22rem] bg-white flex items-center justify-center p-8 overflow-hidden tilt-content">
                             <span class="absolute top-6 left-6 bg-mist text-desert text-[0.6rem] font-bold uppercase tracking-[2px] px-4 py-2 rounded-full z-10 shadow-sm">${p.marca || 'Premium'}</span>
-                            <img src="${p.imagem}" onerror="this.onerror=null; this.src='https://placehold.co/500x500/F4F1EA/4A4238?text=Imagem+N%C3%A3o+Encontrada'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
+                            <img src="${imagemBlindada}" onerror="this.onerror=null; this.src='https://placehold.co/500x500/F4F1EA/4A4238?text=Imagem+N%C3%A3o+Encontrada'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
                         </div>
                         <div class="p-8 flex flex-col flex-grow border-t border-mist/50">
                             <h3 class="font-serif text-2xl text-dark leading-snug mb-3">${p.nome}</h3>
@@ -716,7 +718,8 @@
                             </div>
                         </div>
                     </div>
-                `).join('');
+                    `;
+                }).join('');
 
                 container.innerHTML += `
                     <div id="page-${catId}" class="page-transition bg-mist min-h-screen pt-10 pb-32" style="display: none;">
