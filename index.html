@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vitória Perfumaria e Cosméticos | Alta Perfumaria</title>
 
-    <!-- Favicon (Deve ficar na raiz do projeto) -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-
     <!-- Fontes Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,11 +184,11 @@
 </head>
 <body class="font-sans pt-[90px]">
 
-    <!-- Loader Premium com Logo (Com Fallback) -->
+    <!-- Loader Premium com Logo da Raiz -->
     <div id="preloader" class="fixed inset-0 z-[999999] bg-mist flex flex-col items-center justify-center">
         <div class="overflow-hidden mb-6 flex justify-center items-center h-16 md:h-20">
-            <!-- Tenta carregar a imagem, se falhar, exibe o texto da marca como Fallback -->
-            <img src="imagens/logo.jpg" alt="Vitória Alta Perfumaria" class="max-h-full object-contain mix-blend-multiply animate-reveal-up" onerror="this.onerror=null; this.outerHTML='<span class=\'block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up\'>Vitória.</span>';">
+            <!-- Puxando a logo.jpg direto da raiz. Se falhar, exibe texto -->
+            <img src="logo.jpg" alt="Vitória Alta Perfumaria" class="max-h-full object-contain mix-blend-multiply animate-reveal-up" onerror="this.onerror=null; this.outerHTML='<span class=\'block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up\'>Vitória.</span>';">
         </div>
         <div class="w-32 h-[1px] bg-dark/10 overflow-hidden relative">
             <div class="absolute top-0 left-0 h-full bg-desert w-full animate-[progress_1s_ease-in-out_forwards]" style="transform-origin: left; animation-name: load-progress;"></div>
@@ -205,16 +201,16 @@
         }
     </style>
 
-    <!-- Custom Cursor Aura -->
+    <!-- Custom Cursor Aura (Sem o ponto central, mantendo a seta nativa) -->
     <div class="custom-cursor hidden lg:block" id="custom-cursor"></div>
 
-    <!-- Header com Logo (Com Fallback) -->
+    <!-- Header com Logo da Raiz -->
     <header class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 transition-all duration-500">
         <div class="max-w-[1600px] mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
             
             <a href="#" onclick="navigateToHome(event)" class="magnetic group flex items-center hover-target p-2 -ml-2 h-10 md:h-12 max-w-[160px]">
-                <!-- Tenta carregar a imagem, se falhar, exibe o texto premium de segurança -->
-                <img src="imagens/logo.jpg" alt="Vitória" class="max-h-full max-w-full object-contain mix-blend-multiply group-hover:opacity-70 transition-opacity duration-500" onerror="this.onerror=null; this.outerHTML='<span class=\'font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500\'>Vitória.</span>';">
+                <!-- Puxando a logo.jpg direto da raiz. Se falhar, exibe texto -->
+                <img src="logo.jpg" alt="Vitória" class="max-h-full max-w-full object-contain mix-blend-multiply group-hover:opacity-70 transition-opacity duration-500" onerror="this.onerror=null; this.outerHTML='<span class=\'font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500\'>Vitória.</span>';">
             </a>
 
             <nav class="hidden lg:flex items-center gap-8">
@@ -455,130 +451,130 @@
         // --- DADOS DOS PRODUTOS (COM SLUGS PERFEITOS) ---
         const categoriesData = {
             masculinos: [
-                { nome: "Carolina Herrera 212 VIP Black", descricao: "Fragrância amadeirada aromática atemporal e intensamente cativante.", imagem: "imagens/masculinos-carolina-herrera-212-vip-black-importado.jpg", marca: "Importado" },
-                { nome: "Hugo Boss Eau de Toilette", descricao: "Fresco, forte e nobre. Uma composição radicalmente autêntica.", imagem: "imagens/masculinos-hugo-boss-eau-de-toilette-importado.jpg", marca: "Importado" },
-                { nome: "Paco Rabanne 1 Million EdT", descricao: "O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.", imagem: "imagens/masculinos-paco-rabanne-1-million-edt-importado.jpg", marca: "Importado" },
-                { nome: "Paco Rabanne Invictus", descricao: "A combinação ideal de sofisticação moderna, mistério e sedução oriental.", imagem: "imagens/masculinos-paco-rabanne-invictus-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Malbec Tradicional", descricao: "Feito com notas de vinhos macerados em barris de carvalho francês.", imagem: "imagens/masculinos-o-boticário-malbec-tradicional-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Essencial Único", descricao: "Presença marcante da copaíba combinado ao coração refinado do vetiver.", imagem: "imagens/masculinos-natura-essencial-único-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Zaad", descricao: "A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.", imagem: "imagens/masculinos-o-boticário-zaad-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Homem Dom", descricao: "Fragrância amadeirada intensa com um sofisticado blend de ingredientes nobres.", imagem: "imagens/masculinos-natura-homem-dom-nacional.jpg", marca: "Nacional" },
-                { nome: "Paco Rabanne Phantom", descricao: "Fragrância lendária, frutada e rica. O ápice da exclusividade mundial.", imagem: "imagens/masculinos-paco-rabanne-phantom-importado.jpg", marca: "Importado" },
-                { nome: "Carolina Herrera 212 VIP Men", descricao: "Fragrância carismática inspirada na energia e estilo das festas de Nova York.", imagem: "imagens/masculinos-carolina-herrera-212-vip-men-importado.jpg", marca: "Importado" },
-                { nome: "Lattafa Asad", descricao: "Uma assinatura intensamente amadeirada com notas puras e densas.", imagem: "imagens/masculinos-lattafa-asad-importado.jpg", marca: "Importado" },
-                { nome: "Natura Essencial Elixir", descricao: "Um elixir extraordinariamente concentrado impregnado pelo frescor icônico.", imagem: "imagens/masculinos-natura-essencial-elixir-nacional.jpg", marca: "Nacional" },
-                { nome: "Paco Rabanne Invictus Platinum", descricao: "Para aqueles que sempre enfrentam os desafios. Notas mentoladas e amadeiradas.", imagem: "imagens/masculinos-paco-rabanne-invictus-platinum-importado.jpg", marca: "Importado" },
-                { nome: "Hugo Boss Infinite", descricao: "Notas marinhas profundas combinadas com o calor do incenso místico.", imagem: "imagens/masculinos-hugo-boss-infinite-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Malbec Black", descricao: "Notas ultrassofisticadas inspiradas no mistério da cor preta e carvalho.", imagem: "imagens/masculinos-o-boticário-malbec-black-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Essencial Intenso", descricao: "Uma leitura ousada da linha Essencial, perfeita para noites frias.", imagem: "imagens/masculinos-natura-essencial-intenso-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Zaad Expedition", descricao: "Notas cítricas e amadeiradas inspiradas em expedições pelo mundo.", imagem: "imagens/masculinos-o-boticário-zaad-expedition-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Homem Sagaz", descricao: "Combinação provocante de especiarias quentes com um fundo ambarado.", imagem: "imagens/masculinos-natura-homem-sagaz-nacional.jpg", marca: "Nacional" },
-                { nome: "Versace Eros Eau de Parfum", descricao: "O frescor sublime da menta com o toque viciante da baunilha de Madagascar.", imagem: "imagens/masculinos-versace-eros-eau-de-parfum-importado.jpg", marca: "Importado" },
-                { nome: "Hugo Boss Boss Bottled", descricao: "O clássico perfume do homem moderno focado em alcançar objetivos.", imagem: "imagens/masculinos-hugo-boss-boss-bottled-importado.jpg", marca: "Importado" },
-                { nome: "Paco Rabanne Phantom Futurista", descricao: "Uma fragrância futurista nascida do encontro entre alta tecnologia e luxo.", imagem: "imagens/masculinos-paco-rabanne-phantom-futurista-importado.jpg", marca: "Importado" },
-                { nome: "Lattafa Safeer", descricao: "Uma narrativa poética que explora a ligação intrínseca do homem com a terra.", imagem: "imagens/masculinos-lattafa-safeer-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Malbec Gold", descricao: "Tecnologia inovadora que desperta e potencializa o poder de atração.", imagem: "imagens/masculinos-o-boticário-malbec-gold-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Essencial Oud", descricao: "A imponência da madeira oud com o calor inconfundível da copaíba.", imagem: "imagens/masculinos-natura-essencial-oud-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Zaad Mondial", descricao: "Fragrância marcante e cosmopolita que reúne notas do mundo inteiro.", imagem: "imagens/masculinos-o-boticário-zaad-mondial-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Homem Essence", descricao: "O equilíbrio perfeito entre sofisticação e o frescor de notas amadeiradas.", imagem: "imagens/masculinos-natura-homem-essence-nacional.jpg", marca: "Nacional" },
-                { nome: "Jean Paul Gaultier Le Male", descricao: "Uma homenagem icônica à figura clássica e magnética do marinheiro.", imagem: "imagens/masculinos-jean-paul-gaultier-le-male-importado.jpg", marca: "Importado" },
-                { nome: "Carolina Herrera Bad Boy", descricao: "Uma expressão olfativa ousada que reflete a natureza do homem contemporâneo.", imagem: "imagens/masculinos-carolina-herrera-bad-boy-importado.jpg", marca: "Importado" },
-                { nome: "Azzaro Pour Homme", descricao: "Uma fragrância ambarada e rica para o homem que ousa ser extraordinário.", imagem: "imagens/masculinos-azzaro-pour-homme-importado.jpg", marca: "Importado" },
-                { nome: "Armaf Club de Nuit Intense", descricao: "Uma assinatura neo-oriental rica com acordes intensos limão.", imagem: "imagens/masculinos-armaf-club-de-nuit-intense-importado.jpg", marca: "Importado" },
-                { nome: "Lattafa Wazeer", descricao: "Um rastro magnético que reinventa a família Fougère clássica com frescor cítrico.", imagem: "imagens/masculinos-lattafa-wazeer-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Malbec Elegant", descricao: "A redefinição da elegância com notas florais amadeiradas de extrema distinção.", imagem: "imagens/masculinos-o-boticário-malbec-elegant-nacional.jpg", marca: "Nacional" }
+                { nome: "Carolina Herrera 212 VIP Black", descricao: "Fragrância amadeirada aromática atemporal e intensamente cativante.", imagem: "masculinos-carolina-herrera-212-vip-black-importado.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Eau de Toilette", descricao: "Fresco, forte e nobre. Uma composição radicalmente autêntica.", imagem: "masculinos-hugo-boss-eau-de-toilette-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne 1 Million EdT", descricao: "O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.", imagem: "masculinos-paco-rabanne-1-million-edt-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Invictus", descricao: "A combinação ideal de sofisticação moderna, mistério e sedução oriental.", imagem: "masculinos-paco-rabanne-invictus-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Tradicional", descricao: "Feito com notas de vinhos macerados em barris de carvalho francês.", imagem: "masculinos-o-boticário-malbec-tradicional-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Único", descricao: "Presença marcante da copaíba combinado ao coração refinado do vetiver.", imagem: "masculinos-natura-essencial-único-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad", descricao: "A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.", imagem: "masculinos-o-boticário-zaad-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Dom", descricao: "Fragrância amadeirada intensa com um sofisticado blend de ingredientes nobres.", imagem: "masculinos-natura-homem-dom-nacional.jpg", marca: "Nacional" },
+                { nome: "Paco Rabanne Phantom", descricao: "Fragrância lendária, frutada e rica. O ápice da exclusividade mundial.", imagem: "masculinos-paco-rabanne-phantom-importado.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera 212 VIP Men", descricao: "Fragrância carismática inspirada na energia e estilo das festas de Nova York.", imagem: "masculinos-carolina-herrera-212-vip-men-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Asad", descricao: "Uma assinatura intensamente amadeirada com notas puras e densas.", imagem: "masculinos-lattafa-asad-importado.jpg", marca: "Importado" },
+                { nome: "Natura Essencial Elixir", descricao: "Um elixir extraordinariamente concentrado impregnado pelo frescor icônico.", imagem: "masculinos-natura-essencial-elixir-nacional.jpg", marca: "Nacional" },
+                { nome: "Paco Rabanne Invictus Platinum", descricao: "Para aqueles que sempre enfrentam os desafios. Notas mentoladas e amadeiradas.", imagem: "masculinos-paco-rabanne-invictus-platinum-importado.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Infinite", descricao: "Notas marinhas profundas combinadas com o calor do incenso místico.", imagem: "masculinos-hugo-boss-infinite-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Black", descricao: "Notas ultrassofisticadas inspiradas no mistério da cor preta e carvalho.", imagem: "masculinos-o-boticário-malbec-black-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Intenso", descricao: "Uma leitura ousada da linha Essencial, perfeita para noites frias.", imagem: "masculinos-natura-essencial-intenso-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad Expedition", descricao: "Notas cítricas e amadeiradas inspiradas em expedições pelo mundo.", imagem: "masculinos-o-boticário-zaad-expedition-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Sagaz", descricao: "Combinação provocante de especiarias quentes com um fundo ambarado.", imagem: "masculinos-natura-homem-sagaz-nacional.jpg", marca: "Nacional" },
+                { nome: "Versace Eros Eau de Parfum", descricao: "O frescor sublime da menta com o toque viciante da baunilha de Madagascar.", imagem: "masculinos-versace-eros-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Boss Bottled", descricao: "O clássico perfume do homem moderno focado em alcançar objetivos.", imagem: "masculinos-hugo-boss-boss-bottled-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Phantom Futurista", descricao: "Uma fragrância futurista nascida do encontro entre alta tecnologia e luxo.", imagem: "masculinos-paco-rabanne-phantom-futurista-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Safeer", descricao: "Uma narrativa poética que explora a ligação intrínseca do homem com a terra.", imagem: "masculinos-lattafa-safeer-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Gold", descricao: "Tecnologia inovadora que desperta e potencializa o poder de atração.", imagem: "masculinos-o-boticário-malbec-gold-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Oud", descricao: "A imponência da madeira oud com o calor inconfundível da copaíba.", imagem: "masculinos-natura-essencial-oud-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad Mondial", descricao: "Fragrância marcante e cosmopolita que reúne notas do mundo inteiro.", imagem: "masculinos-o-boticário-zaad-mondial-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Essence", descricao: "O equilíbrio perfeito entre sofisticação e o frescor de notas amadeiradas.", imagem: "masculinos-natura-homem-essence-nacional.jpg", marca: "Nacional" },
+                { nome: "Jean Paul Gaultier Le Male", descricao: "Uma homenagem icônica à figura clássica e magnética do marinheiro.", imagem: "masculinos-jean-paul-gaultier-le-male-importado.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera Bad Boy", descricao: "Uma expressão olfativa ousada que reflete a natureza do homem contemporâneo.", imagem: "masculinos-carolina-herrera-bad-boy-importado.jpg", marca: "Importado" },
+                { nome: "Azzaro Pour Homme", descricao: "Uma fragrância ambarada e rica para o homem que ousa ser extraordinário.", imagem: "masculinos-azzaro-pour-homme-importado.jpg", marca: "Importado" },
+                { nome: "Armaf Club de Nuit Intense", descricao: "Uma assinatura neo-oriental rica com acordes intensos limão.", imagem: "masculinos-armaf-club-de-nuit-intense-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Wazeer", descricao: "Um rastro magnético que reinventa a família Fougère clássica com frescor cítrico.", imagem: "masculinos-lattafa-wazeer-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Elegant", descricao: "A redefinição da elegância com notas florais amadeiradas de extrema distinção.", imagem: "masculinos-o-boticário-malbec-elegant-nacional.jpg", marca: "Nacional" }
             ],
             femininos: [
-                { nome: "Lancôme La Vie Est Belle", descricao: "Um manifesto de felicidade universal com as mais nobres matérias-primas.", imagem: "imagens/femininos-lancôme-la-vie-est-belle-importado.jpg", marca: "Importado" },
-                { nome: "Carolina Herrera Good Girl", descricao: "Audacioso, ultra-feminino e sensual. O salto agulha mais desejado do planeta.", imagem: "imagens/femininos-carolina-herrera-good-girl-importado.jpg", marca: "Importado" },
-                { nome: "Lattafa Musamam", descricao: "O grande buquê floral feminino da Maison Dior. Luxo e elegância em frasco.", imagem: "imagens/femininos-lattafa-musamam-importado.jpg", marca: "Importado" },
-                { nome: "Yves Saint Laurent Libre", descricao: "A tensão perfeita entre a lavanda francesa e a flor de laranjeira sensual.", imagem: "imagens/femininos-yves-saint-laurent-libre-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Lily Eau de Parfum", descricao: "Alta perfumaria produzida com o raro método artesanal de enfleurage.", imagem: "imagens/femininos-o-boticário-lily-eau-de-parfum-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Luna Absolute", descricao: "Um chipre denso que combina o autêntico patchouli com intensas frutas vermelhas.", imagem: "imagens/femininos-natura-luna-absolute-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Elysée Succès", descricao: "Traz a sofisticação da Rosa Negra associada a acordes profundos de Oud.", imagem: "imagens/femininos-o-boticário-elysée-succès-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Ilía Secreto", descricao: "Fragrância intrigante repleta de mistério com notas cremosas de fava tonka.", imagem: "imagens/femininos-natura-ilía-secreto-nacional.jpg", marca: "Nacional" },
-                { nome: "Chanel Coco Mademoiselle", descricao: "A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.", imagem: "imagens/femininos-chanel-coco-mademoiselle-importado.jpg", marca: "Importado" },
-                { nome: "Chloé Eau de Parfum", descricao: "Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.", imagem: "imagens/femininos-chloé-eau-de-parfum-importado.jpg", marca: "Importado" },
-                { nome: "Lancôme Idôle", descricao: "Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.", imagem: "imagens/femininos-lancôme-idôle-importado.jpg", marca: "Importado" },
-                { nome: "Giorgio Armani Sì Eau de Parfum", descricao: "Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.", imagem: "imagens/femininos-giorgio-armani-sì-eau-de-parfum-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Lily Lumière", descricao: "A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.", imagem: "imagens/femininos-o-boticário-lily-lumière-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Luna Radiante", descricao: "Uma luminosidade chipre que combina notas cítricas com flor da dourada.", imagem: "imagens/femininos-natura-luna-radiante-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Elysée Tradicional", descricao: "Joia em forma de fragrância com ingredientes nobres de alta fixação.", imagem: "imagens/femininos-o-boticário-elysée-tradicional-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Ilía Plena", descricao: "Um buquê floral vibrante com a potência da rosa upcycling e pataqueira.", imagem: "imagens/femininos-natura-ilía-plena-nacional.jpg", marca: "Nacional" },
-                { nome: "Al Wataniah Durrat", descricao: "Uma gema preciosa de beleza refinada repleta de notas florais e refrescantes.", imagem: "imagens/femininos-al-wataniah-durrat-importado.jpg", marca: "Importado" },
-                { nome: "Paco Rabanne Olympéa Flora", descricao: "A deusa moderna. Uma fragrância oriental fresca baseada em baunilha salgada.", imagem: "imagens/femininos-paco-rabanne-olympéa-flora-importado.jpg", marca: "Importado" },
-                { nome: "Jean Paul Gaultier Scandal", descricao: "Uma overdose de prazer. Um mel cremoso e elegante misturado com gardênia.", imagem: "imagens/femininos-jean-paul-gaultier-scandal-importado.jpg", marca: "Importado" },
-                { nome: "Dolce & Gabbana Light Blue", descricao: "O frescor absoluto do verão mediterrâneo com notas de limão siciliano.", imagem: "imagens/femininos-dolce-gabbana-light-blue-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Floratta Red", descricao: "Inspirado na flor da maçã de Vermont, entregando romance e sensualidade.", imagem: "imagens/femininos-o-boticário-floratta-red-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Una Infinito", descricao: "A sofisticação da Natura refletida em uma composição amadeirada intensa.", imagem: "imagens/femininos-natura-una-infinito-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Floratta Gold", descricao: "A sofisticação da maquiagem agora em uma assinatura olfativa de luxo.", imagem: "imagens/femininos-o-boticário-floratta-gold-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Biografia Assinatura", descricao: "Uma história escrita com notas florais envolvendo e fundo ambarado.", imagem: "imagens/femininos-natura-biografia-assinatura-nacional.jpg", marca: "Nacional" },
-                { nome: "Givenchy L'Interdit", descricao: "Uma homenagem à feminilidade audaciosa. O encontro de flor branca e acorde negro.", imagem: "imagens/femininos-givenchy-l-interdit-importado.jpg", marca: "Importado" },
-                { nome: "Hinode For Her", descricao: "Um coração de almíscar misterioso refinado por um buquê floral.", imagem: "imagens/femininos-hinode-for-her-importado.jpg", marca: "Importado" },
-                { nome: "Prada Paradoxe", descricao: "A celebração da multidimensionalidade feminina em frasco triangular icônico.", imagem: "imagens/femininos-prada-paradoxe-importado.jpg", marca: "Importado" },
-                { nome: "Britney Spears Fantasy", descricao: "Uma poção luxuosa e escura com notas ricas de especiarias e orquídea negra.", imagem: "imagens/femininos-britney-spears-fantasy-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Coffee Woman Seduction", descricao: "Uma mistura equilibrada de grãos de café com notas doces e frutadas.", imagem: "imagens/femininos-o-boticário-coffee-woman-seduction-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Kriska Delírio", descricao: "A doçura inconfundível da linha com um toque inesperado de pipoca doce.", imagem: "imagens/femininos-natura-kriska-delírio-nacional.jpg", marca: "Nacional" },
-                { nome: "Alien Eau de Parfum", descricao: "Uma fragrância solar com notas intensas de jasmim da Índia e madeira de caxemira.", imagem: "imagens/femininos-alien-eau-de-parfum-importado.jpg", marca: "Importado" },
-                { nome: "O Boticário Elysée Nuit", descricao: "A ousadia da alta perfumaria com o toque adocicado do Macaron Francês.", imagem: "imagens/femininos-o-boticário-elysée-nuit-nacional.jpg", marca: "Nacional" }
+                { nome: "Lancôme La Vie Est Belle", descricao: "Um manifesto de felicidade universal com as mais nobres matérias-primas.", imagem: "femininos-lancôme-la-vie-est-belle-importado.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera Good Girl", descricao: "Audacioso, ultra-feminino e sensual. O salto agulha mais desejado do planeta.", imagem: "femininos-carolina-herrera-good-girl-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Musamam", descricao: "O grande buquê floral feminino da Maison Dior. Luxo e elegância em frasco.", imagem: "femininos-lattafa-musamam-importado.jpg", marca: "Importado" },
+                { nome: "Yves Saint Laurent Libre", descricao: "A tensão perfeita entre a lavanda francesa e a flor de laranjeira sensual.", imagem: "femininos-yves-saint-laurent-libre-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Lily Eau de Parfum", descricao: "Alta perfumaria produzida com o raro método artesanal de enfleurage.", imagem: "femininos-o-boticário-lily-eau-de-parfum-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Luna Absolute", descricao: "Um chipre denso que combina o autêntico patchouli com intensas frutas vermelhas.", imagem: "femininos-natura-luna-absolute-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Elysée Succès", descricao: "Traz a sofisticação da Rosa Negra associada a acordes profundos de Oud.", imagem: "femininos-o-boticário-elysée-succès-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Ilía Secreto", descricao: "Fragrância intrigante repleta de mistério com notas cremosas de fava tonka.", imagem: "femininos-natura-ilía-secreto-nacional.jpg", marca: "Nacional" },
+                { nome: "Chanel Coco Mademoiselle", descricao: "A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.", imagem: "femininos-chanel-coco-mademoiselle-importado.jpg", marca: "Importado" },
+                { nome: "Chloé Eau de Parfum", descricao: "Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.", imagem: "femininos-chloé-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "Lancôme Idôle", descricao: "Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.", imagem: "femininos-lancôme-idôle-importado.jpg", marca: "Importado" },
+                { nome: "Giorgio Armani Sì Eau de Parfum", descricao: "Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.", imagem: "femininos-giorgio-armani-sì-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Lily Lumière", descricao: "A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.", imagem: "femininos-o-boticário-lily-lumière-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Luna Radiante", descricao: "Uma luminosidade chipre que combina notas cítricas com flor da dourada.", imagem: "femininos-natura-luna-radiante-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Elysée Tradicional", descricao: "Joia em forma de fragrância com ingredientes nobres de alta fixação.", imagem: "femininos-o-boticário-elysée-tradicional-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Ilía Plena", descricao: "Um buquê floral vibrante com a potência da rosa upcycling e pataqueira.", imagem: "femininos-natura-ilía-plena-nacional.jpg", marca: "Nacional" },
+                { nome: "Al Wataniah Durrat", descricao: "Uma gema preciosa de beleza refinada repleta de notas florais e refrescantes.", imagem: "femininos-al-wataniah-durrat-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Olympéa Flora", descricao: "A deusa moderna. Uma fragrância oriental fresca baseada em baunilha salgada.", imagem: "femininos-paco-rabanne-olympéa-flora-importado.jpg", marca: "Importado" },
+                { nome: "Jean Paul Gaultier Scandal", descricao: "Uma overdose de prazer. Um mel cremoso e elegante misturado com gardênia.", imagem: "femininos-jean-paul-gaultier-scandal-importado.jpg", marca: "Importado" },
+                { nome: "Dolce & Gabbana Light Blue", descricao: "O frescor absoluto do verão mediterrâneo com notas de limão siciliano.", imagem: "femininos-dolce-gabbana-light-blue-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Floratta Red", descricao: "Inspirado na flor da maçã de Vermont, entregando romance e sensualidade.", imagem: "femininos-o-boticário-floratta-red-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Una Infinito", descricao: "A sofisticação da Natura refletida em uma composição amadeirada intensa.", imagem: "femininos-natura-una-infinito-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Floratta Gold", descricao: "A sofisticação da maquiagem agora em uma assinatura olfativa de luxo.", imagem: "femininos-o-boticário-floratta-gold-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Biografia Assinatura", descricao: "Uma história escrita com notas florais envolvendo e fundo ambarado.", imagem: "femininos-natura-biografia-assinatura-nacional.jpg", marca: "Nacional" },
+                { nome: "Givenchy L'Interdit", descricao: "Uma homenagem à feminilidade audaciosa. O encontro de flor branca e acorde negro.", imagem: "femininos-givenchy-l-interdit-importado.jpg", marca: "Importado" },
+                { nome: "Hinode For Her", descricao: "Um coração de almíscar misterioso refinado por um buquê floral.", imagem: "femininos-hinode-for-her-importado.jpg", marca: "Importado" },
+                { nome: "Prada Paradoxe", descricao: "A celebração da multidimensionalidade feminina em frasco triangular icônico.", imagem: "femininos-prada-paradoxe-importado.jpg", marca: "Importado" },
+                { nome: "Britney Spears Fantasy", descricao: "Uma poção luxuosa e escura com notas ricas de especiarias e orquídea negra.", imagem: "femininos-britney-spears-fantasy-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Coffee Woman Seduction", descricao: "Uma mistura equilibrada de grãos de café com notas doces e frutadas.", imagem: "femininos-o-boticário-coffee-woman-seduction-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Kriska Delírio", descricao: "A doçura inconfundível da linha com um toque inesperado de pipoca doce.", imagem: "femininos-natura-kriska-delírio-nacional.jpg", marca: "Nacional" },
+                { nome: "Alien Eau de Parfum", descricao: "Uma fragrância solar com notas intensas de jasmim da Índia e madeira de caxemira.", imagem: "femininos-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Elysée Nuit", descricao: "A ousadia da alta perfumaria com o toque adocicado do Macaron Francês.", imagem: "femininos-o-boticário-elysée-nuit-nacional.jpg", marca: "Nacional" }
             ],
             cremes: [
-                { nome: "Natura Chronos 60+", descricao: "Tratamento premium desenvolvido para restaurar o viço e hidratação.", imagem: "imagens/cremes-natura-chronos-60-nacional.jpg", marca: "Skincare" },
-                { nome: "Eudora Neo Hidratação", descricao: "Tratamento premium desenvolvido para restaurar a pele profundamente.", imagem: "imagens/cremes-eudora-neo-hidratação-nacional.jpg", marca: "Hidratação" },
-                { nome: "Natura Chronos Skincare", descricao: "Tratamento premium para restaurar o viço e hidratação da pele.", imagem: "imagens/cremes-natura-chronos-skincare-nacional.jpg", marca: "Skincare" },
-                { nome: "Natura Tododia Ameixa e Flor de Baunilha", descricao: "Hidratação profunda, toque macio e perfumação deixando a pele nutrida.", imagem: "imagens/cremes-natura-tododia-ameixa-e-flor-de-baunilha-nacional.jpg", marca: "Hidratação" },
-                { nome: "Natura Tododia Algodão", descricao: "Restaura a hidratação natural da pele, proporcionando maciez e conforto.", imagem: "imagens/cremes-natura-tododia-algodão-nacional.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Cuide-se Bem Pessegura", descricao: "Deixa a pele hidratada, macia e com fragrância envolvente.", imagem: "imagens/cremes-o-boticário-cuide-se-bem-pessegura-nacional.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Lily", descricao: "Tratamento com fragrância sofisticada e hidratação prolongada.", imagem: "imagens/cremes-o-boticário-lily-nacional.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Restaura a hidratação com textura leve e rápida absorção.", imagem: "imagens/cremes-o-boticário-cuide-se-bem-deleite-nacional.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Fórmula suave que proporciona sensação de conforto e cuidado diário.", imagem: "imagens/cremes-o-boticário-cuide-se-bem-nuvem-nacional.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Nativa SPA Ameixa", descricao: "Promove hidratação intensa, toque aveludado e perfumação prolongada.", imagem: "imagens/cremes-o-boticário-nativa-spa-ameixa-nacional.jpg", marca: "Hidratação" },
-                { nome: "Eudora Instance Morango", descricao: "Rápida absorção que promove hidratação prolongada e perfumação agradável.", imagem: "imagens/cremes-eudora-instance-morango-nacional.jpg", marca: "Hidratação" },
-                { nome: "Eudora Instance Karité", descricao: "Combate o ressecamento e proporciona hidratação intensa e duradoura.", imagem: "imagens/cremes-eudora-instance-karité-nacional.jpg", marca: "Nutrição" },
-                { nome: "Eudora Instance Baunilha", descricao: "Hidratação intensa, toque macio e fragrância envolvente de longa duração.", imagem: "imagens/cremes-eudora-instance-baunilha-nacional.jpg", marca: "Hidratação" },
-                { nome: "Avon Care Vitamina E", descricao: "Auxilia na manutenção da maciez e aparência saudável da pele.", imagem: "imagens/cremes-avon-care-vitamina-e-nacional.jpg", marca: "Hidratação" },
-                { nome: "Avon Care Aveia", descricao: "Ingredientes hidratantes que auxiliam na proteção e maciez da pele.", imagem: "imagens/cremes-avon-care-aveia-nacional.jpg", marca: "Nutrição" },
-                { nome: "Avon Care Manteiga de Cacau", descricao: "Combate o ressecamento, proporcionando hidratação intensa e toque aveludado.", imagem: "imagens/cremes-avon-care-manteiga-de-cacau-nacional.jpg", marca: "Nutrição" },
-                { nome: "Avon Care Erva Doce", descricao: "Fórmula leve e refrescante que ajuda a manter a pele hidratada e perfumada.", imagem: "imagens/cremes-avon-care-erva-doce-nacional.jpg", marca: "Hidratação" },
-                { nome: "Avon Care Óleo de Coco", descricao: "Auxilia na reposição da hidratação natural, promovendo maciez e suavidade.", imagem: "imagens/cremes-avon-care-óleo-de-coco-nacional.jpg", marca: "Hidratação" }
+                { nome: "Natura Chronos 60+", descricao: "Tratamento premium desenvolvido para restaurar o viço e hidratação.", imagem: "cremes-natura-chronos-60.jpg", marca: "Skincare" },
+                { nome: "Eudora Neo Hidratação", descricao: "Tratamento premium desenvolvido para restaurar a pele profundamente.", imagem: "cremes-eudora-neo-hidratação.jpg", marca: "Hidratação" },
+                { nome: "Natura Chronos Skincare", descricao: "Tratamento premium para restaurar o viço e hidratação da pele.", imagem: "cremes-natura-chronos-skincare.jpg", marca: "Skincare" },
+                { nome: "Natura Tododia Ameixa e Flor de Baunilha", descricao: "Hidratação profunda, toque macio e perfumação deixando a pele nutrida.", imagem: "cremes-natura-tododia-ameixa-e-flor-de-baunilha.jpg", marca: "Hidratação" },
+                { nome: "Natura Tododia Algodão", descricao: "Restaura a hidratação natural da pele, proporcionando maciez e conforto.", imagem: "cremes-natura-tododia-algodão.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Pessegura", descricao: "Deixa a pele hidratada, macia e com fragrância envolvente.", imagem: "cremes-o-boticário-cuide-se-bem-pessegura.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Lily", descricao: "Tratamento com fragrância sofisticada e hidratação prolongada.", imagem: "cremes-o-boticário-lily.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Restaura a hidratação com textura leve e rápida absorção.", imagem: "cremes-o-boticário-cuide-se-bem-deleite.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Fórmula suave que proporciona sensação de conforto e cuidado diário.", imagem: "cremes-o-boticário-cuide-se-bem-nuvem.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Nativa SPA Ameixa", descricao: "Promove hidratação intensa, toque aveludado e perfumação prolongada.", imagem: "cremes-o-boticário-nativa-spa-ameixa.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Morango", descricao: "Rápida absorção que promove hidratação prolongada e perfumação agradável.", imagem: "cremes-eudora-instance-morango.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Karité", descricao: "Combate o ressecamento e proporciona hidratação intensa e duradoura.", imagem: "cremes-eudora-instance-karité.jpg", marca: "Nutrição" },
+                { nome: "Eudora Instance Baunilha", descricao: "Hidratação intensa, toque macio e fragrância envolvente de longa duração.", imagem: "cremes-eudora-instance-baunilha.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Vitamina E", descricao: "Auxilia na manutenção da maciez e aparência saudável da pele.", imagem: "cremes-avon-care-vitamina-e.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Aveia", descricao: "Ingredientes hidratantes que auxiliam na proteção e maciez da pele.", imagem: "cremes-avon-care-aveia.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Manteiga de Cacau", descricao: "Combate o ressecamento, proporcionando hidratação intensa e toque aveludado.", imagem: "cremes-avon-care-manteiga-de-cacau.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Erva Doce", descricao: "Fórmula leve e refrescante que ajuda a manter a pele hidratada e perfumada.", imagem: "cremes-avon-care-erva-doce.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Óleo de Coco", descricao: "Auxilia na reposição da hidratação natural, promovendo maciez e suavidade.", imagem: "cremes-avon-care-óleo-de-coco.jpg", marca: "Hidratação" }
             ],
             sabonetes: [
-                { nome: "Natura Tododia Algodão Sabonete", descricao: "Limpeza suave desenvolvida para remover impurezas sem ressecar a pele.", imagem: "imagens/sabonetes-natura-tododia-algodão-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Chá de Camomila", descricao: "Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada.", imagem: "imagens/sabonetes-natura-tododia-chá-de-camomila-e-lavanda-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Mamãe e Bebê", descricao: "Fórmula suave desenvolvida para limpeza delicada e hidratação natural.", imagem: "imagens/sabonetes-natura-mamãe-e-bebê-n-60-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Lily Sabonete", descricao: "Fórmula sofisticada com fragrância floral marcante para limpeza diária.", imagem: "imagens/sabonetes-o-boticário-lily-n-57-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Fórmula suave que promove limpeza eficiente sem ressecar a pele.", imagem: "imagens/sabonetes-o-boticário-cuide-se-bem-deleite-n-55-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Limpeza delicada com fragrância leve e espuma cremosa.", imagem: "imagens/sabonetes-o-boticário-cuide-se-bem-nuvem-n-56-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Erva Doce Cremoso", descricao: "Limpeza suave com fragrância tradicional e espuma abundante.", imagem: "imagens/sabonetes-natura-erva-doce-cremoso-n-52-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Ekos Maracujá", descricao: "Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira.", imagem: "imagens/sabonetes-natura-ekos-maracujá-n-50-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Ameixa", descricao: "Fórmula exclusiva com fragrância marcante e espuma cremosa.", imagem: "imagens/sabonetes-natura-tododia-ameixa-n-49-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Cereja e Avelã", descricao: "Fórmula hidratante desenvolvida para promover limpeza suave e espuma cremosa.", imagem: "imagens/sabonetes-natura-tododia-cereja-e-avelã-n-47-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Macadâmia", descricao: "Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação.", imagem: "imagens/sabonetes-natura-tododia-macadâmia-n-48-nacional.jpg", marca: "Nacional" }
+                { nome: "Natura Tododia Algodão Sabonete", descricao: "Limpeza suave desenvolvida para remover impurezas sem ressecar a pele.", imagem: "sabonetes-natura-tododia-algodão.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Chá de Camomila", descricao: "Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada.", imagem: "sabonetes-natura-tododia-chá-de-camomila.jpg", marca: "Nacional" },
+                { nome: "Natura Mamãe e Bebê", descricao: "Fórmula suave desenvolvida para limpeza delicada e hidratação natural.", imagem: "sabonetes-natura-mamãe-e-bebê.jpg", marca: "Nacional" },
+                { nome: "O Boticário Lily Sabonete", descricao: "Fórmula sofisticada com fragrância floral marcante para limpeza diária.", imagem: "sabonetes-o-boticário-lily.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Fórmula suave que promove limpeza eficiente sem ressecar a pele.", imagem: "sabonetes-o-boticário-cuide-se-bem-deleite.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Limpeza delicada com fragrância leve e espuma cremosa.", imagem: "sabonetes-o-boticário-cuide-se-bem-nuvem.jpg", marca: "Nacional" },
+                { nome: "Natura Erva Doce Cremoso", descricao: "Limpeza suave com fragrância tradicional e espuma abundante.", imagem: "sabonetes-natura-erva-doce-cremoso.jpg", marca: "Nacional" },
+                { nome: "Natura Ekos Maracujá", descricao: "Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira.", imagem: "sabonetes-natura-ekos-maracujá.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Ameixa", descricao: "Fórmula exclusiva com fragrância marcante e espuma cremosa.", imagem: "sabonetes-natura-tododia-ameixa.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Cereja e Avelã", descricao: "Fórmula hidratante desenvolvida para promover limpeza suave e espuma cremosa.", imagem: "sabonetes-natura-tododia-cereja-e-avelã.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Macadâmia", descricao: "Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação.", imagem: "sabonetes-natura-tododia-macadâmia.jpg", marca: "Nacional" }
             ],
             desodorantes: [
-                { nome: "Natura Erva Doce Roll-On", descricao: "Desodorante antitranspirante desenvolvido para oferecer proteção prolongada.", imagem: "imagens/roll-on-natura-erva-doce-n-55-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Algodão Roll-On", descricao: "Fórmula exclusiva que auxilia na proteção diária contra a transpiração.", imagem: "imagens/roll-on-natura-tododia-algodão-n-56-nacional.jpg", marca: "Nacional" },
-                { nome: "Avon On Duty Fresh", descricao: "Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.", imagem: "imagens/roll-on-avon-on-duty-fresh-n-61-nacional.jpg", marca: "Nacional" },
-                { nome: "Avon On Duty Invisible", descricao: "Desodorante antitranspirante desenvolvido para proteger e prevenir manchas.", imagem: "imagens/roll-on-avon-on-duty-invisible-n-60-nacional.jpg", marca: "Nacional" }
+                { nome: "Natura Erva Doce Roll-On", descricao: "Desodorante antitranspirante desenvolvido para oferecer proteção prolongada.", imagem: "roll-on-natura-erva-doce.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Algodão Roll-On", descricao: "Fórmula exclusiva que auxilia na proteção diária contra a transpiração.", imagem: "roll-on-natura-tododia-algodão.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Fresh", descricao: "Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.", imagem: "roll-on-avon-on-duty-fresh.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Invisible", descricao: "Desodorante antitranspirante desenvolvido para proteger e prevenir manchas.", imagem: "roll-on-avon-on-duty-invisible.jpg", marca: "Nacional" }
             ],
             maquiagem: [
-                { nome: "O Boticário Intense Batom Cremoso", descricao: "Fórmula exclusiva com cores intensas e conforto prolongado.", imagem: "imagens/maquiagem-o-boticário-intense-batom-cremoso-n-30-nacional.jpg", marca: "Nacional" },
-                { nome: "Eudora Niina Secrets Base Hidra Glow", descricao: "Fórmula exclusiva com acabamento luminoso e alta performance.", imagem: "imagens/maquiagem-eudora-niina-secrets-base-hidra-glow-n-32-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Make B. Base Líquida", descricao: "Fórmula exclusiva com cobertura uniforme e acabamento natural.", imagem: "imagens/maquiagem-o-boticário-make-b-base-líquida-n-29-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Una Batom Matte", descricao: "Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.", imagem: "imagens/maquiagem-natura-una-batom-matte-n-27-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Batom Faces Cookie Nude", descricao: "Batom criado para agradar todos os gostos de cores com um espelho na tampa.", imagem: "imagens/maquiagem-natura-batom-faces-cookie-nude-nacional.jpg", marca: "Nacional" }
+                { nome: "O Boticário Intense Batom Cremoso", descricao: "Fórmula exclusiva com cores intensas e conforto prolongado.", imagem: "maquiagem-o-boticário-intense-batom-cremoso.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Secrets Base Hidra Glow", descricao: "Fórmula exclusiva com acabamento luminoso e alta performance.", imagem: "maquiagem-eudora-niina-secrets-base-hidra-glow.jpg", marca: "Nacional" },
+                { nome: "O Boticário Make B. Base Líquida", descricao: "Fórmula exclusiva com cobertura uniforme e acabamento natural.", imagem: "maquiagem-o-boticário-make-b-base-líquida.jpg", marca: "Nacional" },
+                { nome: "Natura Una Batom Matte", descricao: "Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.", imagem: "maquiagem-natura-una-batom-matte.jpg", marca: "Nacional" },
+                { nome: "Natura Batom Faces Cookie Nude", descricao: "Batom criado para agradar todos os gostos de cores com um espelho na tampa.", imagem: "maquiagem-natura-batom-faces-cookie-nude.jpg", marca: "Nacional" }
             ],
             protetores: [
-                { nome: "Natura Fotoequilíbrio Corpo e Rosto", descricao: "Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-corpo-e-rosto-fps-50-n-46-nacional.jpg", marca: "Nacional" },
-                { nome: "Eudora Niina Skin Facial", descricao: "Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado.", imagem: "imagens/protetor-solar-eudora-niina-skin-facial-fps-50-n-45-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Boti.Sun Facial", descricao: "Fórmula de alta proteção com toque seco e acabamento invisível.", imagem: "imagens/protetor-solar-o-boticário-boti-sun-facial-fps-70-n-44-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Fotoequilíbrio Facial", descricao: "Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-facial-fps-60-n-43-nacional.jpg", marca: "Nacional" },
-                { nome: "Eudora Glam FPS 50", descricao: "Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme.", imagem: "imagens/protetor-solar-eudora-glam-fps-50-n-42-nacional.jpg", marca: "Nacional" },
-                { nome: "Eudora Niina Skin FPS 60", descricao: "Proteção avançada com acabamento leve e confortável, desenvolvida para preservar a pele.", imagem: "imagens/protetor-solar-eudora-niina-skin-fps-60-n-41-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Boti.Sun FPS 50", descricao: "Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar.", imagem: "imagens/protetor-solar-o-boticário-boti-sun-fps-50-n-40-nacional.jpg", marca: "Nacional" },
-                { nome: "O Boticário Boti.Sun FPS 70", descricao: "Proteção de alta performance contra os raios solares com textura leve.", imagem: "imagens/protetor-solar-o-boticário-boti-sun-fps-70-n-39-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Fotoequilíbrio FPS 50", descricao: "Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-fps-50-n-38-nacional.jpg", marca: "Nacional" },
-                { nome: "Natura Fotoequilíbrio FPS 70", descricao: "Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-fps-70-n-37-nacional.jpg", marca: "Nacional" }
+                { nome: "Natura Fotoequilíbrio Corpo e Rosto", descricao: "Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção.", imagem: "protetor-solar-natura-fotoequilíbrio-corpo-e-rosto.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin Facial", descricao: "Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado.", imagem: "skin-facial.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun Facial", descricao: "Fórmula de alta proteção com toque seco e acabamento invisível.", imagem: "protetor-solar-o-boticário-boti-sun-facial-fps-70.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio Facial", descricao: "Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção.", imagem: "protetor-solar-natura-fotoequilíbrio-facial-fps-60.jpg", marca: "Nacional" },
+                { nome: "Eudora Glam FPS 50", descricao: "Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme.", imagem: "protetor-solar-eudora-glam-fps-50.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin FPS 60", descricao: "Proteção avançada com acabamento leve e confortável, desenvolvida para preservar a pele.", imagem: "protetor-solar-eudora-niina-skin-fps-60.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 50", descricao: "Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar.", imagem: "protetor-solar-o-boticário-boti-sun-fps-50.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 70", descricao: "Proteção de alta performance contra os raios solares com textura leve.", imagem: "protetor-solar-o-boticário-boti-sun-fps-70.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 50", descricao: "Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto.", imagem: "protetor-solar-natura-fotoequilíbrio-fps-50.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 70", descricao: "Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção.", imagem: "protetor-solar-natura-fotoequilíbrio-fps-70.jpg", marca: "Nacional" }
             ]
         };
 
@@ -681,7 +677,7 @@
             cart = []; updateCartBadge(); toggleCart();
         };
 
-        // --- STREAMING_CHUNK:Building dynamic product pages generation logic... ---
+        // --- STREAMING_CHUNK:Building dynamic product pages generation logic with bulletproof image pathing... ---
         // --- GERAÇÃO DE PÁGINAS ---
         const generatePages = () => {
             const container = document.getElementById('pages-container');
@@ -694,10 +690,10 @@
                     // BLINDAGEM MÁXIMA PARA O EXCEL:
                     // Se você colar o nome direto do Excel sem "imagens/" ou sem ".jpg", o script arruma sozinho!
                     let nomeArquivo = p.imagem.trim();
-                    if (!nomeArquivo.startsWith('imagens/')) {
+                    if (!nomeArquivo.startsWith('imagens/') && !nomeArquivo.startsWith('http')) {
                         nomeArquivo = 'imagens/' + nomeArquivo;
                     }
-                    if (!nomeArquivo.endsWith('.jpg') && !nomeArquivo.endsWith('.png')) {
+                    if (!nomeArquivo.toLowerCase().endsWith('.jpg') && !nomeArquivo.toLowerCase().endsWith('.png') && !nomeArquivo.toLowerCase().endsWith('.jpeg')) {
                         nomeArquivo = nomeArquivo + '.jpg';
                     }
                     
