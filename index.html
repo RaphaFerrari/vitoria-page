@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vitória Perfumaria e Cosméticos | Alta Perfumaria</title>
 
+    <!-- Favicon Oficial -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
     <!-- Fontes Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +17,6 @@
     <!-- Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -76,26 +79,6 @@
             opacity: 0;
             pointer-events: none;
             transform: translateY(-10%);
-        }
-
-        /* Cursor Customizado (Aura ao redor da seta nativa) */
-        .custom-cursor {
-            position: fixed;
-            top: 0; left: 0;
-            width: 40px; height: 40px;
-            border: 2px solid rgba(164, 141, 120, 0.8);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate3d(-50%, -50%, 0);
-            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
-        }
-
-        .custom-cursor.hovering {
-            width: 70px; height: 70px;
-            background-color: rgba(164, 141, 120, 0.15);
-            border-color: rgba(164, 141, 120, 0.5);
-            backdrop-filter: blur(2px);
         }
 
         /* Animações de Scroll */
@@ -186,9 +169,9 @@
 
     <!-- Loader Premium com Logo da Raiz -->
     <div id="preloader" class="fixed inset-0 z-[999999] bg-mist flex flex-col items-center justify-center">
-        <div class="overflow-hidden mb-6 flex justify-center items-center h-16 md:h-20">
+        <div class="overflow-hidden mb-6 flex justify-center items-center h-32 md:h-48">
             <!-- Puxando a logo.jpg direto da raiz. Se falhar, exibe texto -->
-            <img src="logo.jpg" alt="Vitória Alta Perfumaria" class="max-h-full object-contain mix-blend-multiply animate-reveal-up" onerror="this.onerror=null; this.outerHTML='<span class=\'block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up\'>Vitória.</span>';">
+            <img src="logo.jpg" alt="Vitória Alta Perfumaria" class="max-h-full object-contain mix-blend-multiply animate-reveal-up scale-125" onerror="this.onerror=null; this.outerHTML='<span class=\'block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up\'>Vitória.</span>';">
         </div>
         <div class="w-32 h-[1px] bg-dark/10 overflow-hidden relative">
             <div class="absolute top-0 left-0 h-full bg-desert w-full animate-[progress_1s_ease-in-out_forwards]" style="transform-origin: left; animation-name: load-progress;"></div>
@@ -201,16 +184,13 @@
         }
     </style>
 
-    <!-- Custom Cursor Aura (Sem o ponto central, mantendo a seta nativa) -->
-    <div class="custom-cursor hidden lg:block" id="custom-cursor"></div>
-
-    <!-- Header com Logo da Raiz -->
+    <!-- Header com Logo Ampliada -->
     <header class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 transition-all duration-500">
-        <div class="max-w-[1600px] mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-10 py-3 md:py-4 flex items-center justify-between">
             
-            <a href="#" onclick="navigateToHome(event)" class="magnetic group flex items-center hover-target p-2 -ml-2 h-10 md:h-12 max-w-[160px]">
-                <!-- Puxando a logo.jpg direto da raiz. Se falhar, exibe texto -->
-                <img src="logo.jpg" alt="Vitória" class="max-h-full max-w-full object-contain mix-blend-multiply group-hover:opacity-70 transition-opacity duration-500" onerror="this.onerror=null; this.outerHTML='<span class=\'font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500\'>Vitória.</span>';">
+            <a href="#" onclick="navigateToHome(event)" class="magnetic group flex items-center hover-target p-1 -ml-2 h-16 md:h-24 w-[120px] md:w-[180px]">
+                <!-- Puxando a logo.jpg direto da raiz com mix-blend para fundo transparente -->
+                <img src="logo.jpg" alt="Vitória" class="w-full h-full object-contain object-left mix-blend-multiply group-hover:opacity-70 transition-opacity duration-500 scale-125 origin-left" onerror="this.onerror=null; this.outerHTML='<span class=\'font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500\'>Vitória.</span>';">
             </a>
 
             <nav class="hidden lg:flex items-center gap-8">
@@ -304,7 +284,7 @@
                     </div>
 
                     <div class="relative h-[500px] lg:h-[800px] rounded-[2rem] overflow-hidden shadow-2xl reveal tilt-card group">
-                        <!-- Substituição da Imagem pelo Vídeo Premium da Raiz -->
+                        <!-- VÍDEO DO BANNER - Importado do print e configurado para Mobile -->
                         <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-[2s] group-hover:scale-105">
                             <source src="videos/banner.mp4" type="video/mp4">
                         </video>
@@ -343,6 +323,7 @@
 
                         <div onclick="showProductPage('cremes')" class="magnetic group cursor-pointer bg-mist rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 reveal tilt-card flex flex-col hover-target">
                             <div class="h-80 overflow-hidden relative">
+                                <!-- Nova Imagem de Skincare Limpa -->
                                 <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transform transition-transform duration-[1.5s] group-hover:scale-110" alt="Cremes">
                                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
                             </div>
@@ -383,7 +364,7 @@
         <div class="max-w-[1600px] mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
             <div class="md:col-span-5">
                 <div class="mb-6">
-                     <!-- Texto premium caso não existisse logo, mas mantendo a estética text-only no footer é excelente -->
+                     <!-- Mantém texto no rodapé por estética -->
                      <div class="font-serif text-4xl text-sand tracking-tight">Vitória.</div>
                 </div>
                 <p class="font-light text-white/60 max-w-sm leading-relaxed text-sm">
@@ -451,7 +432,7 @@
         }
         requestAnimationFrame(raf);
 
-        // --- DADOS DOS PRODUTOS (COM SLUGS PERFEITOS) ---
+        // --- DADOS DOS PRODUTOS ---
         const categoriesData = {
             masculinos: [
                 { nome: "Carolina Herrera 212 VIP Black", descricao: "Fragrância amadeirada aromática atemporal e intensamente cativante.", imagem: "masculinos-carolina-herrera-212-vip-black-importado.jpg", marca: "Importado" },
@@ -522,62 +503,62 @@
                 { nome: "O Boticário Elysée Nuit", descricao: "A ousadia da alta perfumaria com o toque adocicado do Macaron Francês.", imagem: "femininos-o-boticário-elysée-nuit-nacional.jpg", marca: "Nacional" }
             ],
             cremes: [
-                { nome: "Natura Chronos 60+", descricao: "Tratamento premium desenvolvido para restaurar o viço e hidratação.", imagem: "cremes-natura-chronos-60.jpg", marca: "Skincare" },
-                { nome: "Eudora Neo Hidratação", descricao: "Tratamento premium desenvolvido para restaurar a pele profundamente.", imagem: "cremes-eudora-neo-hidratação.jpg", marca: "Hidratação" },
-                { nome: "Natura Chronos Skincare", descricao: "Tratamento premium para restaurar o viço e hidratação da pele.", imagem: "cremes-natura-chronos-skincare.jpg", marca: "Skincare" },
-                { nome: "Natura Tododia Ameixa e Flor de Baunilha", descricao: "Hidratação profunda, toque macio e perfumação deixando a pele nutrida.", imagem: "cremes-natura-tododia-ameixa-e-flor-de-baunilha.jpg", marca: "Hidratação" },
-                { nome: "Natura Tododia Algodão", descricao: "Restaura a hidratação natural da pele, proporcionando maciez e conforto.", imagem: "cremes-natura-tododia-algodão.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Cuide-se Bem Pessegura", descricao: "Deixa a pele hidratada, macia e com fragrância envolvente.", imagem: "cremes-o-boticário-cuide-se-bem-pessegura.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Lily", descricao: "Tratamento com fragrância sofisticada e hidratação prolongada.", imagem: "cremes-o-boticário-lily.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Restaura a hidratação com textura leve e rápida absorção.", imagem: "cremes-o-boticário-cuide-se-bem-deleite.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Fórmula suave que proporciona sensação de conforto e cuidado diário.", imagem: "cremes-o-boticário-cuide-se-bem-nuvem.jpg", marca: "Hidratação" },
-                { nome: "O Boticário Nativa SPA Ameixa", descricao: "Promove hidratação intensa, toque aveludado e perfumação prolongada.", imagem: "cremes-o-boticário-nativa-spa-ameixa.jpg", marca: "Hidratação" },
-                { nome: "Eudora Instance Morango", descricao: "Rápida absorção que promove hidratação prolongada e perfumação agradável.", imagem: "cremes-eudora-instance-morango.jpg", marca: "Hidratação" },
-                { nome: "Eudora Instance Karité", descricao: "Combate o ressecamento e proporciona hidratação intensa e duradoura.", imagem: "cremes-eudora-instance-karité.jpg", marca: "Nutrição" },
-                { nome: "Eudora Instance Baunilha", descricao: "Hidratação intensa, toque macio e fragrância envolvente de longa duração.", imagem: "cremes-eudora-instance-baunilha.jpg", marca: "Hidratação" },
-                { nome: "Avon Care Vitamina E", descricao: "Auxilia na manutenção da maciez e aparência saudável da pele.", imagem: "cremes-avon-care-vitamina-e.jpg", marca: "Hidratação" },
-                { nome: "Avon Care Aveia", descricao: "Ingredientes hidratantes que auxiliam na proteção e maciez da pele.", imagem: "cremes-avon-care-aveia.jpg", marca: "Nutrição" },
-                { nome: "Avon Care Manteiga de Cacau", descricao: "Combate o ressecamento, proporcionando hidratação intensa e toque aveludado.", imagem: "cremes-avon-care-manteiga-de-cacau.jpg", marca: "Nutrição" },
-                { nome: "Avon Care Erva Doce", descricao: "Fórmula leve e refrescante que ajuda a manter a pele hidratada e perfumada.", imagem: "cremes-avon-care-erva-doce.jpg", marca: "Hidratação" },
-                { nome: "Avon Care Óleo de Coco", descricao: "Auxilia na reposição da hidratação natural, promovendo maciez e suavidade.", imagem: "cremes-avon-care-óleo-de-coco.jpg", marca: "Hidratação" }
+                { nome: "Natura Chronos 60+", descricao: "Tratamento premium desenvolvido para restaurar o viço e hidratação.", imagem: "cremes-natura-chronos-60-nacional.jpg", marca: "Skincare" },
+                { nome: "Eudora Neo Hidratação", descricao: "Tratamento premium desenvolvido para restaurar a pele profundamente.", imagem: "cremes-eudora-neo-hidratação-nacional.jpg", marca: "Hidratação" },
+                { nome: "Natura Chronos Skincare", descricao: "Tratamento premium para restaurar o viço e hidratação da pele.", imagem: "cremes-natura-chronos-skincare-nacional.jpg", marca: "Skincare" },
+                { nome: "Natura Tododia Ameixa e Flor de Baunilha", descricao: "Hidratação profunda, toque macio e perfumação deixando a pele nutrida.", imagem: "cremes-natura-tododia-ameixa-e-flor-de-baunilha-nacional.jpg", marca: "Hidratação" },
+                { nome: "Natura Tododia Algodão", descricao: "Restaura a hidratação natural da pele, proporcionando maciez e conforto.", imagem: "cremes-natura-tododia-algodão-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Pessegura", descricao: "Deixa a pele hidratada, macia e com fragrância envolvente.", imagem: "cremes-o-boticário-cuide-se-bem-pessegura-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Lily", descricao: "Tratamento com fragrância sofisticada e hidratação prolongada.", imagem: "cremes-o-boticário-lily-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Restaura a hidratação com textura leve e rápida absorção.", imagem: "cremes-o-boticário-cuide-se-bem-deleite-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Fórmula suave que proporciona sensação de conforto e cuidado diário.", imagem: "cremes-o-boticário-cuide-se-bem-nuvem-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Nativa SPA Ameixa", descricao: "Promove hidratação intensa, toque aveludado e perfumação prolongada.", imagem: "cremes-o-boticário-nativa-spa-ameixa-nacional.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Morango", descricao: "Rápida absorção que promove hidratação prolongada e perfumação agradável.", imagem: "cremes-eudora-instance-morango-nacional.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Karité", descricao: "Combate o ressecamento e proporciona hidratação intensa e duradoura.", imagem: "cremes-eudora-instance-karité-nacional.jpg", marca: "Nutrição" },
+                { nome: "Eudora Instance Baunilha", descricao: "Hidratação intensa, toque macio e fragrância envolvente de longa duração.", imagem: "cremes-eudora-instance-baunilha-nacional.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Vitamina E", descricao: "Auxilia na manutenção da maciez e aparência saudável da pele.", imagem: "cremes-avon-care-vitamina-e-nacional.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Aveia", descricao: "Ingredientes hidratantes que auxiliam na proteção e maciez da pele.", imagem: "cremes-avon-care-aveia-nacional.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Manteiga de Cacau", descricao: "Combate o ressecamento, proporcionando hidratação intensa e toque aveludado.", imagem: "cremes-avon-care-manteiga-de-cacau-nacional.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Erva Doce", descricao: "Fórmula leve e refrescante que ajuda a manter a pele hidratada e perfumada.", imagem: "cremes-avon-care-erva-doce-nacional.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Óleo de Coco", descricao: "Auxilia na reposição da hidratação natural, promovendo maciez e suavidade.", imagem: "cremes-avon-care-óleo-de-coco-nacional.jpg", marca: "Hidratação" }
             ],
             sabonetes: [
-                { nome: "Natura Tododia Algodão Sabonete", descricao: "Limpeza suave desenvolvida para remover impurezas sem ressecar a pele.", imagem: "sabonetes-natura-tododia-algodão.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Chá de Camomila", descricao: "Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada.", imagem: "sabonetes-natura-tododia-chá-de-camomila.jpg", marca: "Nacional" },
-                { nome: "Natura Mamãe e Bebê", descricao: "Fórmula suave desenvolvida para limpeza delicada e hidratação natural.", imagem: "sabonetes-natura-mamãe-e-bebê.jpg", marca: "Nacional" },
-                { nome: "O Boticário Lily Sabonete", descricao: "Fórmula sofisticada com fragrância floral marcante para limpeza diária.", imagem: "sabonetes-o-boticário-lily.jpg", marca: "Nacional" },
-                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Fórmula suave que promove limpeza eficiente sem ressecar a pele.", imagem: "sabonetes-o-boticário-cuide-se-bem-deleite.jpg", marca: "Nacional" },
-                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Limpeza delicada com fragrância leve e espuma cremosa.", imagem: "sabonetes-o-boticário-cuide-se-bem-nuvem.jpg", marca: "Nacional" },
-                { nome: "Natura Erva Doce Cremoso", descricao: "Limpeza suave com fragrância tradicional e espuma abundante.", imagem: "sabonetes-natura-erva-doce-cremoso.jpg", marca: "Nacional" },
-                { nome: "Natura Ekos Maracujá", descricao: "Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira.", imagem: "sabonetes-natura-ekos-maracujá.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Ameixa", descricao: "Fórmula exclusiva com fragrância marcante e espuma cremosa.", imagem: "sabonetes-natura-tododia-ameixa.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Cereja e Avelã", descricao: "Fórmula hidratante desenvolvida para promover limpeza suave e espuma cremosa.", imagem: "sabonetes-natura-tododia-cereja-e-avelã.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Macadâmia", descricao: "Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação.", imagem: "sabonetes-natura-tododia-macadâmia.jpg", marca: "Nacional" }
+                { nome: "Natura Tododia Algodão Sabonete", descricao: "Limpeza suave desenvolvida para remover impurezas sem ressecar a pele.", imagem: "sabonetes-natura-tododia-algodão-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Chá de Camomila", descricao: "Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada.", imagem: "sabonetes-natura-tododia-chá-de-camomila-e-lavanda-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Mamãe e Bebê", descricao: "Fórmula suave desenvolvida para limpeza delicada e hidratação natural.", imagem: "sabonetes-natura-mamãe-e-bebê-n-60-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Lily Sabonete", descricao: "Fórmula sofisticada com fragrância floral marcante para limpeza diária.", imagem: "sabonetes-o-boticário-lily-n-57-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Fórmula suave que promove limpeza eficiente sem ressecar a pele.", imagem: "sabonetes-o-boticário-cuide-se-bem-deleite-n-55-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Limpeza delicada com fragrância leve e espuma cremosa.", imagem: "sabonetes-o-boticário-cuide-se-bem-nuvem-n-56-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Erva Doce Cremoso", descricao: "Limpeza suave com fragrância tradicional e espuma abundante.", imagem: "sabonetes-natura-erva-doce-cremoso-n-52-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Ekos Maracujá", descricao: "Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira.", imagem: "sabonetes-natura-ekos-maracujá-n-50-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Ameixa", descricao: "Fórmula exclusiva com fragrância marcante e espuma cremosa.", imagem: "sabonetes-natura-tododia-ameixa-n-49-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Cereja e Avelã", descricao: "Fórmula hidratante desenvolvida para promover limpeza suave e espuma cremosa.", imagem: "sabonetes-natura-tododia-cereja-e-avelã-n-47-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Macadâmia", descricao: "Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação.", imagem: "sabonetes-natura-tododia-macadâmia-n-48-nacional.jpg", marca: "Nacional" }
             ],
             desodorantes: [
-                { nome: "Natura Erva Doce Roll-On", descricao: "Desodorante antitranspirante desenvolvido para oferecer proteção prolongada.", imagem: "roll-on-natura-erva-doce.jpg", marca: "Nacional" },
-                { nome: "Natura Tododia Algodão Roll-On", descricao: "Fórmula exclusiva que auxilia na proteção diária contra a transpiração.", imagem: "roll-on-natura-tododia-algodão.jpg", marca: "Nacional" },
-                { nome: "Avon On Duty Fresh", descricao: "Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.", imagem: "roll-on-avon-on-duty-fresh.jpg", marca: "Nacional" },
-                { nome: "Avon On Duty Invisible", descricao: "Desodorante antitranspirante desenvolvido para proteger e prevenir manchas.", imagem: "roll-on-avon-on-duty-invisible.jpg", marca: "Nacional" }
+                { nome: "Natura Erva Doce Roll-On", descricao: "Desodorante antitranspirante desenvolvido para oferecer proteção prolongada.", imagem: "roll-on-natura-erva-doce-n-55-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Algodão Roll-On", descricao: "Fórmula exclusiva que auxilia na proteção diária contra a transpiração.", imagem: "roll-on-natura-tododia-algodão-n-56-nacional.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Fresh", descricao: "Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.", imagem: "roll-on-avon-on-duty-fresh-n-61-nacional.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Invisible", descricao: "Desodorante antitranspirante desenvolvido para proteger e prevenir manchas.", imagem: "roll-on-avon-on-duty-invisible-n-60-nacional.jpg", marca: "Nacional" }
             ],
             maquiagem: [
-                { nome: "O Boticário Intense Batom Cremoso", descricao: "Fórmula exclusiva com cores intensas e conforto prolongado.", imagem: "maquiagem-o-boticário-intense-batom-cremoso.jpg", marca: "Nacional" },
-                { nome: "Eudora Niina Secrets Base Hidra Glow", descricao: "Fórmula exclusiva com acabamento luminoso e alta performance.", imagem: "maquiagem-eudora-niina-secrets-base-hidra-glow.jpg", marca: "Nacional" },
-                { nome: "O Boticário Make B. Base Líquida", descricao: "Fórmula exclusiva com cobertura uniforme e acabamento natural.", imagem: "maquiagem-o-boticário-make-b-base-líquida.jpg", marca: "Nacional" },
-                { nome: "Natura Una Batom Matte", descricao: "Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.", imagem: "maquiagem-natura-una-batom-matte.jpg", marca: "Nacional" },
-                { nome: "Natura Batom Faces Cookie Nude", descricao: "Batom criado para agradar todos os gostos de cores com um espelho na tampa.", imagem: "maquiagem-natura-batom-faces-cookie-nude.jpg", marca: "Nacional" }
+                { nome: "O Boticário Intense Batom Cremoso", descricao: "Fórmula exclusiva com cores intensas e conforto prolongado.", imagem: "maquiagem-o-boticário-intense-batom-cremoso-n-30-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Secrets Base Hidra Glow", descricao: "Fórmula exclusiva com acabamento luminoso e alta performance.", imagem: "maquiagem-eudora-niina-secrets-base-hidra-glow-n-32-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Make B. Base Líquida", descricao: "Fórmula exclusiva com cobertura uniforme e acabamento natural.", imagem: "maquiagem-o-boticário-make-b-base-líquida-n-29-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Una Batom Matte", descricao: "Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.", imagem: "maquiagem-natura-una-batom-matte-n-27-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Batom Faces Cookie Nude", descricao: "Batom criado para agradar todos os gostos de cores com um espelho na tampa.", imagem: "maquiagem-natura-batom-faces-cookie-nude-nacional.jpg", marca: "Nacional" }
             ],
             protetores: [
-                { nome: "Natura Fotoequilíbrio Corpo e Rosto", descricao: "Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção.", imagem: "protetor-solar-natura-fotoequilíbrio-corpo-e-rosto.jpg", marca: "Nacional" },
-                { nome: "Eudora Niina Skin Facial", descricao: "Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado.", imagem: "skin-facial.jpg", marca: "Nacional" },
-                { nome: "O Boticário Boti.Sun Facial", descricao: "Fórmula de alta proteção com toque seco e acabamento invisível.", imagem: "protetor-solar-o-boticário-boti-sun-facial-fps-70.jpg", marca: "Nacional" },
-                { nome: "Natura Fotoequilíbrio Facial", descricao: "Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção.", imagem: "protetor-solar-natura-fotoequilíbrio-facial-fps-60.jpg", marca: "Nacional" },
-                { nome: "Eudora Glam FPS 50", descricao: "Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme.", imagem: "protetor-solar-eudora-glam-fps-50.jpg", marca: "Nacional" },
-                { nome: "Eudora Niina Skin FPS 60", descricao: "Proteção avançada com acabamento leve e confortável, desenvolvida para preservar a pele.", imagem: "protetor-solar-eudora-niina-skin-fps-60.jpg", marca: "Nacional" },
-                { nome: "O Boticário Boti.Sun FPS 50", descricao: "Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar.", imagem: "protetor-solar-o-boticário-boti-sun-fps-50.jpg", marca: "Nacional" },
-                { nome: "O Boticário Boti.Sun FPS 70", descricao: "Proteção de alta performance contra os raios solares com textura leve.", imagem: "protetor-solar-o-boticário-boti-sun-fps-70.jpg", marca: "Nacional" },
-                { nome: "Natura Fotoequilíbrio FPS 50", descricao: "Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto.", imagem: "protetor-solar-natura-fotoequilíbrio-fps-50.jpg", marca: "Nacional" },
-                { nome: "Natura Fotoequilíbrio FPS 70", descricao: "Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção.", imagem: "protetor-solar-natura-fotoequilíbrio-fps-70.jpg", marca: "Nacional" }
+                { nome: "Natura Fotoequilíbrio Corpo e Rosto", descricao: "Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção.", imagem: "protetor-solar-natura-fotoequilíbrio-corpo-e-rosto-fps-50-n-46-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin Facial", descricao: "Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado.", imagem: "protetor-solar-eudora-niina-skin-facial-fps-50-n-45-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun Facial", descricao: "Fórmula de alta proteção com toque seco e acabamento invisível.", imagem: "protetor-solar-o-boticário-boti-sun-facial-fps-70-n-44-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio Facial", descricao: "Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção.", imagem: "protetor-solar-natura-fotoequilíbrio-facial-fps-60-n-43-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Glam FPS 50", descricao: "Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme.", imagem: "protetor-solar-eudora-glam-fps-50-n-42-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin FPS 60", descricao: "Proteção avançada com acabamento leve e confortável, desenvolvida para preservar a pele.", imagem: "protetor-solar-eudora-niina-skin-fps-60-n-41-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 50", descricao: "Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar.", imagem: "protetor-solar-o-boticário-boti-sun-fps-50-n-40-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 70", descricao: "Proteção de alta performance contra os raios solares com textura leve.", imagem: "protetor-solar-o-boticário-boti-sun-fps-70-n-39-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 50", descricao: "Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto.", imagem: "protetor-solar-natura-fotoequilíbrio-fps-50-n-38-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 70", descricao: "Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção.", imagem: "protetor-solar-natura-fotoequilíbrio-fps-70-n-37-nacional.jpg", marca: "Nacional" }
             ]
         };
 
@@ -667,21 +648,66 @@
             `).join('');
         };
 
-        window.enviarPedidoWhatsApp = () => {
+        // --- SISTEMA DE CHECKOUT VIP ---
+        window.abrirModalCheckout = () => {
             if (cart.length === 0) return;
-            let message = "Olá! Gostaria de finalizar o seguinte pedido feito pelo site:\n\n";
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.add('active');
+            // Dá o foco no input automaticamente após a animação
+            setTimeout(() => document.getElementById('client-name').focus(), 100);
+        };
+
+        window.fecharModalCheckout = () => {
+            document.getElementById('checkout-modal').classList.remove('active');
+        };
+
+        window.processarPedidoWhatsApp = () => {
+            const nomeInput = document.getElementById('client-name');
+            const nome = nomeInput.value.trim();
+
+            // Validação Premium (Feedback visual se deixar em branco)
+            if (!nome) {
+                nomeInput.classList.add('border-red-500', 'placeholder-red-400');
+                setTimeout(() => {
+                    nomeInput.classList.remove('border-red-500', 'placeholder-red-400');
+                }, 2000);
+                nomeInput.focus();
+                return;
+            }
+
+            // Constrói a mensagem com o Nome do Cliente
+            let message = `Olá! Meu nome é *${nome}* e gostaria de finalizar o seguinte pedido feito pelo site:\n\n`;
+            
             const itemCounts = {};
             cart.forEach(item => { itemCounts[item] = (itemCounts[item] || 0) + 1; });
             Object.entries(itemCounts).forEach(([item, qtd]) => { message += `▪ *${qtd}x* ${item}\n`; });
-            message += "\nAguardo o retorno. Obrigado!";
+            message += "\nAguardo o retorno para darmos sequência. Obrigado!";
+            
             const waLink = `https://wa.me/5531999487873?text=${encodeURIComponent(message)}`;
             window.open(waLink, '_blank');
-            cart = []; updateCartBadge(); toggleCart();
+            
+            // Limpeza final: esvazia o carrinho, reseta o input e fecha tudo
+            cart = []; 
+            updateCartBadge(); 
+            toggleCart();
+            fecharModalCheckout();
+            nomeInput.value = ''; 
         };
 
-        // --- GERAÇÃO DE PÁGINAS (Com Subcategorias Automáticas e Modo Detetive) ---
+        // --- GERAÇÃO DE PÁGINAS ---
         const generatePages = () => {
             const container = document.getElementById('pages-container');
+            
+            // Mapa para ligar a categoria à pasta exata do seu GitHub
+            const folderMap = {
+                masculinos: 'masculinos',
+                femininos: 'feminino', // Mapeado para o singular conforme o seu print!
+                cremes: 'cremes',
+                sabonetes: 'sabonetes',
+                desodorantes: 'desodorantes',
+                maquiagem: 'maquiagem',
+                protetores: 'protetores'
+            };
             
             Object.keys(categoriesData).forEach(catId => {
                 const title = titles[catId];
@@ -703,7 +729,7 @@
                 Object.keys(produtosAgrupados).sort().forEach(marca => {
                     const produtosDoGrupo = produtosAgrupados[marca];
                     
-                    // Cria o Título Divisor Premium para a subcategoria
+                    // Cria o Título Divisor Premium
                     produtosHtml += `
                         <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 mt-16 mb-4 reveal">
                             <div class="flex items-center gap-6">
@@ -713,15 +739,15 @@
                         </div>
                     `;
 
-                    // Renderiza os cards dos produtos daquela subcategoria
+                    // Renderiza os cards
                     produtosHtml += produtosDoGrupo.map(p => {
-                        const folderName = catId === 'femininos' ? 'feminino' : catId; 
-                        let nomeArquivo = p.imagem.trim();
-                        nomeArquivo = nomeArquivo.replace(/^imagens\//i, '').replace(/^images\//i, '');
-                        if (!nomeArquivo.toLowerCase().endsWith('.jpg') && !nomeArquivo.toLowerCase().endsWith('.png') && !nomeArquivo.toLowerCase().endsWith('.jpeg')) {
-                            nomeArquivo = nomeArquivo + '.jpg';
-                        }
+                        // Pega a pasta certa do dicionário acima
+                        const folderName = folderMap[catId];
                         
+                        // Extrai apenas o nome do arquivo final (caso venha sujo de alguma pasta velha do Excel)
+                        let nomeArquivo = p.imagem.split('/').pop();
+                        
+                        // Monta o caminho perfeito para a raiz do seu GitHub
                         let caminhoFinal = `${folderName}/${nomeArquivo}`;
                         let caminhoURL = encodeURI(caminhoFinal);
 
@@ -754,7 +780,7 @@
                     <div id="page-${catId}" class="page-transition bg-mist min-h-screen pt-10 pb-32" style="display: none;">
                         <div class="max-w-[1600px] mx-auto px-6 md:px-10">
                             
-                            <!-- Botão de Voltar -->
+                            <!-- Botão de Voltar Premium (Sticky para fácil acesso) -->
                             <div class="sticky top-[110px] z-40 mb-10 inline-block">
                                 <button onclick="navigateToHome(event)" class="magnetic group flex items-center gap-3 text-dark hover:text-desert font-bold text-[0.65rem] uppercase tracking-[2px] transition-colors hover-target px-5 py-3 border border-dark/10 rounded-full bg-white/80 backdrop-blur-md shadow-sm hover:shadow-md">
                                     <i class="fas fa-arrow-left transform transition-transform group-hover:-translate-x-1"></i>
@@ -824,35 +850,8 @@
         // --- INTERAÇÕES PREMIUM ---
         const initInteractions = () => {
             
-            const cursor = document.getElementById('custom-cursor');
-            
             if(window.innerWidth >= 1024) {
-                // A SETA NATIVA AGORA ESTÁ VISÍVEL! Removemos o document.body.classList.add('custom-cursor-on');
-
-                let mouseX = window.innerWidth / 2;
-                let mouseY = window.innerHeight / 2;
-                let cursorX = mouseX, cursorY = mouseY;
-                
-                document.removeEventListener('mousemove', onMouseMove);
-                document.addEventListener('mousemove', onMouseMove);
-                
-                function onMouseMove(e) {
-                    mouseX = e.clientX; mouseY = e.clientY;
-                }
-
-                const renderCursor = () => {
-                    cursorX += (mouseX - cursorX) * 0.15; 
-                    cursorY += (mouseY - cursorY) * 0.15;
-                    cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
-                    requestAnimationFrame(renderCursor);
-                };
-                requestAnimationFrame(renderCursor);
-
-                document.querySelectorAll('.hover-target, button, a').forEach(el => {
-                    el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-                    el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-                });
-                
+                // Efeito Magnético em Botões
                 document.querySelectorAll('.magnetic').forEach(elem => {
                     elem.addEventListener('mousemove', function(e) {
                         const pos = this.getBoundingClientRect();
@@ -865,6 +864,7 @@
                     });
                 });
 
+                // Efeito 3D Tilt
                 document.querySelectorAll('.tilt-card').forEach(card => {
                     card.addEventListener('mousemove', e => {
                         const rect = card.getBoundingClientRect();
