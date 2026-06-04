@@ -588,7 +588,6 @@
             protetores: "Proteção Solar"
         };
 
-        // --- STREAMING_CHUNK:Implementing cart functionality... ---
         // --- SISTEMA DE CARRINHO ---
         let cart = [];
 
@@ -677,7 +676,6 @@
             cart = []; updateCartBadge(); toggleCart();
         };
 
-        // --- STREAMING_CHUNK:Building dynamic product pages generation logic with bulletproof image pathing... ---
         // --- GERAÇÃO DE PÁGINAS ---
         const generatePages = () => {
             const container = document.getElementById('pages-container');
@@ -687,18 +685,24 @@
                 const products = categoriesData[catId];
                 
                 const productsHtml = products.map(p => {
-                    // BLINDAGEM MÁXIMA PARA O EXCEL:
-                    // Se você colar o nome direto do Excel sem "imagens/" ou sem ".jpg", o script arruma sozinho!
+                    // BLINDAGEM MÁXIMA PARA AS NOVAS PASTAS DIVIDIDAS:
+                    const folderName = catId; // Pega o nome da categoria exata ('masculinos', 'femininos', etc)
+                    
                     let nomeArquivo = p.imagem.trim();
-                    if (!nomeArquivo.startsWith('imagens/') && !nomeArquivo.startsWith('http')) {
-                        nomeArquivo = 'imagens/' + nomeArquivo;
-                    }
+                    
+                    // Se o usuário copiou com 'imagens/' ou 'images/' no nome, removemos para evitar duplicidade
+                    nomeArquivo = nomeArquivo.replace(/^imagens\//i, '').replace(/^images\//i, '');
+                    
+                    // Adiciona o .jpg automaticamente caso o usuário tenha esquecido na base de dados
                     if (!nomeArquivo.toLowerCase().endsWith('.jpg') && !nomeArquivo.toLowerCase().endsWith('.png') && !nomeArquivo.toLowerCase().endsWith('.jpeg')) {
                         nomeArquivo = nomeArquivo + '.jpg';
                     }
                     
+                    // Monta o caminho final: pasta/nome-do-arquivo.jpg
+                    let caminhoFinal = `${folderName}/${nomeArquivo}`;
+                    
                     // Prepara a URL codificando os acentos presentes nos slugs
-                    let caminhoURL = encodeURI(nomeArquivo);
+                    let caminhoURL = encodeURI(caminhoFinal);
 
                     return `
                     <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 reveal flex flex-col group tilt-card">
@@ -790,7 +794,6 @@
             }, 50);
         };
 
-        // --- STREAMING_CHUNK:Setting up premium mouse and scroll interactions... ---
         // --- INTERAÇÕES PREMIUM ---
         const initInteractions = () => {
             
