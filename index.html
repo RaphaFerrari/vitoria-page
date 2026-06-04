@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vitória Perfumaria e Cosméticos | Alta Perfumaria</title>
 
+    <!-- Favicon (Deve ficar na raiz do projeto) -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <!-- Fontes Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +68,6 @@
             background-color: #F4F1EA;
             color: #4A4238;
             overflow-x: hidden;
-            /* Evita a seleção de texto feia ao arrastar */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -79,7 +82,7 @@
             transform: translateY(-10%);
         }
 
-        /* Cursor Customizado (Lerp Aura) */
+        /* Cursor Customizado */
         @media (min-width: 1024px) and (pointer: fine) {
             body.custom-cursor-on, body.custom-cursor-on * { 
                 cursor: none !important; 
@@ -116,7 +119,7 @@
             backdrop-filter: blur(2px);
         }
 
-        /* Animações de Scroll (Intersection Observer) */
+        /* Animações de Scroll */
         .reveal {
             opacity: 0;
             transform: translateY(60px);
@@ -156,15 +159,13 @@
             transform: translateZ(40px);
         }
 
-        /* Scrollbar Invisível / Premium */
-        ::-webkit-scrollbar { width: 0px; } /* Usando Lenis, podemos esconder a barra feia */
+        ::-webkit-scrollbar { width: 0px; }
 
-        /* Magnetic Button Wrapper para transição suave */
         .magnetic {
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Sacola Lateral (Cart Sidebar) */
+        /* Sacola Lateral */
         .cart-sidebar {
             position: fixed;
             top: 0; right: -100%;
@@ -190,7 +191,6 @@
             opacity: 1; pointer-events: auto;
         }
 
-        /* Badge do Carrinho */
         .cart-badge {
             position: absolute; top: -6px; right: -6px;
             background: #A48D78; color: white;
@@ -205,10 +205,11 @@
 </head>
 <body class="font-sans pt-[90px]">
 
-    <!-- Loader Premium (1 Segundo) -->
+    <!-- Loader Premium com Logo JPG embutida e truque Mix-Blend -->
     <div id="preloader" class="fixed inset-0 z-[999999] bg-mist flex flex-col items-center justify-center">
-        <div class="overflow-hidden mb-2">
-            <span class="block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up">Vitória.</span>
+        <div class="overflow-hidden mb-6 flex justify-center items-center h-16 md:h-20">
+            <!-- Se a logo falhar, exibe o texto da marca como Fallback de segurança -->
+            <img src="imagens/logo.jpg" alt="Vitória Alta Perfumaria" class="max-h-full object-contain mix-blend-multiply animate-reveal-up" onerror="this.onerror=null; this.outerHTML='<span class=\'block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up\'>Vitória.</span>';">
         </div>
         <div class="w-32 h-[1px] bg-dark/10 overflow-hidden relative">
             <div class="absolute top-0 left-0 h-full bg-desert w-full animate-[progress_1s_ease-in-out_forwards]" style="transform-origin: left; animation-name: load-progress;"></div>
@@ -225,12 +226,13 @@
     <div class="custom-cursor hidden lg:block" id="custom-cursor"></div>
     <div class="cursor-dot hidden lg:block" id="cursor-dot"></div>
 
+    <!-- Header com Logo JPG embutida e truque Mix-Blend -->
     <header class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 transition-all duration-500">
         <div class="max-w-[1600px] mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
             
-            <!-- Logo reduzida sutilmente para text-2xl/3xl -->
-            <a href="#" onclick="navigateToHome(event)" class="magnetic group flex items-center gap-2 hover-target p-2 -ml-2">
-                <span class="font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500">Vitória.</span>
+            <a href="#" onclick="navigateToHome(event)" class="magnetic group flex items-center hover-target p-2 -ml-2 h-10 md:h-12 max-w-[160px]">
+                <!-- Se a logo falhar, exibe texto premium de segurança -->
+                <img src="imagens/logo.jpg" alt="Vitória" class="max-h-full max-w-full object-contain mix-blend-multiply group-hover:opacity-70 transition-opacity duration-500" onerror="this.onerror=null; this.outerHTML='<span class=\'font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500\'>Vitória.</span>';">
             </a>
 
             <nav class="hidden lg:flex items-center gap-8">
@@ -256,7 +258,6 @@
             </div>
         </div>
 
-        <!-- Menu Mobile Dropdown -->
         <div id="mobile-menu" class="hidden lg:hidden bg-white/95 backdrop-blur-xl border-t border-black/5 absolute w-full shadow-2xl">
             <div class="flex flex-col px-8 py-8 gap-6">
                 <button onclick="showProductPage('masculinos'); document.getElementById('mobile-menu').classList.add('hidden')" class="text-left text-xs font-bold uppercase tracking-widest text-dark hover:text-desert">Masculinos</button>
@@ -270,7 +271,7 @@
         </div>
     </header>
 
-    <!-- Cart Overlay & Sidebar -->
+    <!-- Sidebar do Carrinho -->
     <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="px-8 py-8 border-b border-black/5 flex justify-between items-start bg-transparent">
@@ -298,6 +299,7 @@
         </div>
     </div>
 
+    <!-- Conteúdo Principal -->
     <main class="w-full min-h-screen relative">
         <div id="home-section" class="page-transition active">
             
@@ -382,7 +384,7 @@
             </section>
         </div>
 
-        <!-- Containers Dinâmicos (Páginas) -->
+        <!-- Containers Dinâmicos (Páginas de Produtos) -->
         <div id="pages-container"></div>
     </main>
 
@@ -390,17 +392,19 @@
     <a href="https://wa.me/5531999487873" target="_blank" rel="noopener noreferrer"
        class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[90] bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:bg-[#22C15E] hover:scale-110 transition-all duration-500 magnetic hover-target group">
         <i class="fab fa-whatsapp text-3xl md:text-4xl"></i>
-        
-        <!-- Tooltip Premium (Visível no Desktop ao passar o mouse) -->
         <span class="absolute right-full mr-4 bg-white/90 backdrop-blur-sm text-dark text-[0.65rem] font-bold uppercase tracking-[2px] py-2 px-5 rounded-full shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0 whitespace-nowrap hidden md:block">
             Atendimento VIP
         </span>
     </a>
 
+    <!-- Footer -->
     <footer class="bg-dark text-white pt-24 pb-10 mt-auto">
         <div class="max-w-[1600px] mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
             <div class="md:col-span-5">
-                <div class="font-serif text-4xl text-sand mb-6 tracking-tight">Vitória.</div>
+                <div class="mb-6">
+                     <!-- Texto premium caso não existisse logo, mas mantendo a estética text-only no footer é excelente -->
+                     <div class="font-serif text-4xl text-sand tracking-tight">Vitória.</div>
+                </div>
                 <p class="font-light text-white/60 max-w-sm leading-relaxed text-sm">
                     Elevando sua autoestima através das mais prestigiadas fragrâncias e cosméticos do mundo. Design & Luxo.
                 </p>
@@ -438,15 +442,12 @@
 
     <!-- Scripts e Dados -->
     <script>
-        // --- PRELOADER (1 Segundo) ---
+        // --- PRELOADER ---
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
-            // Mantém a tela por 1s, depois esconde com animação
             setTimeout(() => {
                 preloader.classList.add('preloader-hidden');
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 800); // Tempo da transição CSS
+                setTimeout(() => { preloader.style.display = 'none'; }, 800); 
             }, 1000); 
         });
 
@@ -469,695 +470,135 @@
         }
         requestAnimationFrame(raf);
 
-        // --- DADOS DOS PRODUTOS (Todos 112 Itens Inseridos) ---
+        // --- DADOS DOS PRODUTOS (COM SLUGS PERFEITOS) ---
         const categoriesData = {
-    "masculinos": [
-        {
-            "nome": "212 VIP Black",
-            "descricao": "Fragrância amadeirada aromática atemporal e intensamente cativante.",
-            "imagem": "imagens/Carolina Herrera - 212 VIP Black.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Eau de Toilette",
-            "descricao": "Fresco, forte e nobre. Uma composição radicalmente autêntica.",
-            "imagem": "imagens/Hugo Boss - Eau de Toilette.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "1 Million EdT",
-            "descricao": "O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.",
-            "imagem": "imagens/Paco Rabanne - 1 Million EdT.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Invictus",
-            "descricao": "A combinação ideal de sofisticação moderna, mistério e sedução oriental.",
-            "imagem": "imagens/Paco Rabanne - Invictus.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Malbec Tradicional",
-            "descricao": "Feito com notas de vinhos macerados em barris de carvalho francês.",
-            "imagem": "imagens/O Boticário - Malbec Tradicional.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Essencial Único",
-            "descricao": "Presença marcante da copaíba combinado ao coração refinado do vetiver.",
-            "imagem": "imagens/Natura - Essencial Único.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Zaad",
-            "descricao": "A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.",
-            "imagem": "imagens/O Boticário - Zaad.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Homem Dom",
-            "descricao": "Fragrância amadeirada intensa com um sofisticado blend de ingredientes nobres.",
-            "imagem": "imagens/Natura - Homem Dom.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Phantom",
-            "descricao": "Fragrância lendária, frutada e rica. O ápice da exclusividade mundial.",
-            "imagem": "imagens/Paco Rabanne - Phantom.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "212 VIP Men",
-            "descricao": "Fragrância carismática inspirada na energia e estilo das festas de Nova York.",
-            "imagem": "imagens/Carolina Herrera - 212 VIP Men.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Asad",
-            "descricao": "Uma assinatura intensamente amadeirada com notas puras e densas.",
-            "imagem": "imagens/Lattafa - Asad.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Essencial Elixir",
-            "descricao": "Um elixir extraordinariamente concentrado impregnado pelo frescor icônico.",
-            "imagem": "imagens/Natura - Essencial Elixir.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Invictus Platinum",
-            "descricao": "Para aqueles que sempre enfrentam os desafios. Notas mentoladas e amadeiradas.",
-            "imagem": "imagens/Paco Rabanne - Invictus Platinum.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Infinit",
-            "descricao": "Notas marinhas profundas combinadas com o calor do incenso místico.",
-            "imagem": "imagens/Hugo Boss - Infinit.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Malbec Black",
-            "descricao": "Notas ultrassofisticadas inspiradas no mistério da cor preta e carvalho.",
-            "imagem": "imagens/O Boticário - Malbec Black.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Essencial Intenso",
-            "descricao": "Uma leitura ousada da linha Essencial, perfeita para noites frias.",
-            "imagem": "imagens/Natura - Essencial Intenso.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Zaad Expedition",
-            "descricao": "Notas cítricas e amadeiradas inspiradas em expedições pelo mundo.",
-            "imagem": "imagens/O Boticário - Zaad Expedition.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Homem Sagaz",
-            "descricao": "Combinação provocante de especiarias quentes com um fundo ambarado.",
-            "imagem": "imagens/Natura - Homem Sagaz.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Eros Eau de Parfum",
-            "descricao": "O frescor sublime da menta com o toque viciante da baunilha de Madagascar.",
-            "imagem": "imagens/Versace - Eros Eau de Parfum.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Boss Bottled",
-            "descricao": "O clássico perfume do homem moderno focado em alcançar objetivos.",
-            "imagem": "imagens/Hugo Boss - Boss Bottled.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Phantom",
-            "descricao": "Uma fragrância futurista nascida do encontro entre alta tecnologia e luxo.",
-            "imagem": "imagens/Paco Rabanne - Phantom.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Safeer",
-            "descricao": "Uma narrativa poética que explora a ligação intrínseca do homem com a terra.",
-            "imagem": "imagens/Lattafa - Safeer.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Malbec Gold",
-            "descricao": "Tecnologia inovadora que desperta e potencializa o poder de atração.",
-            "imagem": "imagens/O Boticário - Malbec Gold.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Essencial Oud",
-            "descricao": "A imponência da madeira oud com o calor inconfundível da copaíba.",
-            "imagem": "imagens/Natura - Essencial Oud.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Zaad Mondial",
-            "descricao": "Fragrância marcante e cosmopolita que reúne notas do mundo inteiro.",
-            "imagem": "imagens/O Boticário - Zaad Mondial.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Homem Essence",
-            "descricao": "O equilíbrio perfeito entre sofisticação e o frescor de notas amadeiradas.",
-            "imagem": "imagens/Natura - Homem Essence.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Le Male",
-            "descricao": "Uma homenagem icônica à figura clássica e magnética do marinheiro.",
-            "imagem": "imagens/Jean Paul Gaultier - Le Male.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Bad Boy",
-            "descricao": "Uma expressão olfativa ousada que reflete a natureza do homem contemporâneo.",
-            "imagem": "imagens/Carolina Herrera - Bad Boy.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Pour Homme",
-            "descricao": "Uma fragrância ambarada e rica para o homem que ousa ser extraordinário.",
-            "imagem": "imagens/Azzaro - Pour Homme.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Club de Nuit Intense",
-            "descricao": "Uma assinatura neo-oriental rica com acordes intensos limão",
-            "imagem": "imagens/Armaf - Club de Nuit Intense.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Wazeer",
-            "descricao": "Um rastro magnético que reinventa a família Fougère clássica com frescor cítrico.",
-            "imagem": "imagens/Lattafa - Wazeer.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Malbec Elegant",
-            "descricao": "A redefinição da elegância com notas florais amadeiradas de extrema distinção.",
-            "imagem": "imagens/O Boticário - Malbec Elegant.jpg",
-            "marca": "Nacional"
-        }
-    ],
-    "femininos": [
-        {
-            "nome": "La Vie Est Belle",
-            "descricao": "Um manifesto de felicidade universal com as mais nobres matérias-primas.",
-            "imagem": "imagens/Lancôme - La Vie Est Belle.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Good Girl",
-            "descricao": "Audacioso, ultra-feminino e sensual. O salto agulha mais desejado do planeta.",
-            "imagem": "imagens/Carolina Herrera - Good Girl.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Musamam",
-            "descricao": "O grande buquê floral feminino da Maison Dior. Luxo e elegância em frasco.",
-            "imagem": "imagens/Lattafa - Musamam.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Libre",
-            "descricao": "A tensão perfeita entre a lavanda francesa e a flor de laranjeira sensual.",
-            "imagem": "imagens/Yves Saint Laurent - Libre.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Lily Eau de Parfum",
-            "descricao": "Alta perfumaria produzida com o raro método artesanal de enfleurage.",
-            "imagem": "imagens/O Boticário - Lily Eau de Parfum.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Luna Absolute",
-            "descricao": "Um chipre denso que combina o autêntico patchouli com intensas frutas vermelhas.",
-            "imagem": "imagens/Natura - Luna Absolute.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Elysée Succès",
-            "descricao": "Traz a sofisticação da Rosa Negra associada a acordes profundos de Oud.",
-            "imagem": "imagens/O Boticário - Elysée Succès.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Ilía Secreto",
-            "descricao": "Fragrância intrigante repleta de mistério com notas cremosas de fava tonka.",
-            "imagem": "imagens/Natura - Ilía Secreto.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Coco Mademoiselle",
-            "descricao": "A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.",
-            "imagem": "imagens/Chanel - Coco Mademoiselle.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Chloé Eau de Parfum",
-            "descricao": "Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.",
-            "imagem": "imagens/Chloé - Chloé Eau de Parfum.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Idôle",
-            "descricao": "Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.",
-            "imagem": "imagens/Lancôme - Idôle.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Sì Eau de Parfum",
-            "descricao": "Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.",
-            "imagem": "imagens/Giorgio Armani - Sì Eau de Parfum.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Lily Lumière",
-            "descricao": "A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.",
-            "imagem": "imagens/O Boticário - Lily Lumière.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Luna Radiante",
-            "descricao": "Uma luminosidade chipre que combina notas cítricas com flor da dourada.",
-            "imagem": "imagens/Natura - Luna Radiante.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Elysée Tradicional",
-            "descricao": "Joia em forma de fragrância com ingredientes nobres de alta fixação.",
-            "imagem": "imagens/O Boticário - Elysée Tradicional.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Ilía Plena",
-            "descricao": "Um buquê floral vibrante com a potência da rosa upcycling e pataqueira.",
-            "imagem": "imagens/Natura - Ilía Plena.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Durrat",
-            "descricao": "Uma gema preciosa de beleza refinada repleta de notas florais e refrescantes.",
-            "imagem": "imagens/Al Wataniah - Durrat.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Olympéa Flora",
-            "descricao": "A deusa moderna. Uma fragrância oriental fresca baseada em baunilha salgada.",
-            "imagem": "imagens/Paco Rabanne - Olympéa Flora.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Scandal",
-            "descricao": "Uma overdose de prazer. Um mel cremoso e elegante misturado com gardênia.",
-            "imagem": "imagens/Jean Paul Gaultier - Scandal.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Light Blue",
-            "descricao": "O frescor absoluto do verão mediterrâneo com notas de limão siciliano.",
-            "imagem": "imagens/Dolce & Gabbana - Light Blue.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Floratta Red",
-            "descricao": "Inspirado na flor da maçã de Vermont, entregando romance e sensualidade.",
-            "imagem": "imagens/O Boticário - Floratta Red.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Una Infinito",
-            "descricao": "A sofisticação da Natura refletida em uma composição amadeirada intensa.",
-            "imagem": "imagens/Natura - Una Infinito.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Floratta Gold",
-            "descricao": "A sofisticação da maquiagem agora em uma assinatura olfativa de luxo.",
-            "imagem": "imagens/O Boticário - Floratta Gold.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Biografia Assinatura",
-            "descricao": "Uma história escrita com notas florais envolvendo e fundo ambarado.",
-            "imagem": "imagens/Natura - Biografia Assinatura.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "L'Interdit",
-            "descricao": "Uma homenagem à feminilidade audaciosa. O encontro de uma flor branca e um acorde negro.",
-            "imagem": "imagens/Givenchy - L'Interdit.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "For Her",
-            "descricao": "Um coração de almíscar misterioso refinado por um buquê floral.",
-            "imagem": "imagens/Hinode - For Her.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Paradoxe",
-            "descricao": "A celebração da multidimensionalidade feminina em um frasco triangular icônico.",
-            "imagem": "imagens/Prada - Paradoxe.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Fantasy",
-            "descricao": "Uma poção luxuosa e escura com notas ricas de especiarias e orquídea negra.",
-            "imagem": "imagens/Britney Spears - Fantasy.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Coffee Woman Seduction",
-            "descricao": "Uma mistura equilibrada de grãos de café com notas doces e frutadas.",
-            "imagem": "imagens/O Boticário - Coffee Woman Seduction.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Kriska Delírio",
-            "descricao": "A doçura inconfundível da linha com um toque inesperado de pipoca doce.",
-            "imagem": "imagens/Natura - Kriska Delírio.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Eau de Parfum",
-            "descricao": "Uma fragrância solar com notas intensas de jasmim da Índia e madeira de caxemira.",
-            "imagem": "imagens/Eau de Parfum.jpg",
-            "marca": "Importado"
-        },
-        {
-            "nome": "Elysée Nuit",
-            "descricao": "A ousadia da alta perfumaria com o toque adocicado do Macaron Francês.",
-            "imagem": "imagens/O Boticário - Elysée Nuit.jpg",
-            "marca": "Nacional"
-        }
-    ],
-    "cremes": [
-        {
-            "nome": "chronos 60+  Vol. 1",
-            "descricao": "Tratamento premium desenvolvido por laboratórios renomados da natura para restaurar o viço e hidratação.",
-            "imagem": "imagens/Natura - chronos 60+  Vol. 1.jpg",
-            "marca": "Skincare"
-        },
-        {
-            "nome": "neo",
-            "descricao": "Tratamento premium desenvolvido por laboratórios renomados da eudora para restaurar o viço e hidratação.",
-            "imagem": "imagens/Eudora - neo.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "chronos",
-            "descricao": "Tratamento premium desenvolvido por laboratórios renomados da natura para restaurar o viço e hidratação.",
-            "imagem": "imagens/Natura - chronos.jpg",
-            "marca": "Skincare"
-        },
-        {
-            "nome": "Tododia Ameixa e Flor de Baunilha Vol. 23",
-            "descricao": "desenvolvido pela Natura para hidratação profunda, toque macio e perfumação deixando a pele nutrida e suave ao longo do dia.",
-            "imagem": "imagens/Natura - Tododia Ameixa e Flor de Baunilha Vol. 23.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Tododia Algodão Vol. 24",
-            "descricao": "Tratamento desenvolvido pela Natura para restaurar a hidratação natural da pele, proporcionando maciez, conforto e sensação de cuidado diário.",
-            "imagem": "imagens/Natura - Tododia Algodão Vol. 24.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Cuide-se Bem Pessegura Vol. 33",
-            "descricao": "Tratamento desenvolvido para deixar a pele hidratada, macia e com fragrância envolvente.",
-            "imagem": "imagens/O Boticário - Cuide-se Bem Pessegura Vol. 33.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Lily Vol. 29",
-            "descricao": "Tratamento com fragrância sofisticada e hidratação prolongada para uma pele macia e perfumada.",
-            "imagem": "imagens/O Boticário - Lily Vol. 29.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Cuide-se Bem Deleite Vol. 27",
-            "descricao": "Tratamento desenvolvido para restaurar a hidratação natural da pele com textura leve e rápida absorção.",
-            "imagem": "imagens/O Boticário - Cuide-se Bem Deleite Vol. 27.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Cuide-se Bem Nuvem Vol. 28",
-            "descricao": "Fórmula suave que proporciona sensação de conforto, maciez e cuidado diário.",
-            "imagem": "imagens/O Boticário - Cuide-se Bem Nuvem Vol. 28.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Nativa SPA Ameixa Vol. 25",
-            "descricao": "Tratamento premium desenvolvido para promover hidratação intensa, toque aveludado e perfumação prolongada.",
-            "imagem": "imagens/O Boticário - Nativa SPA Ameixa Vol. 25.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Instance Morango Irresistível Vol. 43",
-            "descricao": "Tratamento com rápida absorção que promove hidratação prolongada e perfumação agradável.",
-            "imagem": "imagens/Eudora - Instance Morango Irresistível Vol. 43.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Instance Karité Vol. 39",
-            "descricao": "Tratamento desenvolvido para combater o ressecamento e proporcionar hidratação intensa e duradoura.",
-            "imagem": "imagens/Eudora - Instance Karité Vol. 39.jpg",
-            "marca": "Nutrição"
-        },
-        {
-            "nome": "Instance Baunilha Vol. 35",
-            "descricao": "Tratamento desenvolvido para promover hidratação intensa, toque macio e fragrância envolvente de longa duração.",
-            "imagem": "imagens/Eudora - Instance Baunilha Vol. 35.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Vitamina E Vol. 53",
-            "descricao": "Tratamento com ação hidratante que auxilia na manutenção da maciez e aparência saudável da pele.",
-            "imagem": "imagens/Avon - Vitamina E Vol. 53.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Aveia Vol. 49",
-            "descricao": "Tratamento enriquecido com ingredientes hidratantes que auxiliam na proteção e maciez da pele.",
-            "imagem": "imagens/Avon - Aveia Vol. 49.jpg",
-            "marca": "Nutrição"
-        },
-        {
-            "nome": "Manteiga de Cacau Vol. 47",
-            "descricao": "Tratamento desenvolvido para combater o ressecamento, proporcionando hidratação intensa e toque aveludado.",
-            "imagem": "imagens/Avon - Manteiga de Cacau Vol. 47.jpg",
-            "marca": "Nutrição"
-        },
-        {
-            "nome": "Erva Doce Vol. 48",
-            "descricao": "Fórmula leve e refrescante que ajuda a manter a pele hidratada e delicadamente perfumada",
-            "imagem": "imagens/Avon - Erva Doce Vol. 48.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Óleo de Coco Vol. 46",
-            "descricao": "Fórmula enriquecida que auxilia na reposição da hidratação natural da pele, promovendo maciez e suavidade.",
-            "imagem": "imagens/Avon - Óleo de Coco Vol. 46.jpg",
-            "marca": "Hidratação"
-        }
-    ],
-    "sabonetes": [
-        {
-            "nome": "Tododia Algodão Vol. 01",
-            "descricao": "Limpeza suave desenvolvida pela Natura para remover impurezas sem ressecar a pele, proporcionando maciez, conforto e fragrância delicada de algodão.",
-            "imagem": "imagens/Natura - Tododia Algodão Vol. 01.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Tododia cha de camomila e lavanda Vol. 02",
-            "descricao": "Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada, toque sedoso e hidratação natural da pele durante o banho.",
-            "imagem": "imagens/Natura - Tododia cha de camomila e lavanda Vol. 02.jpg",
-            "marca": "Hidratação"
-        },
-        {
-            "nome": "Mamãe e Bebê Nº 60",
-            "descricao": "Fórmula suave desenvolvida para limpeza delicada, ajudando a preservar a hidratação natural da pele.",
-            "imagem": "imagens/Natura - Mamãe e Bebê Nº 60.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Lily Nº 57",
-            "descricao": "Fórmula sofisticada com fragrância floral marcante, desenvolvida para proporcionar limpeza e perfumação prolongada.",
-            "imagem": "imagens/O Boticário - Lily Nº 57.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Cuide-se Bem Deleite Nº 55",
-            "descricao": "Fórmula suave que promove limpeza eficiente sem ressecar a pele, proporcionando toque aveludado.",
-            "imagem": "imagens/O Boticário - Cuide-se Bem Deleite Nº 55.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Cuide-se Bem Nuvem Nº 56",
-            "descricao": "Limpeza delicada com fragrância leve e espuma cremosa para uma experiência agradável durante o banho.",
-            "imagem": "imagens/O Boticário - Cuide-se Bem Nuvem Nº 56.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Erva Doce Cremoso Nº 52",
-            "descricao": "Limpeza suave com fragrância tradicional e espuma abundante, ideal para o cuidado diário da pele.",
-            "imagem": "imagens/Natura - Erva Doce Cremoso Nº 52.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Ekos Maracujá Nº 50",
-            "descricao": "Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira para promover conforto e bem-estar.",
-            "imagem": "imagens/Natura - Ekos Maracujá Nº 50.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Tododia Ameixa Nº 49",
-            "descricao": "Fórmula exclusiva com fragrância marcante e espuma cremosa, deixando a pele limpa, perfumada e suave.",
-            "imagem": "imagens/Natura - Tododia Ameixa Nº 49.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Tododia Cereja e Avelã Nº 47",
-            "descricao": "Fórmula hidratante desenvolvida para promover limpeza suave, espuma cremosa e perfumação envolvente durante o banho",
-            "imagem": "imagens/Natura - Tododia Cereja e Avelã Nº 47.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Tododia Macadâmia Nº 48",
-            "descricao": "Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação natural da pele, proporcionando maciez prolongada.",
-            "imagem": "imagens/Natura - Tododia Macadâmia Nº 48.jpg",
-            "marca": "Nacional"
-        }
-    ],
-    "desodorantes": [
-        {
-            "nome": "Erva Doce Nº 55",
-            "descricao": "Desodorante antitranspirante desenvolvido para oferecer proteção prolongada contra odores, com fragrância suave e secagem rápida.",
-            "imagem": "imagens/Natura - Erva Doce Nº 55.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Tododia Algodão Nº 56",
-            "descricao": "Fórmula exclusiva que auxilia na proteção diária contra a transpiração, proporcionando conforto e sensação de frescor.",
-            "imagem": "imagens/Natura - Tododia Algodão Nº 56.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "On Duty Fresh Nº 61",
-            "descricao": "Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.",
-            "imagem": "imagens/Avon - On Duty Fresh Nº 61.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "On Duty Invisible Nº 60",
-            "descricao": "Desodorante antitranspirante desenvolvido para proteger contra odores e auxiliar na prevenção de manchas em roupas.",
-            "imagem": "imagens/Avon - On Duty Invisible Nº 60.jpg",
-            "marca": "Nacional"
-        }
-    ],
-    "maquiagem": [
-        {
-            "nome": "Intense Batom Cremoso Nº 30",
-            "descricao": "Fórmula exclusiva com cores intensas e conforto prolongado.",
-            "imagem": "imagens/O Boticário - Intense Batom Cremoso Nº 30.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Niina Secrets Base Hidra Glow Nº 32",
-            "descricao": "Fórmula exclusiva com acabamento luminoso e alta performance.",
-            "imagem": "imagens/Eudora - Niina Secrets Base Hidra Glow Nº 32.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Make B. Base Líquida Nº 29",
-            "descricao": "Fórmula exclusiva com cobertura uniforme e acabamento natural.",
-            "imagem": "imagens/O Boticário - Make B. Base Líquida Nº 29.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Una Batom Matte Nº 27",
-            "descricao": "Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.",
-            "imagem": "imagens/Natura - Una Batom Matte Nº 27.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Batom Faces Cookie Nude",
-            "descricao": "batom criado para agradar todos os gostos de cores com um espelho na tampa para facilitar aplicação.",
-            "imagem": "imagens/Natura - Batom Faces Cookie Nude.jpg",
-            "marca": "Nacional"
-        }
-    ],
-    "protetor_solar": [
-        {
-            "nome": "Fotoequilíbrio Corpo e Rosto FPS 50 Nº 46",
-            "descricao": "Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção dos efeitos nocivos da exposição ao sol",
-            "imagem": "imagens/Natura - Fotoequilíbrio Corpo e Rosto FPS 50 Nº 46.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Niina Skin Facial FPS 50 Nº 45",
-            "descricao": "Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado, contribuindo para o cuidado diário da pele.",
-            "imagem": "imagens/Eudora - Niina Skin Facial FPS 50 Nº 45.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Boti.Sun Facial FPS 70 Nº 44",
-            "descricao": "Fórmula de alta proteção com toque seco e acabamento invisível, auxiliando na proteção contra os danos solares.",
-            "imagem": "imagens/O Boticário - Boti.Sun Facial FPS 70 Nº 44.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Fotoequilíbrio Facial FPS 60 Nº 43",
-            "descricao": "Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção, ideal para a rotina de cuidados com a pele.",
-            "imagem": "imagens/Natura - Fotoequilíbrio Facial FPS 60 Nº 43.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Glam FPS 50 Nº 42",
-            "descricao": "Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme e sensação agradável durante o uso.",
-            "imagem": "imagens/Eudora - Glam FPS 50 Nº 42.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Niina Skin FPS 60 Nº 41",
-            "descricao": "Proteção avançada com acabamento leve e confortável, desenvolvida para ajudar a preservar a saúde e a beleza da pele.",
-            "imagem": "imagens/Eudora - Niina Skin FPS 60 Nº 41.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Boti.Sun FPS 50 Nº 40",
-            "descricao": "Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar, auxiliando na manutenção da hidratação natural.",
-            "imagem": "imagens/O Boticário - Boti.Sun FPS 50 Nº 40.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Boti.Sun FPS 70 Nº 39",
-            "descricao": "Proteção de alta performance contra os raios solares com textura leve e acabamento confortável para uso diário.",
-            "imagem": "imagens/O Boticário - Boti.Sun FPS 70 Nº 39.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Fotoequilíbrio FPS 50 Nº 38",
-            "descricao": "Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto e cuidado diário para a pele.",
-            "imagem": "imagens/Natura - Fotoequilíbrio FPS 50 Nº 38.jpg",
-            "marca": "Nacional"
-        },
-        {
-            "nome": "Fotoequilíbrio FPS 70 Nº 37",
-            "descricao": "Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção, desenvolvida para auxiliar na prevenção dos danos causados pela exposição solar.",
-            "imagem": "imagens/Natura - Fotoequilíbrio FPS 70 Nº 37.jpg",
-            "marca": "Nacional"
-        }
-    ]
-};
+            masculinos: [
+                { nome: "Carolina Herrera 212 VIP Black", descricao: "Fragrância amadeirada aromática atemporal e intensamente cativante.", imagem: "imagens/masculinos-carolina-herrera-212-vip-black-importado.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Eau de Toilette", descricao: "Fresco, forte e nobre. Uma composição radicalmente autêntica.", imagem: "imagens/masculinos-hugo-boss-eau-de-toilette-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne 1 Million EdT", descricao: "O perfume do sucesso. Notas intensas de couro e tangerina sanguínea.", imagem: "imagens/masculinos-paco-rabanne-1-million-edt-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Invictus", descricao: "A combinação ideal de sofisticação moderna, mistério e sedução oriental.", imagem: "imagens/masculinos-paco-rabanne-invictus-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Tradicional", descricao: "Feito com notas de vinhos macerados em barris de carvalho francês.", imagem: "imagens/masculinos-o-boticário-malbec-tradicional-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Único", descricao: "Presença marcante da copaíba combinado ao coração refinado do vetiver.", imagem: "imagens/masculinos-natura-essencial-único-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad", descricao: "A riqueza e o calor do sândalo para enriquecer a rotina do homem de negócios.", imagem: "imagens/masculinos-o-boticário-zaad-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Dom", descricao: "Fragrância amadeirada intensa com um sofisticado blend de ingredientes nobres.", imagem: "imagens/masculinos-natura-homem-dom-nacional.jpg", marca: "Nacional" },
+                { nome: "Paco Rabanne Phantom", descricao: "Fragrância lendária, frutada e rica. O ápice da exclusividade mundial.", imagem: "imagens/masculinos-paco-rabanne-phantom-importado.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera 212 VIP Men", descricao: "Fragrância carismática inspirada na energia e estilo das festas de Nova York.", imagem: "imagens/masculinos-carolina-herrera-212-vip-men-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Asad", descricao: "Uma assinatura intensamente amadeirada com notas puras e densas.", imagem: "imagens/masculinos-lattafa-asad-importado.jpg", marca: "Importado" },
+                { nome: "Natura Essencial Elixir", descricao: "Um elixir extraordinariamente concentrado impregnado pelo frescor icônico.", imagem: "imagens/masculinos-natura-essencial-elixir-nacional.jpg", marca: "Nacional" },
+                { nome: "Paco Rabanne Invictus Platinum", descricao: "Para aqueles que sempre enfrentam os desafios. Notas mentoladas e amadeiradas.", imagem: "imagens/masculinos-paco-rabanne-invictus-platinum-importado.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Infinite", descricao: "Notas marinhas profundas combinadas com o calor do incenso místico.", imagem: "imagens/masculinos-hugo-boss-infinite-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Black", descricao: "Notas ultrassofisticadas inspiradas no mistério da cor preta e carvalho.", imagem: "imagens/masculinos-o-boticário-malbec-black-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Intenso", descricao: "Uma leitura ousada da linha Essencial, perfeita para noites frias.", imagem: "imagens/masculinos-natura-essencial-intenso-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad Expedition", descricao: "Notas cítricas e amadeiradas inspiradas em expedições pelo mundo.", imagem: "imagens/masculinos-o-boticário-zaad-expedition-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Sagaz", descricao: "Combinação provocante de especiarias quentes com um fundo ambarado.", imagem: "imagens/masculinos-natura-homem-sagaz-nacional.jpg", marca: "Nacional" },
+                { nome: "Versace Eros Eau de Parfum", descricao: "O frescor sublime da menta com o toque viciante da baunilha de Madagascar.", imagem: "imagens/masculinos-versace-eros-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "Hugo Boss Boss Bottled", descricao: "O clássico perfume do homem moderno focado em alcançar objetivos.", imagem: "imagens/masculinos-hugo-boss-boss-bottled-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Phantom Futurista", descricao: "Uma fragrância futurista nascida do encontro entre alta tecnologia e luxo.", imagem: "imagens/masculinos-paco-rabanne-phantom-futurista-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Safeer", descricao: "Uma narrativa poética que explora a ligação intrínseca do homem com a terra.", imagem: "imagens/masculinos-lattafa-safeer-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Gold", descricao: "Tecnologia inovadora que desperta e potencializa o poder de atração.", imagem: "imagens/masculinos-o-boticário-malbec-gold-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Essencial Oud", descricao: "A imponência da madeira oud com o calor inconfundível da copaíba.", imagem: "imagens/masculinos-natura-essencial-oud-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Zaad Mondial", descricao: "Fragrância marcante e cosmopolita que reúne notas do mundo inteiro.", imagem: "imagens/masculinos-o-boticário-zaad-mondial-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Homem Essence", descricao: "O equilíbrio perfeito entre sofisticação e o frescor de notas amadeiradas.", imagem: "imagens/masculinos-natura-homem-essence-nacional.jpg", marca: "Nacional" },
+                { nome: "Jean Paul Gaultier Le Male", descricao: "Uma homenagem icônica à figura clássica e magnética do marinheiro.", imagem: "imagens/masculinos-jean-paul-gaultier-le-male-importado.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera Bad Boy", descricao: "Uma expressão olfativa ousada que reflete a natureza do homem contemporâneo.", imagem: "imagens/masculinos-carolina-herrera-bad-boy-importado.jpg", marca: "Importado" },
+                { nome: "Azzaro Pour Homme", descricao: "Uma fragrância ambarada e rica para o homem que ousa ser extraordinário.", imagem: "imagens/masculinos-azzaro-pour-homme-importado.jpg", marca: "Importado" },
+                { nome: "Armaf Club de Nuit Intense", descricao: "Uma assinatura neo-oriental rica com acordes intensos limão.", imagem: "imagens/masculinos-armaf-club-de-nuit-intense-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Wazeer", descricao: "Um rastro magnético que reinventa a família Fougère clássica com frescor cítrico.", imagem: "imagens/masculinos-lattafa-wazeer-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Malbec Elegant", descricao: "A redefinição da elegância com notas florais amadeiradas de extrema distinção.", imagem: "imagens/masculinos-o-boticário-malbec-elegant-nacional.jpg", marca: "Nacional" }
+            ],
+            femininos: [
+                { nome: "Lancôme La Vie Est Belle", descricao: "Um manifesto de felicidade universal com as mais nobres matérias-primas.", imagem: "imagens/femininos-lancôme-la-vie-est-belle-importado.jpg", marca: "Importado" },
+                { nome: "Carolina Herrera Good Girl", descricao: "Audacioso, ultra-feminino e sensual. O salto agulha mais desejado do planeta.", imagem: "imagens/femininos-carolina-herrera-good-girl-importado.jpg", marca: "Importado" },
+                { nome: "Lattafa Musamam", descricao: "O grande buquê floral feminino da Maison Dior. Luxo e elegância em frasco.", imagem: "imagens/femininos-lattafa-musamam-importado.jpg", marca: "Importado" },
+                { nome: "Yves Saint Laurent Libre", descricao: "A tensão perfeita entre a lavanda francesa e a flor de laranjeira sensual.", imagem: "imagens/femininos-yves-saint-laurent-libre-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Lily Eau de Parfum", descricao: "Alta perfumaria produzida com o raro método artesanal de enfleurage.", imagem: "imagens/femininos-o-boticário-lily-eau-de-parfum-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Luna Absolute", descricao: "Um chipre denso que combina o autêntico patchouli com intensas frutas vermelhas.", imagem: "imagens/femininos-natura-luna-absolute-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Elysée Succès", descricao: "Traz a sofisticação da Rosa Negra associada a acordes profundos de Oud.", imagem: "imagens/femininos-o-boticário-elysée-succès-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Ilía Secreto", descricao: "Fragrância intrigante repleta de mistério com notas cremosas de fava tonka.", imagem: "imagens/femininos-natura-ilía-secreto-nacional.jpg", marca: "Nacional" },
+                { nome: "Chanel Coco Mademoiselle", descricao: "A essência de uma mulher livre e audaciosa. Um oriental de caráter forte.", imagem: "imagens/femininos-chanel-coco-mademoiselle-importado.jpg", marca: "Importado" },
+                { nome: "Chloé Eau de Parfum", descricao: "Uma rosa leve, luminosa e intensamente elegante. Captura o espírito criativo.", imagem: "imagens/femininos-chloé-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "Lancôme Idôle", descricao: "Para as mulheres que sonham alto. Uma fragrância limpa, fresca e futurista.", imagem: "imagens/femininos-lancôme-idôle-importado.jpg", marca: "Importado" },
+                { nome: "Giorgio Armani Sì Eau de Parfum", descricao: "Um tributo à feminilidade moderna: uma combinação irresistível de graça e força.", imagem: "imagens/femininos-giorgio-armani-sì-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Lily Lumière", descricao: "A intensidade luminosa da flor de laranjeira com o refinamento clássico de Lily.", imagem: "imagens/femininos-o-boticário-lily-lumière-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Luna Radiante", descricao: "Uma luminosidade chipre que combina notas cítricas com flor da dourada.", imagem: "imagens/femininos-natura-luna-radiante-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Elysée Tradicional", descricao: "Joia em forma de fragrância com ingredientes nobres de alta fixação.", imagem: "imagens/femininos-o-boticário-elysée-tradicional-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Ilía Plena", descricao: "Um buquê floral vibrante com a potência da rosa upcycling e pataqueira.", imagem: "imagens/femininos-natura-ilía-plena-nacional.jpg", marca: "Nacional" },
+                { nome: "Al Wataniah Durrat", descricao: "Uma gema preciosa de beleza refinada repleta de notas florais e refrescantes.", imagem: "imagens/femininos-al-wataniah-durrat-importado.jpg", marca: "Importado" },
+                { nome: "Paco Rabanne Olympéa Flora", descricao: "A deusa moderna. Uma fragrância oriental fresca baseada em baunilha salgada.", imagem: "imagens/femininos-paco-rabanne-olympéa-flora-importado.jpg", marca: "Importado" },
+                { nome: "Jean Paul Gaultier Scandal", descricao: "Uma overdose de prazer. Um mel cremoso e elegante misturado com gardênia.", imagem: "imagens/femininos-jean-paul-gaultier-scandal-importado.jpg", marca: "Importado" },
+                { nome: "Dolce & Gabbana Light Blue", descricao: "O frescor absoluto do verão mediterrâneo com notas de limão siciliano.", imagem: "imagens/femininos-dolce-gabbana-light-blue-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Floratta Red", descricao: "Inspirado na flor da maçã de Vermont, entregando romance e sensualidade.", imagem: "imagens/femininos-o-boticário-floratta-red-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Una Infinito", descricao: "A sofisticação da Natura refletida em uma composição amadeirada intensa.", imagem: "imagens/femininos-natura-una-infinito-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Floratta Gold", descricao: "A sofisticação da maquiagem agora em uma assinatura olfativa de luxo.", imagem: "imagens/femininos-o-boticário-floratta-gold-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Biografia Assinatura", descricao: "Uma história escrita com notas florais envolvendo e fundo ambarado.", imagem: "imagens/femininos-natura-biografia-assinatura-nacional.jpg", marca: "Nacional" },
+                { nome: "Givenchy L'Interdit", descricao: "Uma homenagem à feminilidade audaciosa. O encontro de flor branca e acorde negro.", imagem: "imagens/femininos-givenchy-l-interdit-importado.jpg", marca: "Importado" },
+                { nome: "Hinode For Her", descricao: "Um coração de almíscar misterioso refinado por um buquê floral.", imagem: "imagens/femininos-hinode-for-her-importado.jpg", marca: "Importado" },
+                { nome: "Prada Paradoxe", descricao: "A celebração da multidimensionalidade feminina em frasco triangular icônico.", imagem: "imagens/femininos-prada-paradoxe-importado.jpg", marca: "Importado" },
+                { nome: "Britney Spears Fantasy", descricao: "Uma poção luxuosa e escura com notas ricas de especiarias e orquídea negra.", imagem: "imagens/femininos-britney-spears-fantasy-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Coffee Woman Seduction", descricao: "Uma mistura equilibrada de grãos de café com notas doces e frutadas.", imagem: "imagens/femininos-o-boticário-coffee-woman-seduction-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Kriska Delírio", descricao: "A doçura inconfundível da linha com um toque inesperado de pipoca doce.", imagem: "imagens/femininos-natura-kriska-delírio-nacional.jpg", marca: "Nacional" },
+                { nome: "Alien Eau de Parfum", descricao: "Uma fragrância solar com notas intensas de jasmim da Índia e madeira de caxemira.", imagem: "imagens/femininos-alien-eau-de-parfum-importado.jpg", marca: "Importado" },
+                { nome: "O Boticário Elysée Nuit", descricao: "A ousadia da alta perfumaria com o toque adocicado do Macaron Francês.", imagem: "imagens/femininos-o-boticário-elysée-nuit-nacional.jpg", marca: "Nacional" }
+            ],
+            cremes: [
+                { nome: "Natura Chronos 60+", descricao: "Tratamento premium desenvolvido para restaurar o viço e hidratação.", imagem: "imagens/cremes-natura-chronos-60-nacional.jpg", marca: "Skincare" },
+                { nome: "Eudora Neo Hidratação", descricao: "Tratamento premium desenvolvido para restaurar a pele profundamente.", imagem: "imagens/cremes-eudora-neo-hidratação-nacional.jpg", marca: "Hidratação" },
+                { nome: "Natura Chronos Skincare", descricao: "Tratamento premium para restaurar o viço e hidratação da pele.", imagem: "imagens/cremes-natura-chronos-skincare-nacional.jpg", marca: "Skincare" },
+                { nome: "Natura Tododia Ameixa e Flor de Baunilha", descricao: "Hidratação profunda, toque macio e perfumação deixando a pele nutrida.", imagem: "imagens/cremes-natura-tododia-ameixa-e-flor-de-baunilha-nacional.jpg", marca: "Hidratação" },
+                { nome: "Natura Tododia Algodão", descricao: "Restaura a hidratação natural da pele, proporcionando maciez e conforto.", imagem: "imagens/cremes-natura-tododia-algodão-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Pessegura", descricao: "Deixa a pele hidratada, macia e com fragrância envolvente.", imagem: "imagens/cremes-o-boticário-cuide-se-bem-pessegura-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Lily", descricao: "Tratamento com fragrância sofisticada e hidratação prolongada.", imagem: "imagens/cremes-o-boticário-lily-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Restaura a hidratação com textura leve e rápida absorção.", imagem: "imagens/cremes-o-boticário-cuide-se-bem-deleite-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Fórmula suave que proporciona sensação de conforto e cuidado diário.", imagem: "imagens/cremes-o-boticário-cuide-se-bem-nuvem-nacional.jpg", marca: "Hidratação" },
+                { nome: "O Boticário Nativa SPA Ameixa", descricao: "Promove hidratação intensa, toque aveludado e perfumação prolongada.", imagem: "imagens/cremes-o-boticário-nativa-spa-ameixa-nacional.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Morango", descricao: "Rápida absorção que promove hidratação prolongada e perfumação agradável.", imagem: "imagens/cremes-eudora-instance-morango-nacional.jpg", marca: "Hidratação" },
+                { nome: "Eudora Instance Karité", descricao: "Combate o ressecamento e proporciona hidratação intensa e duradoura.", imagem: "imagens/cremes-eudora-instance-karité-nacional.jpg", marca: "Nutrição" },
+                { nome: "Eudora Instance Baunilha", descricao: "Hidratação intensa, toque macio e fragrância envolvente de longa duração.", imagem: "imagens/cremes-eudora-instance-baunilha-nacional.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Vitamina E", descricao: "Auxilia na manutenção da maciez e aparência saudável da pele.", imagem: "imagens/cremes-avon-care-vitamina-e-nacional.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Aveia", descricao: "Ingredientes hidratantes que auxiliam na proteção e maciez da pele.", imagem: "imagens/cremes-avon-care-aveia-nacional.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Manteiga de Cacau", descricao: "Combate o ressecamento, proporcionando hidratação intensa e toque aveludado.", imagem: "imagens/cremes-avon-care-manteiga-de-cacau-nacional.jpg", marca: "Nutrição" },
+                { nome: "Avon Care Erva Doce", descricao: "Fórmula leve e refrescante que ajuda a manter a pele hidratada e perfumada.", imagem: "imagens/cremes-avon-care-erva-doce-nacional.jpg", marca: "Hidratação" },
+                { nome: "Avon Care Óleo de Coco", descricao: "Auxilia na reposição da hidratação natural, promovendo maciez e suavidade.", imagem: "imagens/cremes-avon-care-óleo-de-coco-nacional.jpg", marca: "Hidratação" }
+            ],
+            sabonetes: [
+                { nome: "Natura Tododia Algodão Sabonete", descricao: "Limpeza suave desenvolvida para remover impurezas sem ressecar a pele.", imagem: "imagens/sabonetes-natura-tododia-algodão-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Chá de Camomila", descricao: "Fórmula vegetal desenvolvida pela Natura para promover limpeza delicada.", imagem: "imagens/sabonetes-natura-tododia-chá-de-camomila-e-lavanda-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Mamãe e Bebê", descricao: "Fórmula suave desenvolvida para limpeza delicada e hidratação natural.", imagem: "imagens/sabonetes-natura-mamãe-e-bebê-n-60-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Lily Sabonete", descricao: "Fórmula sofisticada com fragrância floral marcante para limpeza diária.", imagem: "imagens/sabonetes-o-boticário-lily-n-57-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Deleite", descricao: "Fórmula suave que promove limpeza eficiente sem ressecar a pele.", imagem: "imagens/sabonetes-o-boticário-cuide-se-bem-deleite-n-55-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Cuide-se Bem Nuvem", descricao: "Limpeza delicada com fragrância leve e espuma cremosa.", imagem: "imagens/sabonetes-o-boticário-cuide-se-bem-nuvem-n-56-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Erva Doce Cremoso", descricao: "Limpeza suave com fragrância tradicional e espuma abundante.", imagem: "imagens/sabonetes-natura-erva-doce-cremoso-n-52-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Ekos Maracujá", descricao: "Limpeza refrescante desenvolvida com ativos da biodiversidade brasileira.", imagem: "imagens/sabonetes-natura-ekos-maracujá-n-50-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Ameixa", descricao: "Fórmula exclusiva com fragrância marcante e espuma cremosa.", imagem: "imagens/sabonetes-natura-tododia-ameixa-n-49-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Cereja e Avelã", descricao: "Fórmula hidratante desenvolvida para promover limpeza suave e espuma cremosa.", imagem: "imagens/sabonetes-natura-tododia-cereja-e-avelã-n-47-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Macadâmia", descricao: "Limpeza delicada com ingredientes que auxiliam na manutenção da hidratação.", imagem: "imagens/sabonetes-natura-tododia-macadâmia-n-48-nacional.jpg", marca: "Nacional" }
+            ],
+            desodorantes: [
+                { nome: "Natura Erva Doce Roll-On", descricao: "Desodorante antitranspirante desenvolvido para oferecer proteção prolongada.", imagem: "imagens/roll-on-natura-erva-doce-n-55-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Tododia Algodão Roll-On", descricao: "Fórmula exclusiva que auxilia na proteção diária contra a transpiração.", imagem: "imagens/roll-on-natura-tododia-algodão-n-56-nacional.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Fresh", descricao: "Fórmula exclusiva com proteção prolongada e sensação refrescante durante todo o dia.", imagem: "imagens/roll-on-avon-on-duty-fresh-n-61-nacional.jpg", marca: "Nacional" },
+                { nome: "Avon On Duty Invisible", descricao: "Desodorante antitranspirante desenvolvido para proteger e prevenir manchas.", imagem: "imagens/roll-on-avon-on-duty-invisible-n-60-nacional.jpg", marca: "Nacional" }
+            ],
+            maquiagem: [
+                { nome: "O Boticário Intense Batom Cremoso", descricao: "Fórmula exclusiva com cores intensas e conforto prolongado.", imagem: "imagens/maquiagem-o-boticário-intense-batom-cremoso-n-30-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Secrets Base Hidra Glow", descricao: "Fórmula exclusiva com acabamento luminoso e alta performance.", imagem: "imagens/maquiagem-eudora-niina-secrets-base-hidra-glow-n-32-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Make B. Base Líquida", descricao: "Fórmula exclusiva com cobertura uniforme e acabamento natural.", imagem: "imagens/maquiagem-o-boticário-make-b-base-líquida-n-29-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Una Batom Matte", descricao: "Fórmula exclusiva com alta pigmentação, acabamento sofisticado e longa duração.", imagem: "imagens/maquiagem-natura-una-batom-matte-n-27-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Batom Faces Cookie Nude", descricao: "Batom criado para agradar todos os gostos de cores com um espelho na tampa.", imagem: "imagens/maquiagem-natura-batom-faces-cookie-nude-nacional.jpg", marca: "Nacional" }
+            ],
+            protetores: [
+                { nome: "Natura Fotoequilíbrio Corpo e Rosto", descricao: "Fórmula versátil de ampla proteção solar, desenvolvida para auxiliar na prevenção.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-corpo-e-rosto-fps-50-n-46-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin Facial", descricao: "Tecnologia desenvolvida para oferecer proteção eficaz e conforto prolongado.", imagem: "imagens/protetor-solar-eudora-niina-skin-facial-fps-50-n-45-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun Facial", descricao: "Fórmula de alta proteção com toque seco e acabamento invisível.", imagem: "imagens/protetor-solar-o-boticário-boti-sun-facial-fps-70-n-44-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio Facial", descricao: "Proteção diária desenvolvida para o rosto, com textura leve e rápida absorção.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-facial-fps-60-n-43-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Glam FPS 50", descricao: "Fórmula exclusiva com proteção UVA e UVB, oferecendo cobertura uniforme.", imagem: "imagens/protetor-solar-eudora-glam-fps-50-n-42-nacional.jpg", marca: "Nacional" },
+                { nome: "Eudora Niina Skin FPS 60", descricao: "Proteção avançada com acabamento leve e confortável, desenvolvida para preservar a pele.", imagem: "imagens/protetor-solar-eudora-niina-skin-fps-60-n-41-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 50", descricao: "Fórmula desenvolvida para proteger a pele dos efeitos da exposição solar.", imagem: "imagens/protetor-solar-o-boticário-boti-sun-fps-50-n-40-nacional.jpg", marca: "Nacional" },
+                { nome: "O Boticário Boti.Sun FPS 70", descricao: "Proteção de alta performance contra os raios solares com textura leve.", imagem: "imagens/protetor-solar-o-boticário-boti-sun-fps-70-n-39-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 50", descricao: "Fórmula exclusiva com alta proteção solar e toque seco, proporcionando conforto.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-fps-50-n-38-nacional.jpg", marca: "Nacional" },
+                { nome: "Natura Fotoequilíbrio FPS 70", descricao: "Proteção avançada contra raios UVA e UVB com fórmula leve de rápida absorção.", imagem: "imagens/protetor-solar-natura-fotoequilíbrio-fps-70-n-37-nacional.jpg", marca: "Nacional" }
+            ]
+        };
 
         const titles = {
             masculinos: "Alta Perfumaria Masculina",
@@ -1169,6 +610,7 @@
             protetores: "Proteção Solar"
         };
 
+        // --- STREAMING_CHUNK:Implementing cart functionality... ---
         // --- SISTEMA DE CARRINHO ---
         let cart = [];
 
@@ -1182,7 +624,6 @@
             cart.push(productName);
             updateCartBadge();
             
-            // Botão Feedback Visual
             const btn = event.currentTarget;
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-check"></i> Adicionado';
@@ -1195,7 +636,6 @@
                 btn.classList.add('bg-dark');
             }, 1500);
 
-            // Icone Animação
             const bagIcon = document.querySelector('.fa-shopping-bag').parentElement;
             bagIcon.style.transform = 'scale(1.15)';
             setTimeout(() => bagIcon.style.transform = 'scale(1)', 250);
@@ -1259,7 +699,8 @@
             cart = []; updateCartBadge(); toggleCart();
         };
 
-        // --- GERAÇÃO DE PÁGINAS E NAVEGAÇÃO ---
+        // --- STREAMING_CHUNK:Building dynamic product pages generation logic... ---
+        // --- GERAÇÃO DE PÁGINAS ---
         const generatePages = () => {
             const container = document.getElementById('pages-container');
             
@@ -1268,14 +709,14 @@
                 const products = categoriesData[catId];
                 
                 const productsHtml = products.map(p => {
-                    // Limpa espaços duplos e aponta corretamente para a pasta "imagens" do seu GitHub
-                    const imagemCorrigida = p.imagem.replace(/\s+/g, ' ').replace('images/', 'imagens/').trim();
-                    
+                    // Prepara a URL codificando os acentos presentes nos slugs gerados
+                    let caminhoURL = encodeURI(p.imagem);
+
                     return `
                     <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 reveal flex flex-col group tilt-card">
                         <div class="relative h-[22rem] bg-white flex items-center justify-center p-8 overflow-hidden tilt-content">
                             <span class="absolute top-6 left-6 bg-mist text-desert text-[0.6rem] font-bold uppercase tracking-[2px] px-4 py-2 rounded-full z-10 shadow-sm">${p.marca || 'Premium'}</span>
-                            <img src="${imagemCorrigida}" onerror="this.onerror=null; this.src='https://placehold.co/500x500/F4F1EA/4A4238?text=Sem+Foto'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110">
+                            <img src="${caminhoURL}" onerror="this.onerror=null; this.src='https://placehold.co/500x500/F4F1EA/4A4238?text=Imagem+N%C3%A3o+Encontrada'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
                         </div>
                         <div class="p-8 flex flex-col flex-grow border-t border-mist/50">
                             <h3 class="font-serif text-2xl text-dark leading-snug mb-3">${p.nome}</h3>
@@ -1288,13 +729,14 @@
                             </div>
                         </div>
                     </div>
-                `}).join('');
+                    `;
+                }).join('');
 
                 container.innerHTML += `
                     <div id="page-${catId}" class="page-transition bg-mist min-h-screen pt-10 pb-32" style="display: none;">
                         <div class="max-w-[1600px] mx-auto px-6 md:px-10">
                             
-                            <!-- Botão de Voltar Premium (Sticky para fácil acesso) -->
+                            <!-- Botão de Voltar -->
                             <div class="sticky top-[110px] z-40 mb-10 inline-block">
                                 <button onclick="navigateToHome(event)" class="magnetic group flex items-center gap-3 text-dark hover:text-desert font-bold text-[0.65rem] uppercase tracking-[2px] transition-colors hover-target px-5 py-3 border border-dark/10 rounded-full bg-white/80 backdrop-blur-md shadow-sm hover:shadow-md">
                                     <i class="fas fa-arrow-left transform transition-transform group-hover:-translate-x-1"></i>
@@ -1332,7 +774,7 @@
                     void target.offsetWidth;
                     target.classList.add('active');
                 }
-                lenis.scrollTo(0, { duration: 1.5 }); // Scroll suave pro topo via Lenis
+                lenis.scrollTo(0, { duration: 1.5 });
                 setTimeout(initInteractions, 100);
             }, 50);
         };
@@ -1360,22 +802,20 @@
             }, 50);
         };
 
-        // --- INTERAÇÕES PREMIUM (Cursor & Magnético) ---
+        // --- STREAMING_CHUNK:Setting up premium mouse and scroll interactions... ---
+        // --- INTERAÇÕES PREMIUM ---
         const initInteractions = () => {
             
-            // 1. Cursor Magnético (Lerp)
             const cursor = document.getElementById('custom-cursor');
             const dot = document.getElementById('cursor-dot');
             
             if(window.innerWidth >= 1024) {
-                // Adiciona uma classe ao body para esconder o cursor padrão apenas quando ativado o customizado
                 document.body.classList.add('custom-cursor-on');
 
                 let mouseX = window.innerWidth / 2;
                 let mouseY = window.innerHeight / 2;
                 let cursorX = mouseX, cursorY = mouseY;
                 
-                // Remove listeners antigos se houver
                 document.removeEventListener('mousemove', onMouseMove);
                 document.addEventListener('mousemove', onMouseMove);
                 
@@ -1384,9 +824,7 @@
                     dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
                 }
 
-                // Loop físico de renderização
                 const renderCursor = () => {
-                    // Formula Lerp para o círculo externo
                     cursorX += (mouseX - cursorX) * 0.15; 
                     cursorY += (mouseY - cursorY) * 0.15;
                     cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
@@ -1394,17 +832,15 @@
                 };
                 requestAnimationFrame(renderCursor);
 
-                // Hover Effects
                 document.querySelectorAll('.hover-target, button, a').forEach(el => {
                     el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
                     el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
                 });
                 
-                // 2. Efeito Magnético em Botões
                 document.querySelectorAll('.magnetic').forEach(elem => {
                     elem.addEventListener('mousemove', function(e) {
                         const pos = this.getBoundingClientRect();
-                        const x = (e.clientX - pos.left - pos.width / 2) * 0.3; // Força magnética
+                        const x = (e.clientX - pos.left - pos.width / 2) * 0.3;
                         const y = (e.clientY - pos.top - pos.height / 2) * 0.3;
                         this.style.transform = `translate3d(${x}px, ${y}px, 0)`;
                     });
@@ -1413,7 +849,6 @@
                     });
                 });
 
-                // 3. Efeito 3D Tilt
                 document.querySelectorAll('.tilt-card').forEach(card => {
                     card.addEventListener('mousemove', e => {
                         const rect = card.getBoundingClientRect();
@@ -1435,7 +870,6 @@
                 });
             }
 
-            // 4. Animações de Scroll (Intersection Observer)
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1451,7 +885,7 @@
             });
         };
 
-        // --- INICIALIZAÇÃO GERAL ---
+        // Inicia o site
         document.addEventListener('DOMContentLoaded', () => {
             generatePages();
             initInteractions();
