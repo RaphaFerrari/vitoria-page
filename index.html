@@ -686,7 +686,8 @@
                 
                 const productsHtml = products.map(p => {
                     // BLINDAGEM MÁXIMA PARA AS NOVAS PASTAS DIVIDIDAS:
-                    const folderName = catId; // Pega o nome da categoria exata ('masculinos', 'femininos', etc)
+                    // Ajuste inteligente: o código 'sabe' que a pasta de femininos está no singular no seu GitHub
+                    const folderName = catId === 'femininos' ? 'feminino' : catId; 
                     
                     let nomeArquivo = p.imagem.trim();
                     
