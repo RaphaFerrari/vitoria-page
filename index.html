@@ -340,7 +340,7 @@
 
                         <div onclick="showProductPage('cremes')" class="magnetic group cursor-pointer bg-mist rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 reveal tilt-card flex flex-col hover-target">
                             <div class="h-80 overflow-hidden relative">
-                                <img src="https://images.unsplash.com/photo-1608248597481-496100c80836?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transform transition-transform duration-[1.5s] group-hover:scale-110" alt="Cremes">
+                                <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transform transition-transform duration-[1.5s] group-hover:scale-110" alt="Cremes">
                                 <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
                             </div>
                             <div class="p-10 text-center flex-grow flex flex-col justify-center tilt-content bg-white">
@@ -676,7 +676,7 @@
             cart = []; updateCartBadge(); toggleCart();
         };
 
-        // --- GERAÇÃO DE PÁGINAS ---
+        // --- GERAÇÃO DE PÁGINAS (Com Subcategorias Automáticas e Modo Detetive) ---
         const generatePages = () => {
             const container = document.getElementById('pages-container');
             
@@ -684,49 +684,68 @@
                 const title = titles[catId];
                 const products = categoriesData[catId];
                 
-                const productsHtml = products.map(p => {
-                    // BLINDAGEM MÁXIMA PARA AS NOVAS PASTAS DIVIDIDAS:
-                    const folderName = catId === 'femininos' ? 'feminino' : catId; 
-                    
-                    let nomeArquivo = p.imagem.trim();
-                    
-                    // Se o usuário copiou com 'imagens/' ou 'images/' no nome, removemos para evitar duplicidade
-                    nomeArquivo = nomeArquivo.replace(/^imagens\//i, '').replace(/^images\//i, '');
-                    
-                    // Adiciona o .jpg automaticamente caso o usuário tenha esquecido na base de dados
-                    if (!nomeArquivo.toLowerCase().endsWith('.jpg') && !nomeArquivo.toLowerCase().endsWith('.png') && !nomeArquivo.toLowerCase().endsWith('.jpeg')) {
-                        nomeArquivo = nomeArquivo + '.jpg';
+                // 1. Agrupador Inteligente: Separa os produtos pela "marca" (Nacional, Importado, Skincare, etc)
+                const produtosAgrupados = {};
+                products.forEach(p => {
+                    const categoriaSecundaria = p.marca || 'Coleção Exclusiva';
+                    if (!produtosAgrupados[categoriaSecundaria]) {
+                        produtosAgrupados[categoriaSecundaria] = [];
                     }
-                    
-                    // Monta o caminho final: pasta/nome-do-arquivo.jpg
-                    let caminhoFinal = `${folderName}/${nomeArquivo}`;
-                    
-                    // Prepara a URL codificando os acentos
-                    let caminhoURL = encodeURI(caminhoFinal);
+                    produtosAgrupados[categoriaSecundaria].push(p);
+                });
 
-                    // CAIXA DE DIAGNÓSTICO (Modo Detetive)
-                    const errorHtml = `<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-red-50 border-2 border-dashed border-red-200 rounded-xl"><i class="fas fa-search text-red-400 text-3xl mb-3"></i><span class="text-[0.6rem] font-bold text-red-500 uppercase tracking-widest mb-2">O site procurou por:</span><span class="text-xs font-mono text-dark break-all leading-tight font-bold bg-white px-2 py-1 rounded border border-red-100">${caminhoFinal}</span><span class="text-[0.55rem] text-dark/60 mt-3 font-medium">Vá no seu GitHub e deixe o nome do arquivo<br>IDÊNTICO ao que está escrito na caixa branca acima.</span></div>`;
-                    const safeErrorHtml = errorHtml.replace(/"/g, '&quot;');
+                let produtosHtml = '';
 
-                    return `
-                    <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 reveal flex flex-col group tilt-card">
-                        <div class="relative h-[22rem] bg-white flex items-center justify-center p-8 overflow-hidden tilt-content">
-                            <span class="absolute top-6 left-6 bg-mist text-desert text-[0.6rem] font-bold uppercase tracking-[2px] px-4 py-2 rounded-full z-10 shadow-sm">${p.marca || 'Premium'}</span>
-                            <img src="${caminhoURL}" onerror="this.onerror=null; this.outerHTML='${safeErrorHtml}'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
-                        </div>
-                        <div class="p-8 flex flex-col flex-grow border-t border-mist/50">
-                            <h3 class="font-serif text-2xl text-dark leading-snug mb-3">${p.nome}</h3>
-                            <p class="text-sm font-light text-dark/60 leading-relaxed mb-8 flex-grow">${p.descricao}</p>
-                            <div class="flex items-center justify-between pt-6 border-t border-mist">
-                                <span class="font-bold text-dark text-[0.65rem] uppercase tracking-[2px]">Consultar</span>
-                                <button onclick="addToCart('${p.nome.replace(/'/g, "\\'")}', event)" class="magnetic px-6 py-3 bg-dark text-white text-[0.65rem] font-bold uppercase tracking-[2px] rounded-full hover:bg-desert transition-colors duration-500 hover-target flex items-center gap-2">
-                                    <i class="fas fa-plus"></i> Adicionar
-                                </button>
+                // 2. Renderiza as seções divididas na página
+                Object.keys(produtosAgrupados).sort().forEach(marca => {
+                    const produtosDoGrupo = produtosAgrupados[marca];
+                    
+                    // Cria o Título Divisor Premium para a subcategoria
+                    produtosHtml += `
+                        <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 mt-16 mb-4 reveal">
+                            <div class="flex items-center gap-6">
+                                <h3 class="font-serif text-4xl md:text-5xl text-dark tracking-tight">${marca}</h3>
+                                <div class="flex-grow h-[1px] bg-dark/10"></div>
                             </div>
                         </div>
-                    </div>
                     `;
-                }).join('');
+
+                    // Renderiza os cards dos produtos daquela subcategoria
+                    produtosHtml += produtosDoGrupo.map(p => {
+                        const folderName = catId === 'femininos' ? 'feminino' : catId; 
+                        let nomeArquivo = p.imagem.trim();
+                        nomeArquivo = nomeArquivo.replace(/^imagens\//i, '').replace(/^images\//i, '');
+                        if (!nomeArquivo.toLowerCase().endsWith('.jpg') && !nomeArquivo.toLowerCase().endsWith('.png') && !nomeArquivo.toLowerCase().endsWith('.jpeg')) {
+                            nomeArquivo = nomeArquivo + '.jpg';
+                        }
+                        
+                        let caminhoFinal = `${folderName}/${nomeArquivo}`;
+                        let caminhoURL = encodeURI(caminhoFinal);
+
+                        // O MODO DETETIVE: Caixa vermelha com o nome exato para ajudar a corrigir imagens quebradas
+                        const errorHtml = `<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-red-50 border-2 border-dashed border-red-200 rounded-xl"><i class="fas fa-search text-red-400 text-3xl mb-3"></i><span class="text-[0.6rem] font-bold text-red-500 uppercase tracking-widest mb-2">O site procurou por:</span><span class="text-xs font-mono text-dark break-all leading-tight font-bold bg-white px-2 py-1 rounded border border-red-100">${caminhoFinal}</span><span class="text-[0.55rem] text-dark/60 mt-3 font-medium">Deixe o arquivo no GitHub<br>EXATAMENTE como escrito acima.</span></div>`;
+                        const safeErrorHtml = errorHtml.replace(/"/g, '&quot;');
+
+                        return `
+                        <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700 reveal flex flex-col group tilt-card">
+                            <div class="relative h-[22rem] bg-white flex items-center justify-center p-8 overflow-hidden tilt-content">
+                                <span class="absolute top-6 left-6 bg-mist text-desert text-[0.6rem] font-bold uppercase tracking-[2px] px-4 py-2 rounded-full z-10 shadow-sm">${p.marca || 'Premium'}</span>
+                                <img src="${caminhoURL}" onerror="this.onerror=null; this.outerHTML='${safeErrorHtml}'" alt="${p.nome}" class="max-w-full max-h-full object-contain transform transition-transform duration-[2s] group-hover:scale-110" loading="lazy">
+                            </div>
+                            <div class="p-8 flex flex-col flex-grow border-t border-mist/50">
+                                <h3 class="font-serif text-2xl text-dark leading-snug mb-3">${p.nome}</h3>
+                                <p class="text-sm font-light text-dark/60 leading-relaxed mb-8 flex-grow">${p.descricao}</p>
+                                <div class="flex items-center justify-between pt-6 border-t border-mist">
+                                    <span class="font-bold text-dark text-[0.65rem] uppercase tracking-[2px]">Consultar</span>
+                                    <button onclick="addToCart('${p.nome.replace(/'/g, "\\'")}', event)" class="magnetic px-6 py-3 bg-dark text-white text-[0.65rem] font-bold uppercase tracking-[2px] rounded-full hover:bg-desert transition-colors duration-500 hover-target flex items-center gap-2">
+                                        <i class="fas fa-plus"></i> Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }).join('');
+                });
 
                 container.innerHTML += `
                     <div id="page-${catId}" class="page-transition bg-mist min-h-screen pt-10 pb-32" style="display: none;">
@@ -740,12 +759,13 @@
                                 </button>
                             </div>
                             
-                            <div class="mb-20">
+                            <div class="mb-6">
                                 <h2 class="font-serif text-5xl md:text-7xl text-dark mb-4 tracking-tight">${title}</h2>
                                 <p class="text-desert text-[0.65rem] font-bold uppercase tracking-[4px]">${products.length} Criações Exclusivas</p>
                             </div>
+                            
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-                                ${productsHtml}
+                                ${produtosHtml}
                             </div>
                         </div>
                     </div>
