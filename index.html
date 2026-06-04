@@ -164,6 +164,15 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .cart-badge.has-items { transform: scale(1); }
+
+        /* Animação do Modal VIP de Checkout */
+        #checkout-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #checkout-modal.active > div:nth-child(2) {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="font-sans pt-[90px]">
@@ -252,8 +261,29 @@
                 <span class="font-bold text-dark uppercase tracking-widest text-[0.65rem]">Total de Itens</span>
                 <span id="cart-total-items" class="font-serif text-3xl text-dark">0</span>
             </div>
-            <button onclick="enviarPedidoWhatsApp()" class="magnetic w-full py-4 bg-dark text-white font-bold uppercase tracking-[2px] text-xs rounded-full hover:bg-desert transition-all duration-500 hover:shadow-xl hover-target flex justify-center items-center gap-3">
+            <!-- Botão Atualizado para abrir o Modal em vez de mandar direto pro WhatsApp -->
+            <button onclick="abrirModalCheckout()" class="magnetic w-full py-4 bg-dark text-white font-bold uppercase tracking-[2px] text-xs rounded-full hover:bg-desert transition-all duration-500 hover:shadow-xl hover-target flex justify-center items-center gap-3">
                 <i class="fab fa-whatsapp text-lg"></i> Finalizar Pedido
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal VIP de Checkout (Pergunta o Nome) -->
+    <div id="checkout-modal" class="fixed inset-0 z-[1000000] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="absolute inset-0 bg-dark/60 backdrop-blur-md" onclick="fecharModalCheckout()"></div>
+        <div class="bg-white rounded-3xl p-8 md:p-10 w-[90%] max-w-md relative z-10 transform translate-y-10 transition-transform duration-500 shadow-2xl">
+            <button onclick="fecharModalCheckout()" class="absolute top-6 right-6 text-dark/50 hover:text-dark transition-colors p-2 magnetic">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <h3 class="font-serif text-3xl text-dark mb-2">Quase lá!</h3>
+            <p class="text-sm text-dark/60 mb-8 font-light">Como podemos chamar você?</p>
+            
+            <div class="mb-6 relative">
+                <input type="text" id="client-name" placeholder="Seu nome completo" class="w-full bg-mist/50 border border-dark/10 rounded-xl px-5 py-4 text-dark placeholder-dark/40 focus:outline-none focus:border-desert focus:ring-1 focus:ring-desert transition-all font-medium">
+            </div>
+            
+            <button onclick="processarPedidoWhatsApp()" class="magnetic w-full py-4 bg-[#25D366] text-white font-bold uppercase tracking-[2px] text-xs rounded-xl hover:bg-[#22C15E] transition-all duration-300 shadow-lg shadow-[#25D366]/30 flex justify-center items-center gap-3">
+                <i class="fab fa-whatsapp text-xl"></i> Enviar Pedido
             </button>
         </div>
     </div>
@@ -278,7 +308,7 @@
                             <button onclick="document.getElementById('categorias-home').scrollIntoView({behavior: 'smooth'})" class="magnetic px-10 py-5 bg-dark text-white text-[0.65rem] font-bold uppercase tracking-[2px] rounded-full hover:bg-desert transition-all duration-500 hover:shadow-xl hover-target">
                                 Explorar Coleções
                             </button>
-                            <a href="https://wa.me/5531999487873" target="_blank" class="magnetic text-[0.65rem] font-bold uppercase tracking-[2px] text-dark border-b border-desert pb-1 hover:text-desert transition-colors hover-target px-2">
+                            <a href="https://wa.me/5531973661459" target="_blank" class="magnetic text-[0.65rem] font-bold uppercase tracking-[2px] text-dark border-b border-desert pb-1 hover:text-desert transition-colors hover-target px-2">
                                 Consultoria VIP
                             </a>
                         </div>
@@ -352,7 +382,7 @@
     </main>
 
     <!-- Botão Flutuante do WhatsApp -->
-    <a href="https://wa.me/5531999487873" target="_blank" rel="noopener noreferrer"
+    <a href="https://wa.me/5531973661459" target="_blank" rel="noopener noreferrer"
        class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[90] bg-[#25D366] text-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:bg-[#22C15E] hover:scale-110 transition-all duration-500 magnetic hover-target group">
         <i class="fab fa-whatsapp text-3xl md:text-4xl"></i>
         <span class="absolute right-full mr-4 bg-white/90 backdrop-blur-sm text-dark text-[0.65rem] font-bold uppercase tracking-[2px] py-2 px-5 rounded-full shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0 whitespace-nowrap hidden md:block">
@@ -385,9 +415,9 @@
             <div class="md:col-span-4">
                 <h4 class="text-sand text-[0.65rem] font-bold uppercase tracking-[3px] mb-8">Consultoria VIP</h4>
                 <div class="space-y-5 font-light text-white/60 text-sm">
-                    <a href="https://wa.me/5531999487873" target="_blank" class="flex items-center gap-4 hover:text-white transition-colors hover-target inline-flex">
+                    <a href="https://wa.me/5531973661459" target="_blank" class="flex items-center gap-4 hover:text-white transition-colors hover-target inline-flex">
                         <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center"><i class="fab fa-whatsapp text-lg"></i></div>
-                        (31) 99948-7873
+                        (31) 97366-1459
                     </a>
                     <p class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center"><i class="fas fa-map-marker-alt text-lg"></i></div>
@@ -686,7 +716,8 @@
             Object.entries(itemCounts).forEach(([item, qtd]) => { message += `▪ *${qtd}x* ${item}\n`; });
             message += "\nAguardo o retorno para darmos sequência. Obrigado!";
             
-            const waLink = `https://wa.me/5531999487873?text=${encodeURIComponent(message)}`;
+            // Link atualizado com o novo número
+            const waLink = `https://wa.me/5531973661459?text=${encodeURIComponent(message)}`;
             window.open(waLink, '_blank');
             
             // Limpeza final: esvazia o carrinho, reseta o input e fecha tudo
