@@ -82,13 +82,7 @@
             transform: translateY(-10%);
         }
 
-        /* Cursor Customizado */
-        @media (min-width: 1024px) and (pointer: fine) {
-            body.custom-cursor-on, body.custom-cursor-on * { 
-                cursor: none !important; 
-            }
-        }
-        
+        /* Cursor Customizado (Aura ao redor da seta nativa) */
         .custom-cursor {
             position: fixed;
             top: 0; left: 0;
@@ -99,17 +93,6 @@
             z-index: 99999;
             transform: translate3d(-50%, -50%, 0);
             transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
-        }
-        
-        .cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 8px; height: 8px;
-            background-color: #A48D78;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate3d(-50%, -50%, 0);
         }
 
         .custom-cursor.hovering {
@@ -205,10 +188,10 @@
 </head>
 <body class="font-sans pt-[90px]">
 
-    <!-- Loader Premium com Logo JPG embutida e truque Mix-Blend -->
+    <!-- Loader Premium com Logo (Com Fallback) -->
     <div id="preloader" class="fixed inset-0 z-[999999] bg-mist flex flex-col items-center justify-center">
         <div class="overflow-hidden mb-6 flex justify-center items-center h-16 md:h-20">
-            <!-- Se a logo falhar, exibe o texto da marca como Fallback de segurança -->
+            <!-- Tenta carregar a imagem, se falhar, exibe o texto da marca como Fallback -->
             <img src="imagens/logo.jpg" alt="Vitória Alta Perfumaria" class="max-h-full object-contain mix-blend-multiply animate-reveal-up" onerror="this.onerror=null; this.outerHTML='<span class=\'block font-serif text-4xl md:text-5xl font-bold text-dark tracking-tight animate-reveal-up\'>Vitória.</span>';">
         </div>
         <div class="w-32 h-[1px] bg-dark/10 overflow-hidden relative">
@@ -222,16 +205,15 @@
         }
     </style>
 
-    <!-- Custom Cursor -->
+    <!-- Custom Cursor Aura -->
     <div class="custom-cursor hidden lg:block" id="custom-cursor"></div>
-    <div class="cursor-dot hidden lg:block" id="cursor-dot"></div>
 
-    <!-- Header com Logo JPG embutida e truque Mix-Blend -->
+    <!-- Header com Logo (Com Fallback) -->
     <header class="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 transition-all duration-500">
         <div class="max-w-[1600px] mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
             
             <a href="#" onclick="navigateToHome(event)" class="magnetic group flex items-center hover-target p-2 -ml-2 h-10 md:h-12 max-w-[160px]">
-                <!-- Se a logo falhar, exibe texto premium de segurança -->
+                <!-- Tenta carregar a imagem, se falhar, exibe o texto premium de segurança -->
                 <img src="imagens/logo.jpg" alt="Vitória" class="max-h-full max-w-full object-contain mix-blend-multiply group-hover:opacity-70 transition-opacity duration-500" onerror="this.onerror=null; this.outerHTML='<span class=\'font-serif text-2xl md:text-3xl font-bold text-desert tracking-tight group-hover:text-dark transition-colors duration-500\'>Vitória.</span>';">
             </a>
 
@@ -817,10 +799,9 @@
         const initInteractions = () => {
             
             const cursor = document.getElementById('custom-cursor');
-            const dot = document.getElementById('cursor-dot');
             
             if(window.innerWidth >= 1024) {
-                document.body.classList.add('custom-cursor-on');
+                // A SETA NATIVA AGORA ESTÁ VISÍVEL! Removemos o document.body.classList.add('custom-cursor-on');
 
                 let mouseX = window.innerWidth / 2;
                 let mouseY = window.innerHeight / 2;
@@ -831,7 +812,6 @@
                 
                 function onMouseMove(e) {
                     mouseX = e.clientX; mouseY = e.clientY;
-                    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
                 }
 
                 const renderCursor = () => {
